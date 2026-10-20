@@ -1,0 +1,3669 @@
+<!DOCTYPE html>
+<html lang="zh-CN" style="--subject-color: #FF6B6B; --subject-light: #FFE0E0;"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&amp;display=swap" rel="stylesheet">
+<title>阳光学习工作台</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --primary:#7B8C3B;--primary-light:#A8B85C;
+  --secondary:#5C8A4E;--secondary-light:#7DB86A;
+  --accent:#FFAA00;--accent-light:#FFD54F;
+  --purple:#8B5CF6;--purple-light:#C4B5FD;
+  --blue:#3B82F6;--blue-light:#93C5FD;
+  --green:#22C55E;--green-light:#86EFAC;
+  --orange:#D97706;--orange-light:#FCD34D;
+  --pink:#EC4899;--pink-light:#F9A8D4;
+  --bg:#8B6914;--surface:#C6B28A;--surface2:#B8A474;
+  --ink:#1A1A1A;--muted:#5C5040;--rule:#8B7D5E;
+  --sidebar-w:100px;--header-h:64px;
+  --radius:0px;--radius-sm:0px;
+  --shadow:4px 4px 0px rgba(0,0,0,0.3);
+  --shadow-lg:6px 6px 0px rgba(0,0,0,0.4);
+  --subject-color:var(--primary);
+  --subject-light:var(--primary-light);
+  --mc-border:3px solid #3D3D3D;
+  --mc-border-light:3px solid #8B7D5E;
+  --mc-inset:inset 2px 2px 0px rgba(255,255,255,0.2), inset -2px -2px 0px rgba(0,0,0,0.2);
+  --mc-outset:2px 2px 0px rgba(0,0,0,0.3), -1px -1px 0px rgba(255,255,255,0.1);
+}
+html{font-size:16px;scroll-behavior:smooth}
+body{
+  font-family:'Press Start 2P','PingFang SC','Microsoft YaHei',monospace;
+  background-color:#6B8E23;
+  background-image:
+    repeating-linear-gradient(0deg, transparent, transparent 31px, rgba(0,0,0,0.05) 31px, rgba(0,0,0,0.05) 32px),
+    repeating-linear-gradient(90deg, transparent, transparent 31px, rgba(0,0,0,0.05) 31px, rgba(0,0,0,0.05) 32px);
+  color:var(--ink);min-height:100vh;overflow-x:hidden;
+  image-rendering:pixelated;
+}
+button{cursor:pointer;border:none;font:inherit;background:none}
+input{font:inherit;border:none;outline:none;background:none}
+
+/* ===== HEADER - Minecraft Style ===== */
+.header{
+  position:fixed;top:0;left:0;right:0;height:var(--header-h);z-index:100;
+  background:linear-gradient(180deg, #8B7355 0%, #6B5B45 100%);
+  display:flex;align-items:center;padding:0 24px;gap:16px;
+  border-bottom:4px solid #3D3D3D;
+  box-shadow:inset 0 -2px 0 rgba(0,0,0,0.2), 0 4px 0 rgba(0,0,0,0.3);
+}
+.header-left{display:flex;align-items:center;gap:12px;flex-shrink:0}
+.menu-btn{width:36px;height:36px;background:#5C4D3A;border:3px solid #3D3D3D;color:#FFD700;font-size:1.2rem;display:none;align-items:center;justify-content:center;box-shadow:var(--mc-inset)}
+.logo{font-size:.8rem;font-weight:700;color:#FFD700;white-space:nowrap;text-shadow:2px 2px 0 #3D3D3D;letter-spacing:1px}
+.header-center{flex:1;display:flex;justify-content:center;align-items:center;gap:8px}
+.name-display{
+  font-size:.55rem;color:#FFD700;cursor:pointer;padding:6px 16px;
+  background:#5C4D3A;border:3px solid #3D3D3D;
+  box-shadow:var(--mc-inset);
+  transition:all .1s;display:flex;align-items:center;gap:6px;
+  text-shadow:1px 1px 0 #3D3D3D;
+}
+.name-display:hover{background:#6B5B45}
+.name-input{
+  font-size:.55rem;color:#FFD700;text-align:center;padding:6px 16px;
+  background:#5C4D3A;border:3px solid #3D3D3D;width:180px;display:none;
+  box-shadow:var(--mc-inset);text-shadow:1px 1px 0 #3D3D3D;
+}
+.header-right{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.star-badge{
+  display:flex;align-items:center;gap:6px;padding:6px 14px;
+  background:#5C4D3A;border:3px solid #3D3D3D;color:#FFD700;
+  font-weight:700;font-size:.55rem;
+  box-shadow:var(--mc-inset);text-shadow:1px 1px 0 #3D3D3D;
+}
+.star-badge .star-icon{font-size:1.2rem}
+.header-btn{
+  width:36px;height:36px;background:linear-gradient(180deg, #A07818 0%, #8B6914 100%);
+  border:3px solid #3D3D3D;
+  color:#FFD700;font-size:1rem;display:flex;align-items:center;justify-content:center;
+  transition:all .1s;position:relative;
+  box-shadow:inset 2px 2px 0 rgba(255,255,255,0.2), inset -2px -2px 0 rgba(0,0,0,0.2);
+}
+.header-btn:hover{transform:translateY(-1px);box-shadow:inset 2px 2px 0 rgba(255,255,255,0.2), inset -2px -2px 0 rgba(0,0,0,0.2), 2px 2px 0 rgba(0,0,0,0.3)}
+.header-btn:active{transform:translateY(1px);box-shadow:inset -2px -2px 0 rgba(255,255,255,0.2), inset 2px 2px 0 rgba(0,0,0,0.2)}
+.header-btn .tooltip{
+  display:none;position:absolute;top:110%;right:0;background:#3D3D3D;color:#FFD700;
+  font-size:.45rem;padding:4px 10px;border:2px solid #1A1A1A;white-space:nowrap;
+  text-shadow:1px 1px 0 #000;
+}
+.header-btn:hover .tooltip{display:block}
+
+/* ===== SIDEBAR - Minecraft Style ===== */
+.sidebar{
+  position:fixed;top:var(--header-h);left:0;bottom:0;width:var(--sidebar-w);
+  background:linear-gradient(180deg, #8B7355 0%, #7B6545 100%);
+  border-right:4px solid #3D3D3D;
+  overflow-y:auto;z-index:90;transition:transform .3s ease;
+  display:flex;flex-direction:column;
+}
+.sidebar-nav{flex:1;padding:12px 0}
+.nav-item{
+  display:flex;align-items:center;gap:12px;padding:12px 20px;
+  cursor:pointer;transition:all .1s;border-left:4px solid transparent;
+  font-size:.5rem;color:#D4C4A0;
+  text-shadow:1px 1px 0 rgba(0,0,0,0.5);
+}
+.nav-item:hover{background:#6B5B45;color:#FFD700;border-left-color:#FFD700}
+.nav-item.active{font-weight:700;background:#5C4D3A;color:#FFD700;border-left-color:#FFD700}
+.nav-item .nav-icon{font-size:1.3rem;width:28px;text-align:center}
+.nav-item .nav-label{flex:1}
+.nav-item .nav-count{
+  display:none;
+  font-size:.4rem;padding:2px 8px;
+  background:#3D3D3D;color:#D4C4A0;
+  border:2px solid #2D2D2D;
+}
+.nav-item.active .nav-count{background:#FFD700;color:#3D3D3D;border-color:#B8860B}
+/* Per-subject progress colors in sidebar */
+.nav-item[data-subject="chinese"]{--sc:#FF6B6B;--sl:#FFE0E0}
+.nav-item[data-subject="math"]{--sc:#60A5FA;--sl:#DBEAFE}
+.nav-item[data-subject="english"]{--sc:#34D399;--sl:#D1FAE5}
+.nav-item[data-subject="science"]{--sc:#A78BFA;--sl:#EDE9FE}
+.nav-item[data-subject="moral"]{--sc:#FB923C;--sl:#FFF7ED}
+.nav-item[data-subject="pe"]{--sc:#4ECDC4;--sl:#D4F5F2}
+.nav-item[data-subject="art"]{--sc:#F472B6;--sl:#FCE7F3}
+.nav-item[data-subject="comp"]{--sc:#FFD93D;--sl:#FFF8DC}
+.nav-item.active{background:#5C4D3A;color:#FFD700;border-left-color:#FFD700}
+.nav-item.active .nav-count{background:#FFD700;color:#3D3D3D;border-color:#B8860B}
+.sidebar-footer{padding:12px 16px;border-top:3px solid #3D3D3D;background:#6B5B45}
+.progress-summary{font-size:.4rem;color:#D4C4A0;text-align:center;text-shadow:1px 1px 0 rgba(0,0,0,0.5)}
+.progress-bar-wrap{height:10px;background:#3D3D3D;margin-top:6px;overflow:hidden;border:2px solid #2D2D2D}
+.progress-bar-fill{height:100%;transition:width .6s ease,background .3s ease}
+
+/* ===== MAIN - Minecraft Style ===== */
+.main{
+  margin-left:var(--sidebar-w);margin-top:var(--header-h);
+  padding:24px;min-height:calc(100vh - var(--header-h));
+}
+.view{display:none}
+.view.active{display:block}
+
+/* ===== SUBJECT VIEW - Minecraft Style ===== */
+.subject-header{
+  display:flex;align-items:center;gap:16px;margin-bottom:24px;
+  padding:20px 24px;
+  background:linear-gradient(180deg, #8B7355 0%, #7B6545 100%);
+  border:3px solid #3D3D3D;
+  box-shadow:var(--mc-inset), 4px 4px 0 rgba(0,0,0,0.2);
+}
+.subject-icon{font-size:2.2rem}
+.subject-title{font-size:.7rem;font-weight:700;color:#FFD700;text-shadow:2px 2px 0 #3D3D3D}
+.subject-subtitle{font-size:.45rem;color:#D4C4A0;margin-top:2px;text-shadow:1px 1px 0 rgba(0,0,0,0.5)}
+.subject-progress{margin-left:auto;text-align:right}
+.subject-progress .pct{font-size:.8rem;font-weight:700;color:#FFD700;text-shadow:2px 2px 0 #3D3D3D}
+.subject-progress .label{font-size:.4rem;color:#D4C4A0;text-shadow:1px 1px 0 rgba(0,0,0,0.5)}
+/* Per-subject progress bar color */
+.subject-progress .pct{color:#FFD700}
+
+/* Per-subject unit progress bars */
+.unit-progress-wrap{height:10px;background:#3D3D3D;overflow:hidden;margin-top:12px;border:2px solid #2D2D2D}
+.unit-progress-fill{height:100%;transition:width .6s ease}
+
+.unit-section{margin-bottom:24px}
+.unit-title{
+  font-size:.5rem;font-weight:700;color:#FFD700;margin-bottom:4px;
+  padding-left:4px;display:flex;align-items:center;gap:8px;
+  text-shadow:1px 1px 0 #3D3D3D;
+}
+.unit-title::after{content:'';flex:1;height:3px;background:#3D3D3D}
+.task-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
+.task-card{
+  background:linear-gradient(180deg, #C6B28A 0%, #B8A474 100%);
+  border:3px solid #3D3D3D;padding:16px;
+  box-shadow:var(--mc-inset);
+  display:flex;align-items:flex-start;gap:12px;
+  cursor:pointer;transition:all .1s;
+  position:relative;overflow:hidden;
+}
+.task-card:hover{transform:translateY(-2px);box-shadow:var(--mc-inset), 3px 3px 0 rgba(0,0,0,0.3)}
+.task-card.done{border-color:#22C55E;background:linear-gradient(180deg, #4CAF50 0%, #388E3C 100%)}
+.task-card.done::after{
+  content:'✓';position:absolute;top:8px;right:12px;
+  font-size:.6rem;color:#FFD700;font-weight:700;text-shadow:1px 1px 0 #3D3D3D;
+}
+.task-check{
+  width:24px;height:24px;border:3px solid #3D3D3D;
+  flex-shrink:0;display:flex;align-items:center;justify-content:center;
+  transition:all .1s;margin-top:2px;font-size:.6rem;color:transparent;
+  background:#8B7355;
+}
+.task-card.done .task-check{background:#22C55E;border-color:#1A8B46;color:#FFD700}
+.task-card.done .task-name{text-decoration:line-through;text-decoration-color:#FFD700;text-decoration-thickness:2px;color:#D4C4A0}
+.task-card.done .task-reward{color:#FFD700 !important}
+.task-info{flex:1;min-width:0}
+.task-name{font-size:.5rem;font-weight:700;line-height:1.6;color:#1A1A1A;text-shadow:1px 1px 0 rgba(255,255,255,0.3)}
+.task-meta{display:flex;align-items:center;gap:8px;margin-top:6px}
+.task-reward{color:#D97706;font-size:.45rem;font-weight:700;text-shadow:1px 1px 0 rgba(255,255,255,0.3)}
+.task-tag{
+  font-size:.4rem;padding:2px 8px;
+  background:#8B7355;color:#D4C4A0;
+  border:2px solid #3D3D3D;
+}
+
+/* ===== CHECKIN VIEW - Minecraft Style ===== */
+.checkin-container{max-width:600px;margin:0 auto}
+.checkin-card{
+  background:linear-gradient(180deg, #8B7355 0%, #7B6545 100%);
+  border:3px solid #3D3D3D;padding:24px;
+  box-shadow:inset 2px 2px 0 rgba(255,255,255,0.15), inset -2px -2px 0 rgba(0,0,0,0.2), 4px 4px 0 rgba(0,0,0,0.2);
+  text-align:center;margin-bottom:16px;
+}
+.checkin-title{font-size:.7rem;font-weight:700;margin-bottom:8px;color:#FFD700;text-shadow:2px 2px 0 #3D3D3D}
+.checkin-subtitle{font-size:.5rem;color:#D4C4A0;margin-bottom:20px;text-shadow:1px 1px 0 rgba(0,0,0,0.5)}
+.checkin-btn{
+  width:120px;height:120px;
+  background:linear-gradient(180deg, #D97706 0%, #B45309 100%);
+  border:4px solid #3D3D3D;
+  color:#FFD700;font-size:.6rem;font-weight:700;
+  box-shadow:inset 2px 2px 0 rgba(255,255,255,0.2), inset -2px -2px 0 rgba(0,0,0,0.2), 4px 4px 0 rgba(0,0,0,0.3);
+  transition:all .1s;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:4px;margin:0 auto 20px;
+  text-shadow:2px 2px 0 #3D3D3D;
+}
+.checkin-btn:hover{transform:translateY(-2px);box-shadow:inset 2px 2px 0 rgba(255,255,255,0.2), inset -2px -2px 0 rgba(0,0,0,0.2), 5px 5px 0 rgba(0,0,0,0.3)}
+.checkin-btn:active{transform:translateY(2px);box-shadow:inset -2px -2px 0 rgba(255,255,255,0.2), inset 2px 2px 0 rgba(0,0,0,0.2)}
+.checkin-btn.checked{background:linear-gradient(180deg, #4CAF50 0%, #388E3C 100%);border-color:#2E7D32}
+.checkin-btn .btn-icon{font-size:2rem}
+.checkin-btn .btn-text{font-size:.55rem}
+.streak-display{display:flex;justify-content:center;gap:24px;margin-top:12px}
+.streak-item{text-align:center}
+.streak-num{font-size:.9rem;font-weight:700;color:#FFD700;text-shadow:2px 2px 0 #3D3D3D}
+.streak-label{font-size:.45rem;color:#D4C4A0;margin-top:2px;text-shadow:1px 1px 0 rgba(0,0,0,0.5)}
+.checkin-calendar{
+  background:linear-gradient(180deg, #8B7355 0%, #7B6545 100%);
+  border:3px solid #3D3D3D;padding:16px;
+  box-shadow:inset 2px 2px 0 rgba(255,255,255,0.15), inset -2px -2px 0 rgba(0,0,0,0.2), 4px 4px 0 rgba(0,0,0,0.2);
+}
+.calendar-title{font-size:.55rem;font-weight:700;margin-bottom:12px;text-align:center;color:#FFD700;text-shadow:1px 1px 0 #3D3D3D}
+.calendar-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+.calendar-header{font-size:.4rem;color:#D4C4A0;text-align:center;padding:4px 0;font-weight:700;text-shadow:1px 1px 0 rgba(0,0,0,0.5)}
+.calendar-day{
+  aspect-ratio:1;display:flex;align-items:center;justify-content:center;
+  font-size:.45rem;color:#D4C4A0;position:relative;
+  background:#6B5B45;border:2px solid #3D3D3D;
+  box-shadow:inset 1px 1px 0 rgba(255,255,255,0.1);
+  text-shadow:1px 1px 0 rgba(0,0,0,0.5);
+}
+.calendar-day.current{font-weight:700;color:#FFD700;border-color:#FFD700;box-shadow:inset 1px 1px 0 rgba(255,215,0,0.2)}
+.calendar-day.checked{background:#4CAF50;color:#FFD700;font-weight:700;border-color:#2E7D32}
+.calendar-day.checked::after{content:'✓';position:absolute;font-size:.4rem;bottom:1px;text-shadow:1px 1px 0 rgba(0,0,0,0.5)}
+.calendar-day.empty{visibility:hidden;background:transparent;border:none;box-shadow:none}
+
+/* ===== SHOP FLOATING PANEL - Minecraft Chest Style ===== */
+.shop-floating-panel{
+  position:fixed;top:var(--header-h);right:16px;width:280px;
+  max-height:calc(100vh - var(--header-h) - 32px);
+  background:linear-gradient(180deg, #8B6914 0%, #7B5B0A 100%);
+  border:4px solid #3D3D3D;
+  box-shadow:inset 2px 2px 0 rgba(255,255,255,0.15), inset -2px -2px 0 rgba(0,0,0,0.2), 4px 4px 0 rgba(0,0,0,0.3);
+  z-index:80;overflow:hidden;display:flex;flex-direction:column;transition:transform .3s ease;
+}
+.shop-floating-panel.collapsed{transform:translateX(calc(100% + 16px));}
+.shop-floating-header{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:10px 14px;
+  background:linear-gradient(180deg, #A07818 0%, #8B6914 100%);
+  border-bottom:3px solid #3D3D3D;cursor:pointer;
+}
+.shop-floating-title{font-size:.55rem;font-weight:700;color:#FFD700;display:flex;align-items:center;gap:6px;text-shadow:2px 2px 0 #3D3D3D}
+.shop-floating-toggle{font-size:.5rem;color:#D4C4A0;font-weight:600;text-shadow:1px 1px 0 rgba(0,0,0,0.5)}
+.shop-floating-body{padding:10px;overflow-y:auto;flex:1;background:#6B5B45}
+.shop-floating-item{
+  background:linear-gradient(180deg, #C6B28A 0%, #B8A474 100%);
+  border:3px solid #3D3D3D;padding:10px;margin-bottom:8px;
+  box-shadow:inset 1px 1px 0 rgba(255,255,255,0.2), inset -1px -1px 0 rgba(0,0,0,0.2);
+}
+.shop-floating-item-name{font-size:.5rem;font-weight:700;margin-bottom:4px;color:#1A1A1A;text-shadow:1px 1px 0 rgba(255,255,255,0.3)}
+.shop-floating-item-redeemed{font-size:.4rem;color:#5C5040;margin-bottom:6px;text-shadow:1px 1px 0 rgba(255,255,255,0.3)}
+.shop-floating-item-footer{display:flex;align-items:center;justify-content:space-between}
+.shop-floating-price{display:flex;align-items:center;gap:3px;font-size:.5rem;font-weight:700;color:#D97706;text-shadow:1px 1px 0 rgba(255,255,255,0.3)}
+.shop-floating-btn{
+  padding:5px 12px;font-size:.45rem;font-weight:700;
+  background:linear-gradient(180deg, #C0392B 0%, #A93226 100%);
+  color:#FFD700;border:2px solid #3D3D3D;
+  box-shadow:inset 1px 1px 0 rgba(255,255,255,0.2), inset -1px -1px 0 rgba(0,0,0,0.2);
+  text-shadow:1px 1px 0 #3D3D3D;transition:all .1s;
+}
+.shop-floating-btn:hover{transform:translateY(-1px)}
+.shop-floating-btn:active{transform:translateY(1px);box-shadow:inset -1px -1px 0 rgba(255,255,255,0.2), inset 1px 1px 0 rgba(0,0,0,0.2)}
+.shop-floating-btn:disabled{background:linear-gradient(180deg, #7B7B7B 0%, #5A5A5A 100%);color:#999;cursor:not-allowed;transform:none}
+.shop-floating-btn.affordable{background:linear-gradient(180deg, #4CAF50 0%, #388E3C 100%);border-color:#2E7D32}
+
+/* ===== SHOP VIEW - Minecraft Style ===== */
+.shop-container{max-width:700px;margin:0 auto}
+.shop-header{
+  display:flex;align-items:center;gap:12px;
+  background:linear-gradient(180deg, #8B7355 0%, #7B6545 100%);
+  border:3px solid #3D3D3D;padding:18px 24px;
+  box-shadow:var(--mc-inset), 4px 4px 0 rgba(0,0,0,0.2);margin-bottom:16px;
+}
+.shop-header-left{display:flex;align-items:center;gap:12px}
+.shop-header-title{font-size:.6rem;font-weight:700;color:#FFD700;text-shadow:2px 2px 0 #3D3D3D}
+.shop-header-sub{font-size:.4rem;color:#D4C4A0;margin-top:2px;text-shadow:1px 1px 0 rgba(0,0,0,0.5)}
+.shop-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px;margin-bottom:24px}
+.shop-card{
+  background:linear-gradient(180deg, #C6B28A 0%, #B8A474 100%);
+  border:3px solid #3D3D3D;padding:20px;
+  box-shadow:var(--mc-inset);text-align:center;transition:all .1s;
+}
+.shop-card:hover{transform:translateY(-3px);box-shadow:var(--mc-inset), 4px 4px 0 rgba(0,0,0,0.3)}
+.shop-emoji{font-size:2.5rem;margin-bottom:8px}
+.shop-name{font-size:.5rem;font-weight:700;margin-bottom:4px;color:#1A1A1A;text-shadow:1px 1px 0 rgba(255,255,255,0.3)}
+.shop-price{display:flex;align-items:center;justify-content:center;gap:4px;color:#D97706;font-weight:700;margin-bottom:12px;font-size:.5rem;text-shadow:1px 1px 0 rgba(255,255,255,0.3)}
+.shop-btn{
+  padding:8px 20px;font-size:.45rem;font-weight:700;
+  border:3px solid #3D3D3D;transition:all .1s;
+  text-shadow:1px 1px 0 #3D3D3D;
+}
+.shop-btn.redeem{background:linear-gradient(180deg, #4CAF50 0%, #388E3C 100%);color:#FFD700;box-shadow:var(--mc-inset)}
+.shop-btn.redeem:hover{transform:translateY(-1px);box-shadow:var(--mc-inset), 2px 2px 0 rgba(0,0,0,0.3)}
+.shop-btn.redeem:disabled{background:linear-gradient(180deg, #7B7B7B 0%, #5A5A5A 100%);color:#999;cursor:not-allowed;transform:none;text-shadow:none}
+.shop-redeemed-count{font-size:.4rem;color:#5C5040;margin-top:6px;text-shadow:1px 1px 0 rgba(255,255,255,0.3)}
+.shop-note{
+  text-align:center;font-size:.4rem;color:#D4C4A0;
+  padding:12px;background:#6B5B45;border:3px solid #3D3D3D;
+  margin-bottom:16px;line-height:1.8;text-shadow:1px 1px 0 rgba(0,0,0,0.5);
+}
+.add-reward-section{
+  background:linear-gradient(180deg, #8B7355 0%, #7B6545 100%);
+  border:3px solid #3D3D3D;padding:24px;
+  box-shadow:var(--mc-inset), 4px 4px 0 rgba(0,0,0,0.2);margin-top:16px;
+}
+.add-reward-title{font-size:.5rem;font-weight:700;margin-bottom:16px;text-align:center;color:#FFD700;text-shadow:2px 2px 0 #3D3D3D}
+.add-reward-form{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+.add-reward-form input{
+  padding:8px 14px;border:3px solid #3D3D3D;
+  font-size:.5rem;background:#C6B28A;color:#1A1A1A;
+  box-shadow:var(--mc-inset);
+}
+.add-reward-form input:focus{border-color:#FFD700}
+.add-reward-form .form-emoji{width:60px;text-align:center}
+.add-reward-form .form-name{flex:1;min-width:120px}
+.add-reward-form .form-price{width:80px}
+.add-reward-form button{
+  padding:8px 20px;
+  background:linear-gradient(180deg, #4CAF50 0%, #388E3C 100%);
+  color:#FFD700;font-weight:700;font-size:.45rem;
+  border:3px solid #3D3D3D;box-shadow:var(--mc-inset);
+  text-shadow:1px 1px 0 #3D3D3D;
+}
+.edit-reward{
+  position:absolute;top:8px;left:8px;width:24px;height:24px;
+  background:#8B6914;border:2px solid #3D3D3D;color:#FFD700;
+  font-size:.6rem;display:flex;align-items:center;justify-content:center;
+  opacity:0;transition:opacity .2s;
+}
+.shop-card:hover .edit-reward{opacity:1}
+
+.delete-reward{
+  position:absolute;top:8px;right:8px;width:24px;height:24px;
+  background:#C0392B;border:2px solid #3D3D3D;color:#FFD700;
+  font-size:.6rem;display:flex;align-items:center;justify-content:center;
+  opacity:0;transition:opacity .2s;
+}
+.shop-card:hover .delete-reward{opacity:1}
+
+/* ===== EDIT REWARD FORM - Minecraft Style ===== */
+.edit-reward-form{text-align:left;margin:16px 0}
+.edit-reward-group{margin-bottom:12px}
+.edit-reward-label{
+  display:block;font-size:.45rem;color:#D4C4A0;margin-bottom:6px;font-weight:700;
+  text-shadow:1px 1px 0 rgba(0,0,0,0.5);
+}
+.edit-reward-input{
+  width:100%;padding:10px 14px;border:3px solid #3D3D3D;
+  font-size:.5rem;
+  background:#C6B28A;color:#1A1A1A;
+  box-shadow:var(--mc-inset);
+}
+.edit-reward-input:focus{
+  border-color:#FFD700;outline:none;
+}
+.edit-reward-emoji{
+  font-size:1.3rem;text-align:center;
+}
+.edit-reward-tip{
+  font-size:.4rem;color:#D4C4A0;margin-top:12px;padding:8px 12px;
+  background:#6B5B45;border:3px solid #3D3D3D;
+  text-shadow:1px 1px 0 rgba(0,0,0,0.5);line-height:1.8;
+}
+
+/* ===== SHOP TABS - Minecraft Style ===== */
+.shop-tabs{
+  display:flex;gap:8px;margin-bottom:16px;
+  background:linear-gradient(180deg, #8B7355 0%, #7B6545 100%);
+  border:3px solid #3D3D3D;padding:8px;
+  box-shadow:var(--mc-inset);
+}
+.shop-tab{
+  flex:1;padding:10px 16px;
+  text-align:center;font-size:.45rem;font-weight:700;
+  cursor:pointer;transition:all .1s;color:#D4C4A0;
+  border:3px solid transparent;
+  text-shadow:1px 1px 0 rgba(0,0,0,0.5);
+}
+.shop-tab:hover{background:#6B5B45;color:#FFD700}
+.shop-tab.active{background:linear-gradient(180deg, #D97706 0%, #B45309 100%);color:#FFD700;border-color:#3D3D3D;box-shadow:var(--mc-inset);text-shadow:1px 1px 0 #3D3D3D}
+
+/* ===== SHOP HISTORY - Minecraft Style ===== */
+.history-section{margin-top:16px}
+.history-day-group{margin-bottom:20px}
+.history-day-header{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:10px 16px;background:#6B5B45;border:3px solid #3D3D3D;
+  margin-bottom:10px;
+}
+.history-date{font-size:.5rem;font-weight:700;color:#FFD700;text-shadow:1px 1px 0 #3D3D3D}
+.history-day-total{font-size:.4rem;color:#D4C4A0;text-shadow:1px 1px 0 rgba(0,0,0,0.5)}
+.history-list{display:flex;flex-direction:column;gap:8px}
+.history-item{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:12px 16px;background:linear-gradient(180deg, #C6B28A 0%, #B8A474 100%);
+  border:3px solid #3D3D3D;box-shadow:var(--mc-inset);
+}
+.history-item-left{display:flex;align-items:center;gap:12px}
+.history-item-emoji{font-size:1.5rem}
+.history-item-name{font-size:.45rem;font-weight:700;color:#1A1A1A;text-shadow:1px 1px 0 rgba(255,255,255,0.3)}
+.history-item-time{font-size:.4rem;color:#5C5040;margin-top:2px;text-shadow:1px 1px 0 rgba(255,255,255,0.3)}
+.history-item-price{font-size:.5rem;font-weight:700;color:#D97706;text-shadow:1px 1px 0 rgba(255,255,255,0.3)}
+.history-empty{text-align:center;padding:32px;color:#D4C4A0;font-size:.5rem;text-shadow:1px 1px 0 rgba(0,0,0,0.5)}
+
+/* ===== DATA VIEW - Minecraft Style ===== */
+.data-container{max-width:600px;margin:0 auto}
+.data-card{
+  background:linear-gradient(180deg, #8B7355 0%, #7B6545 100%);
+  border:3px solid #3D3D3D;padding:24px;
+  box-shadow:var(--mc-inset), 4px 4px 0 rgba(0,0,0,0.2);margin-bottom:16px;
+}
+.data-card-title{font-size:.5rem;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:8px;color:#FFD700;text-shadow:2px 2px 0 #3D3D3D}
+.data-card p{font-size:.4rem;color:#D4C4A0;margin-bottom:16px;line-height:1.8;text-shadow:1px 1px 0 rgba(0,0,0,0.5)}
+.data-btn{
+  padding:10px 24px;font-weight:700;
+  font-size:.45rem;transition:all .1s;margin-right:8px;margin-bottom:8px;
+  border:3px solid #3D3D3D;box-shadow:var(--mc-inset);
+  text-shadow:1px 1px 0 #3D3D3D;color:#FFD700;
+}
+.data-btn.export{background:linear-gradient(180deg, #3B82F6 0%, #2563EB 100%)}
+.data-btn.import{background:linear-gradient(180deg, #22C55E 0%, #16A34A 100%)}
+.data-btn.reset{background:linear-gradient(180deg, #C0392B 0%, #A93226 100%)}
+.data-btn:hover{transform:translateY(-1px);box-shadow:var(--mc-inset), 2px 2px 0 rgba(0,0,0,0.3)}
+.data-stats{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:16px}
+.stat-card{
+  background:#6B5B45;border:3px solid #3D3D3D;padding:16px;text-align:center;
+  box-shadow:var(--mc-inset);
+}
+.stat-num{font-size:.7rem;font-weight:700;color:#FFD700;text-shadow:2px 2px 0 #3D3D3D}
+.stat-label{font-size:.4rem;color:#D4C4A0;margin-top:2px;text-shadow:1px 1px 0 rgba(0,0,0,0.5)}
+
+/* ===== MANAGE VIEW - Minecraft Style ===== */
+.manage-container{max-width:900px;margin:0 auto}
+.manage-header{
+  display:flex;align-items:center;justify-content:space-between;
+  background:linear-gradient(180deg, #8B7355 0%, #7B6545 100%);
+  border:3px solid #3D3D3D;padding:18px 24px;
+  box-shadow:var(--mc-inset), 4px 4px 0 rgba(0,0,0,0.2);margin-bottom:20px;
+}
+.manage-header-left{display:flex;align-items:center;gap:12px}
+.manage-header-title{font-size:.6rem;font-weight:700;color:#FFD700;text-shadow:2px 2px 0 #3D3D3D}
+.manage-header-sub{font-size:.4rem;color:#D4C4A0;margin-top:2px;text-shadow:1px 1px 0 rgba(0,0,0,0.5)}
+.manage-add-btn{
+  padding:10px 20px;
+  background:linear-gradient(180deg, #4CAF50 0%, #388E3C 100%);
+  color:#FFD700;font-weight:700;font-size:.45rem;
+  border:3px solid #3D3D3D;box-shadow:var(--mc-inset);
+  text-shadow:1px 1px 0 #3D3D3D;transition:all .1s;
+}
+.manage-add-btn:hover{transform:translateY(-1px);box-shadow:var(--mc-inset), 2px 2px 0 rgba(0,0,0,0.3)}
+.manage-sections{display:flex;flex-direction:column;gap:20px}
+.manage-section{
+  background:linear-gradient(180deg, #8B7355 0%, #7B6545 100%);
+  border:3px solid #3D3D3D;padding:20px;
+  box-shadow:var(--mc-inset), 4px 4px 0 rgba(0,0,0,0.2);
+}
+.manage-section-title{
+  font-size:.5rem;font-weight:700;margin-bottom:16px;
+  padding-bottom:10px;border-bottom:3px solid #3D3D3D;
+  color:#FFD700;text-shadow:1px 1px 0 #3D3D3D;
+}
+.manage-subject-list{display:flex;flex-direction:column;gap:12px}
+.manage-subject-item{
+  background:#6B5B45;border:3px solid #3D3D3D;padding:14px;
+  display:flex;align-items:center;gap:12px;
+  box-shadow:var(--mc-inset);
+}
+.manage-subject-icon{font-size:1.5rem}
+.manage-subject-info{flex:1}
+.manage-subject-name{font-size:.5rem;font-weight:700;color:#FFD700;text-shadow:1px 1px 0 #3D3D3D}
+.manage-subject-units{font-size:.4rem;color:#D4C4A0;margin-top:2px;text-shadow:1px 1px 0 rgba(0,0,0,0.5)}
+.manage-subject-actions{display:flex;gap:6px}
+.manage-action-btn{
+  width:32px;height:32px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:.7rem;transition:all .1s;
+  border:3px solid #3D3D3D;box-shadow:var(--mc-inset);
+}
+.manage-action-btn.edit{background:linear-gradient(180deg, #3B82F6 0%, #2563EB 100%);color:#FFD700}
+.manage-action-btn.edit:hover{transform:translateY(-1px)}
+.manage-action-btn.delete{background:linear-gradient(180deg, #C0392B 0%, #A93226 100%);color:#FFD700}
+.manage-action-btn.delete:hover{transform:translateY(-1px)}
+.manage-action-btn.view{background:linear-gradient(180deg, #22C55E 0%, #16A34A 100%);color:#FFD700}
+.manage-action-btn.view:hover{transform:translateY(-1px)}
+.manage-empty{text-align:center;padding:24px;color:#D4C4A0;font-size:.5rem;text-shadow:1px 1px 0 rgba(0,0,0,0.5)}
+
+/* ===== MANAGE MODAL - Minecraft Style ===== */
+.manage-modal{
+  background:linear-gradient(180deg, #8B7355 0%, #7B6545 100%);
+  border:4px solid #3D3D3D;padding:28px;
+  max-width:500px;width:90%;
+  box-shadow:var(--mc-inset), 6px 6px 0 rgba(0,0,0,0.3);
+  max-height:80vh;overflow-y:auto;
+}
+.manage-modal-title{font-size:.6rem;font-weight:700;margin-bottom:20px;color:#FFD700;text-shadow:2px 2px 0 #3D3D3D}
+.manage-form-group{margin-bottom:16px}
+.manage-form-label{
+  display:block;font-size:.45rem;font-weight:700;
+  color:#D4C4A0;margin-bottom:6px;text-shadow:1px 1px 0 rgba(0,0,0,0.5);
+}
+.manage-form-input{
+  width:100%;padding:10px 14px;border:3px solid #3D3D3D;
+  font-size:.5rem;
+  background:#C6B28A;color:#1A1A1A;
+  box-shadow:var(--mc-inset);
+}
+.manage-form-input:focus{border-color:#FFD700;outline:none}
+.manage-form-row{display:flex;gap:10px}
+.manage-form-row .manage-form-group{flex:1}
+.manage-unit-list{margin-top:12px}
+.manage-unit-item{
+  background:#6B5B45;border:3px solid #3D3D3D;
+  padding:12px;margin-bottom:8px;
+  box-shadow:var(--mc-inset);
+}
+.manage-unit-header{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:8px;
+}
+.manage-unit-name{font-size:.45rem;font-weight:700;color:#FFD700;text-shadow:1px 1px 0 #3D3D3D}
+.manage-task-list{margin-left:16px}
+.manage-task-item{
+  display:flex;align-items:center;gap:8px;
+  padding:8px;background:#5C4D3A;border:2px solid #3D3D3D;
+  margin-bottom:6px;font-size:.4rem;color:#D4C4A0;
+  text-shadow:1px 1px 0 rgba(0,0,0,0.5);
+}
+.manage-task-name{flex:1}
+.manage-task-delete{
+  width:24px;height:24px;
+  background:#C0392B;border:2px solid #3D3D3D;color:#FFD700;
+  display:flex;align-items:center;justify-content:center;
+  font-size:.6rem;
+}
+.manage-task-delete:hover{background:#E74C3C}
+.manage-add-unit-btn{
+  width:100%;padding:10px;border:3px dashed #3D3D3D;
+  background:transparent;
+  color:#D4C4A0;font-size:.45rem;cursor:pointer;
+  transition:all .1s;margin-top:8px;
+  text-shadow:1px 1px 0 rgba(0,0,0,0.5);
+}
+.manage-add-unit-btn:hover{border-color:#FFD700;color:#FFD700}
+.manage-modal-actions{
+  display:flex;gap:10px;justify-content:flex-end;margin-top:20px;
+  padding-top:16px;border-top:3px solid #3D3D3D;
+}
+
+/* ===== TOAST - Minecraft Style ===== */
+.toast{
+  position:fixed;top:80px;right:24px;z-index:999;
+  padding:12px 24px;
+  background:#3D3D3D;color:#FFD700;font-size:.5rem;font-weight:700;
+  border:3px solid #1A1A1A;
+  box-shadow:var(--mc-inset), 4px 4px 0 rgba(0,0,0,0.3);
+  transform:translateX(120%);transition:transform .3s ease;
+  text-shadow:1px 1px 0 #000;
+}
+.toast.show{transform:translateX(0)}
+.toast.success{background:linear-gradient(180deg, #4CAF50 0%, #388E3C 100%);border-color:#2E7D32}
+.toast.warning{background:linear-gradient(180deg, #D97706 0%, #B45309 100%);border-color:#92400E}
+.toast.error{background:linear-gradient(180deg, #C0392B 0%, #A93226 100%);border-color:#922B21}
+
+/* ===== CONFETTI ===== */
+.confetti-container{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:998;overflow:hidden}
+.confetti-piece{
+  position:absolute;width:10px;height:10px;top:-10px;
+  animation:confetti-fall 1.5s ease-out forwards;
+}
+@keyframes confetti-fall{
+  0%{transform:translateY(0) rotate(0deg) scale(1);opacity:1}
+  100%{transform:translateY(100vh) rotate(720deg) scale(0.3);opacity:0}
+}
+
+/* ===== MODAL - Minecraft Style ===== */
+.modal-overlay{
+  position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:200;
+  display:none;align-items:center;justify-content:center;
+  backdrop-filter:blur(2px);
+}
+.modal-overlay.show{display:flex}
+.modal{
+  background:linear-gradient(180deg, #8B7355 0%, #7B6545 100%);
+  border:4px solid #3D3D3D;padding:32px;
+  max-width:400px;width:90%;
+  box-shadow:var(--mc-inset), 6px 6px 0 rgba(0,0,0,0.3);text-align:center;
+}
+.modal-icon{font-size:3rem;margin-bottom:12px}
+.modal-title{font-size:.6rem;font-weight:700;margin-bottom:8px;color:#FFD700;text-shadow:2px 2px 0 #3D3D3D}
+.modal-text{font-size:.45rem;color:#D4C4A0;margin-bottom:20px;line-height:1.8;text-shadow:1px 1px 0 rgba(0,0,0,0.5)}
+.modal-btns{display:flex;gap:12px;justify-content:center}
+.modal-btn{padding:10px 24px;font-weight:700;font-size:.45rem;border:3px solid #3D3D3D;box-shadow:var(--mc-inset);text-shadow:1px 1px 0 #3D3D3D;color:#FFD700}
+.modal-btn.cancel{background:linear-gradient(180deg, #7B7B7B 0%, #5A5A5A 100%)}
+.modal-btn.confirm{background:linear-gradient(180deg, #4CAF50 0%, #388E3C 100%);border-color:#2E7D32}
+
+/* ===== WEEKLY TIMETABLE ===== */
+.timetable-container{max-width:1180px;margin:0 auto}.timetable-hero,.timetable-card{background:linear-gradient(180deg,#C6B28A,#B8A474);border:var(--mc-border);box-shadow:var(--shadow);padding:20px;margin-bottom:18px}.timetable-hero{display:flex;align-items:center;justify-content:space-between;gap:16px}.timetable-title{font-size:.8rem;color:#FFD700;text-shadow:2px 2px 0 #3D3D3D;margin-bottom:9px}.timetable-subtitle{font-size:.45rem;color:#3D3D3D;line-height:1.7}.timetable-btn{padding:11px 14px;background:linear-gradient(180deg,#4CAF50,#388E3C);border:3px solid #2E7D32;box-shadow:var(--mc-outset);color:#fff;font-size:.45rem;white-space:nowrap}.timetable-btn.secondary{background:linear-gradient(180deg,#3B82F6,#2563EB);border-color:#1D4ED8}.timetable-empty{padding:38px 20px;text-align:center;font-size:.55rem;line-height:2;color:var(--muted)}.today-strip{display:flex;flex-wrap:wrap;gap:9px;margin-top:14px}.today-class{padding:9px 11px;background:#5C4D3A;border:2px solid #3D3D3D;color:#FFD700;font-size:.45rem}.timetable-form{display:grid;grid-template-columns:repeat(3,1fr);gap:13px;margin-bottom:18px}.timetable-field{display:flex;flex-direction:column;gap:7px;font-size:.45rem}.timetable-field input,.timetable-cell input,.timetable-time-input{background:#E6D6AB;border:2px solid #6B5B45;padding:9px;color:#1A1A1A;font-size:.5rem;width:100%}.timetable-field input:focus,.timetable-cell input:focus,.timetable-time-input:focus{border-color:#FFD700;box-shadow:0 0 0 2px rgba(255,215,0,.35)}.timetable-grid{overflow-x:auto;border:3px solid #3D3D3D}.timetable-table{width:100%;min-width:710px;border-collapse:collapse;table-layout:fixed}.timetable-table th,.timetable-table td{border:2px solid #6B5B45;padding:8px;text-align:center}.timetable-table th{background:#5C4D3A;color:#FFD700;font-size:.45rem}.timetable-table td:first-child{background:#8B7355;color:#fff;font-size:.42rem;width:115px}.timetable-cell input{text-align:center;padding:7px;font-size:.42rem}.timetable-time{display:block;font-size:.34rem;color:#FFE49C;margin-top:5px;line-height:1.4}.timetable-time-input{margin-top:6px;text-align:center;padding:5px;font-size:.36rem}.timetable-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:16px}.history-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}.history-item{background:#A89062;border:3px solid #6B5B45;padding:14px}.history-name{font-size:.5rem;color:#FFD700;text-shadow:1px 1px 0 #3D3D3D;margin-bottom:8px}.history-meta{font-size:.4rem;color:#3D3D3D;line-height:1.8;margin-bottom:12px}.history-item button{font-size:.4rem;padding:8px 10px;margin-right:6px}.timetable-card-title{font-size:.55rem;color:#FFD700;text-shadow:1px 1px 0 #3D3D3D;margin-bottom:14px}.timetable-preview-modal{max-width:960px;width:96%;text-align:left;max-height:88vh;overflow:auto}.timetable-preview-modal .modal-title{text-align:left!important}.timetable-preview-modal .modal-text{color:#1A1A1A;text-shadow:none;font-size:.5rem}
+
+/* ===== SUPER MARIO TIMEBOARD ===== */
+.schedule-board{display:grid;grid-template-columns:92px repeat(5,minmax(125px,1fr));min-width:790px;border:4px solid #1D3D91;background:#fff;box-shadow:5px 5px 0 #1D3D91}.schedule-day-head,.schedule-time-head{position:sticky;top:0;z-index:10;padding:12px 5px;text-align:center;background:#E60012;color:#fff;border-right:2px solid #fff;font-size:.43rem;text-shadow:2px 2px 0 #8B0000}.schedule-time-head{background:#1D3D91}.schedule-time-col,.schedule-day-col{display:flex;flex-direction:column}.schedule-time-label,.schedule-slot{height:26px;min-height:26px;border-bottom:1px dashed #A7B7D8}.schedule-time-label{padding:6px 5px;text-align:center;color:#1D3D91;background:#EAF2FF;border-right:2px solid #1D3D91;font:700 .36rem 'Press Start 2P',monospace}.schedule-time-label.hour,.schedule-slot.hour{border-top:3px solid #1D3D91}.schedule-slot{position:relative;border-right:1px solid #A7B7D8;background:repeating-linear-gradient(135deg,#fff 0,#fff 7px,#F7F9FF 7px,#F7F9FF 14px);transition:background .1s}.schedule-slot:hover{background:#FFF1A8;cursor:pointer}.schedule-slot.selected{background:#FFD53D;box-shadow:inset 0 0 0 3px #E60012}.schedule-event{position:absolute;z-index:3;left:3px;right:3px;top:2px;background:#E60012;color:#fff;border:2px solid #8B0000;box-shadow:2px 2px 0 #1D3D91;padding:4px 3px;font-size:.34rem;line-height:1.5;overflow:hidden;text-shadow:1px 1px 0 #8B0000;pointer-events:none}.schedule-event.alt{background:#1D3D91;border-color:#10225E}.schedule-hint{font-size:.42rem;color:#6B4B00;line-height:1.8;margin:0 0 13px;padding:10px;background:#FFF1A8;border:2px solid #E6A500}.schedule-course-modal{max-width:520px}.schedule-course-modal .modal-text{text-align:left}.schedule-course-form{display:grid;gap:13px}.schedule-course-form label{font-size:.45rem;color:#3D3D3D;display:grid;gap:7px}.schedule-course-form input,.schedule-course-form select{background:#fff;border:3px solid #1D3D91;padding:10px;font:inherit;font-size:.5rem;color:#1A1A1A}.schedule-course-actions{display:flex;justify-content:space-between;gap:10px}.schedule-delete-btn{background:#666!important;border-color:#333!important}
+
+/* Mario-inspired application skin */
+:root{--primary:#E60012;--primary-light:#FFC4C9;--secondary:#1D3D91;--secondary-light:#BFD1FF;--accent:#FFD53D;--bg:#5AA9E6;--surface:#FFF7D6;--surface2:#FFE89A;--ink:#24170A;--muted:#684E2D;--rule:#C78628}.header{background:linear-gradient(#E60012 0 75%,#B9000E 75%);border-bottom-color:#1D3D91;box-shadow:0 5px 0 #FFD53D}.logo,.star-badge,.name-display{background:#E60012;border-color:#fff;color:#fff;text-shadow:2px 2px 0 #1D3D91}.header-btn{background:linear-gradient(#FFD53D,#E6A500);color:#E60012;border-color:#fff}.sidebar{background:#1D3D91;border-right-color:#fff}.nav-item{color:#fff;border-left-color:transparent}.nav-item:hover,.nav-item.active{background:#E60012;color:#fff;border-left-color:#FFD53D}.sidebar-footer{background:#10225E;border-top-color:#fff}.main{background:linear-gradient(#5AA9E6 0 170px,#74B94C 170px 100%)}.subject-header,.task-card,.checkin-card,.checkin-calendar,.shop-card,.data-card,.manage-section,.timetable-hero,.timetable-card{border-color:#1D3D91!important;box-shadow:5px 5px 0 #1D3D91}.task-card:hover{border-color:#E60012!important}.modal{border-color:#1D3D91;background:linear-gradient(#FFF7D6,#FFE89A)}
+
+/* Smooth Mario adventure theme + calendar layout */
+body{font-family:'Microsoft YaHei','PingFang SC',sans-serif;image-rendering:auto;background:linear-gradient(#64C7F4 0 60%,#75BE46 60%);letter-spacing:.02em}.header,.sidebar,.subject-header,.task-card,.checkin-card,.checkin-calendar,.shop-card,.data-card,.manage-section,.timetable-hero,.timetable-card,.modal{border-radius:16px!important}.header{margin:8px 10px;left:0;right:0;border:0!important;height:56px;box-shadow:0 6px 18px rgba(29,61,145,.35)}.sidebar{top:72px;bottom:10px;left:10px;border:0!important;border-radius:18px!important;box-shadow:0 8px 20px rgba(29,61,145,.3)}.main{margin-top:72px;background:transparent}.header-btn,.name-display,.star-badge,.logo{border-radius:12px!important;border:0!important;box-shadow:none!important}.header-btn{transition:transform .2s,filter .2s}.header-btn:hover{transform:translateY(-3px) rotate(-4deg);filter:brightness(1.08)}.task-card,.timetable-hero,.timetable-card{box-shadow:0 8px 20px rgba(29,61,145,.22)!important}.task-card{transition:transform .18s,box-shadow .18s}.task-card:hover{transform:translateY(-4px);box-shadow:0 12px 24px rgba(29,61,145,.28)!important}.timetable-layout{display:grid;grid-template-columns:290px minmax(0,1fr);gap:18px;align-items:start}.calendar-panel{position:sticky;top:82px}.mini-calendar-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;font-weight:700;color:#1D3D91}.mini-calendar-btn{border:0;border-radius:9px;background:#E60012;color:#fff;width:30px;height:30px;font-size:1rem}.mini-calendar-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}.mini-calendar-weekday{font-size:.4rem;text-align:center;color:#1D3D91;padding:4px 0}.mini-calendar-day{border:0;border-radius:9px;min-height:32px;background:#F1F6FF;color:#1D3D91;font-weight:700;font-size:.45rem;transition:transform .15s,background .15s}.mini-calendar-day:hover{transform:scale(1.12);background:#FFD53D}.mini-calendar-day.other{opacity:.35}.mini-calendar-day.in-range{background:#FFDFA0}.mini-calendar-day.selected{background:#E60012;color:#fff;box-shadow:0 3px 8px rgba(230,0,18,.35)}.calendar-legend{font-size:.4rem;color:#6B4B00;margin-top:13px;line-height:1.7}.week-heading{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}.week-heading h3{color:#1D3D91;font-size:.65rem}.mario-friends{display:flex;gap:6px;align-items:center;font-size:1.45rem}.mario-friends span{display:inline-block;animation:marioFloat 2.1s ease-in-out infinite}.mario-friends span:nth-child(2){animation-delay:.35s}.mario-friends span:nth-child(3){animation-delay:.7s}.mario-friends span:nth-child(4){animation-delay:1.05s}@keyframes marioFloat{0%,100%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(-8px) rotate(5deg)}}.schedule-scroll{height:470px;overflow:auto;border-radius:14px;box-shadow:inset 0 0 0 1px #BFD1FF}.schedule-board{min-height:1250px}.schedule-day-head,.schedule-time-head{font-family:'Microsoft YaHei',sans-serif;border-radius:0;text-shadow:none}.schedule-event{border-radius:8px;box-shadow:0 3px 8px rgba(29,61,145,.3);text-shadow:none}.schedule-slot{background:#fff}.schedule-slot:hover{background:#FFF1A8}.timetable-btn{border:0;border-radius:11px;box-shadow:0 4px 10px rgba(29,61,145,.22);transition:transform .18s}.timetable-btn:hover{transform:translateY(-2px)}
+/* Calendar grid alignment, recurrence choices, and current-time marker */
+.timetable-container,.timetable-container *{text-shadow:none!important}.schedule-board{position:relative;align-items:start}.schedule-day-head,.schedule-time-head{height:54px;min-height:54px;box-sizing:border-box;display:flex;align-items:center;justify-content:center;line-height:1.35}.schedule-time-label,.schedule-slot{box-sizing:border-box}.current-time-line{position:absolute;z-index:8;left:92px;right:0;height:3px;background:#5B5BD6;pointer-events:none;box-shadow:0 1px 4px rgba(91,91,214,.35)}.current-time-line::before{content:'';position:absolute;width:16px;height:16px;border-radius:50%;background:#5B5BD6;left:-8px;top:-6px;border:2px solid #fff}.weekday-pills{display:flex;flex-wrap:wrap;gap:7px}.weekday-pill{display:flex!important;align-items:center!important;grid-template-columns:none!important;gap:4px!important;padding:6px 8px;border-radius:9px;background:#F1F6FF;color:#1D3D91!important;font-size:.42rem!important}.weekday-pill input{width:auto!important;accent-color:#E60012}.schedule-course-modal .modal-text{font-family:'Microsoft YaHei','PingFang SC',sans-serif!important}
+
+/* Readable, balanced sizing for common desktop and browser widths */
+:root{--sidebar-w:218px;--header-h:64px}html{font-size:clamp(14px,1vw,16px)}.sidebar{width:208px}.main{max-width:1680px;margin-right:auto;padding:clamp(16px,2vw,32px)}.sidebar-nav{padding:14px 0}.nav-item{padding:13px 16px;gap:10px}.nav-item .nav-icon{font-size:1.35rem}.nav-item .nav-label{font-size:.92rem}.nav-item .nav-count{font-size:.72rem;padding:4px 7px}.subject-title{font-size:1.55rem}.subject-subtitle{font-size:.92rem;line-height:1.7}.unit-title{font-size:1rem}.task-name{font-size:.96rem;line-height:1.55}.task-meta,.task-tag,.task-reward{font-size:.75rem}.checkin-title,.shop-header-title,.data-card-title,.manage-header-title{font-size:1.25rem}.checkin-subtitle,.shop-header-sub,.data-card p,.manage-header-sub{font-size:.86rem;line-height:1.65}.timetable-container{max-width:1440px}.timetable-title{font-size:1.35rem}.timetable-subtitle{font-size:.88rem}.timetable-card-title{font-size:1rem}.timetable-field{font-size:.82rem}.timetable-field input{font-size:.9rem}.schedule-hint{font-size:.8rem}.schedule-day-head,.schedule-time-head{font-size:.82rem}.schedule-time-label{font:.72rem 'Microsoft YaHei','PingFang SC',sans-serif}.schedule-event{font-size:.7rem;line-height:1.45}.today-class{font-size:.78rem}.history-name{font-size:.9rem}.history-meta{font-size:.76rem}.schedule-course-modal,.schedule-course-modal *{text-shadow:none!important}.schedule-course-modal .modal-title{font-size:1.15rem}.schedule-course-form label{font-size:.84rem}.schedule-course-form input,.schedule-course-form select{font-size:.9rem}.weekday-pill{font-size:.76rem!important}.modal-btn{font-size:.82rem}
+
+/* Global typography: standard KaiTi, no shadows, one-step larger scale */
+html{font-size:clamp(15px,1.1vw,17px)}
+body,button,input,select,textarea,.modal,.toast{font-family:'KaiTi','STKaiti','DFKai-SB','楷体','Microsoft YaHei',serif!important}
+body *,body *::before,body *::after{text-shadow:none!important}
+
+/* Browser-reviewed readability targets */
+.manage-header-sub{font-size:16px!important}
+.manage-section-title{font-size:14px!important}
+.manage-add-btn{font-size:12px!important}
+.logo{font-size:20px!important}
+.name-display{font-size:20px!important}
+.star-badge{font-size:20px!important}
+#timeDisplay{font-size:12px!important}
+.progress-summary{font-size:16px!important;color:#67e600!important}
+.unit-title,.unit-title span{color:#ff1900!important}
+.subject-subtitle{color:#0a0300!important}
+.subject-progress .pct{font-size:2.4rem!important}
+.subject-progress .label{font-size:16px!important;color:#000!important}
+.manage-subject-units{font-size:.8rem!important}
+.manage-modal .manage-form-label{font-size:12px!important;color:#000!important}
+.manage-modal .manage-form-input{font-size:12px!important}
+.manage-modal .manage-unit-header,.manage-modal .manage-unit-name{font-size:12px!important}
+.streak-label{font-size:.9rem!important}
+.checkin-status{font-size:.85rem;color:#FFD700;margin-bottom:16px}
+.streak-num,.streak-label{font-size:24px!important}
+
+/* Functional controls: double the original button type size and keep tap targets clear. */
+.menu-btn{font-size:2.4rem!important;width:52px;height:52px}
+.header-btn{font-size:2rem!important;width:52px;height:52px}
+.checkin-btn{font-size:1.2rem!important}
+.checkin-btn .btn-icon{font-size:4rem!important}
+.checkin-btn .btn-text{font-size:1.1rem!important}
+.shop-floating-btn,.shop-btn,.data-btn,.manage-add-btn,.manage-add-unit-btn,.timetable-btn,.history-item button{font-size:.9rem!important}
+.manage-action-btn{font-size:1.4rem!important;width:46px;height:46px}
+.manage-task-delete{font-size:1.2rem!important;width:36px;height:36px}
+.modal-btn{font-size:1.64rem!important}
+.mini-calendar-btn{font-size:2rem!important;width:42px;height:42px}
+
+/* WCAG readability baseline: body and control copy stays at least 14px. */
+.tooltip,.nav-item .nav-count,.subject-subtitle,.unit-title span,.task-meta,.task-tag,.task-reward,.checkin-subtitle,.checkin-status,.calendar-header,.calendar-day,.shop-floating-toggle,.shop-floating-item-redeemed,.shop-floating-price,.shop-price,.shop-redeemed-count,.shop-note,.history-day-total,.history-item-name,.history-item-time,.history-item-price,.data-card p,.stat-label,.manage-header-sub,.manage-subject-name,.manage-subject-units,.manage-empty,.manage-form-label,.manage-form-input,.manage-unit-name,.manage-task-item,.manage-add-unit-btn,.modal-text,.timetable-subtitle,.timetable-field,.timetable-field input,.timetable-cell input,.timetable-time-input,.timetable-table th,.timetable-table td,.timetable-time,.history-meta,.today-class,.schedule-day-head,.schedule-time-head,.schedule-time-label,.schedule-event,.schedule-hint,.schedule-course-form label,.schedule-course-form input,.schedule-course-form select,.weekday-pill{font-size:14px!important;font-weight:600!important;line-height:1.5!important}
+
+/* High-contrast text colors; no opacity reduction is used for copy. */
+.subject-header{background:linear-gradient(180deg,#8A7254 0%,#7B6545 100%)}
+.subject-subtitle,.checkin-subtitle,.data-card p{color:#FFFFFF!important}
+.unit-title,.unit-title span{color:#7A0000!important}
+.task-reward,.shop-price,.shop-floating-price,.history-item-price{color:#5C2A00!important}
+.task-tag{background:#5C4D3A!important;color:#FFFFFF!important}
+.shop-note,.manage-subject-units,.manage-task-item,.manage-empty{color:#FFFFFF!important}
+.modal-text{color:#1A1A1A!important}
+.shop-redeemed-count,.history-item-time{color:#1A1A1A!important}
+
+/* Remaining compact labels and actions follow the same readable baseline. */
+body{line-height:1.5}
+.nav-item .nav-label,#timeDisplay,.manage-add-btn,.shop-floating-btn,.shop-btn,.data-btn,.timetable-btn,.history-item button,.history-name,.stat-num,.calendar-title,.calendar-legend,.mini-calendar-weekday,.mini-calendar-day,.week-heading h3,.shop-floating-title,.shop-floating-status,.shop-floating-hint,.shop-floating-item-name,.shop-floating-empty,.shop-floating-label,.data-card-title,.timetable-title,.timetable-card-title,.checkin-title,.shop-header-title,.manage-header-title,.subject-title,.task-name,.checkin-btn,.header-btn,.name-display,.star-badge{font-size:14px!important;font-weight:600!important;line-height:1.5!important}
+.checkin-card,.checkin-calendar,.data-card{background:linear-gradient(180deg,#8A7254 0%,#7B6545 100%)!important}
+.stat-label,.calendar-header,.calendar-day,.calendar-title{color:#FFFFFF!important}
+.history-name,.history-meta{color:#1A1A1A!important}
+.timetable-title,.timetable-card-title{color:#1D3D91!important}
+
+/* A 30-minute cell is deliberately taller after the type scale increase. */
+.schedule-day-head,.schedule-time-head{height:76px!important;min-height:76px!important}
+.schedule-time-label,.schedule-slot{height:56px!important;min-height:56px!important}
+.schedule-board{min-height:2764px!important}
+.schedule-event{padding:4px 5px!important;line-height:1.4!important}
+.mini-calendar-day.other{opacity:1!important;background:#E5E5E5!important;color:#4A4A4A!important}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:1100px){
+  #timeDisplay{display:none}
+}
+@media(max-width:768px){
+  .menu-btn{display:flex}
+  .sidebar{transform:translateX(-100%)}
+  .sidebar.open{transform:translateX(0);box-shadow:var(--shadow-lg)}
+  .main{margin-left:0}
+  .header-center{display:none}
+  .task-grid{grid-template-columns:1fr}
+  .shop-grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr))}
+  .data-stats{grid-template-columns:1fr}
+  .timetable-hero{align-items:flex-start;flex-direction:column}.timetable-form{grid-template-columns:1fr}.timetable-actions{justify-content:stretch}.timetable-actions .timetable-btn{flex:1}
+  .timetable-layout{grid-template-columns:1fr}.calendar-panel{position:static}.schedule-scroll{height:420px}
+  .sidebar{width:var(--sidebar-w)}.main{padding:14px}.subject-title{font-size:1.3rem}.task-name{font-size:.9rem}.timetable-title{font-size:1.15rem}.timetable-hero{padding:16px}.mario-friends{font-size:1.2rem}
+}
+@media(min-width:769px){
+  .menu-btn{display:none !important}
+}
+
+/* ===== ANIMATIONS ===== */
+@keyframes bounce-in{0%{transform:scale(0.3);opacity:0}50%{transform:scale(1.1)}100%{transform:scale(1);opacity:1}}
+.bounce-in{animation:bounce-in .4s ease}
+.star-earn{
+  position:fixed;pointer-events:none;z-index:999;
+  font-size:.6rem;font-weight:700;color:#FFD700;
+  text-shadow:2px 2px 0 #3D3D3D;
+  animation:star-float 1s ease-out forwards;
+}
+@keyframes star-float{
+  0%{opacity:1;transform:translateY(0) scale(1)}
+  100%{opacity:0;transform:translateY(-60px) scale(1.5)}
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-left">
+    <button class="menu-btn" onclick="toggleSidebar()" aria-label="菜单">☰</button>
+    <div class="logo" onclick="editPageTitle()" title="点击修改工作台名称" style="cursor: pointer;">☀️ 阳光学习 ✏️</div>
+  </div>
+  <div class="header-center">
+    <span class="name-display" id="nameDisplay" onclick="editName()" title="点击修改名字" style="display: flex;">
+      <span id="nameText">小朋友</span>
+      <span style="font-size:.8rem">✏️</span>
+    </span>
+    <input class="name-input" id="nameInput" placeholder="输入名字" maxlength="10" onkeydown="if(event.key==='Enter')saveName()" onblur="saveName()" style="display: none;">
+  </div>
+  <div class="header-right">
+    <div class="star-badge">
+      <span class="star-icon">☀️</span>
+      <span id="totalStars">20</span>
+      <span style="font-size:.8rem">阳光</span>
+    </div>
+    <div id="timeDisplay" style="font-size:.45rem;color:#FFD700;padding:6px 12px;background:#5C4D3A;border:3px solid #3D3D3D;box-shadow:inset 2px 2px 0px rgba(255,255,255,0.2),inset -2px -2px 0px rgba(0,0,0,0.2);white-space:nowrap;text-shadow:1px 1px 0 #3D3D3D;">2026-10-20 15:39:25 星期二</div>
+    <button class="header-btn" onclick="showView('checkin')" title="每日打卡">
+      📅<span class="tooltip">每日打卡</span>
+    </button>
+    <button class="header-btn" onclick="showView('timetable')" title="周课程表">
+      🗓️<span class="tooltip">周课程表</span>
+    </button>
+    <button class="header-btn" onclick="showView('shop')" title="兑换商店">
+      🎁<span class="tooltip">兑换商店</span>
+    </button>
+    <button class="header-btn" onclick="showView('data')" title="导出/导入">
+      💾<span class="tooltip">导出/导入</span>
+    </button>
+    <button class="header-btn" onclick="showView('manage')" title="内容管理">
+      ⚙️<span class="tooltip">内容管理</span>
+    </button>
+  </div>
+</header>
+
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+  <nav class="sidebar-nav" id="sidebarNav"><div class="nav-item active" data-subject="chinese" onclick="selectSubject('chinese')">
+      <span class="nav-icon">📖</span>
+      <span class="nav-label">语文</span>
+      <span class="nav-count">0/37</span>
+    </div><div class="nav-item" data-subject="math" onclick="selectSubject('math')">
+      <span class="nav-icon">🔢</span>
+      <span class="nav-label">数学</span>
+      <span class="nav-count">0/14</span>
+    </div><div class="nav-item" data-subject="english" onclick="selectSubject('english')">
+      <span class="nav-icon">🔤</span>
+      <span class="nav-label">英语</span>
+      <span class="nav-count">0/46</span>
+    </div><div class="nav-item" data-subject="science" onclick="selectSubject('science')">
+      <span class="nav-icon">🔬</span>
+      <span class="nav-label">科学</span>
+      <span class="nav-count">0/15</span>
+    </div><div class="nav-item" data-subject="moral" onclick="selectSubject('moral')">
+      <span class="nav-icon">🌈</span>
+      <span class="nav-label">道法</span>
+      <span class="nav-count">0/12</span>
+    </div><div class="nav-item" data-subject="pe" onclick="selectSubject('pe')">
+      <span class="nav-icon">⚽</span>
+      <span class="nav-label">体育</span>
+      <span class="nav-count">0/8</span>
+    </div><div class="nav-item" data-subject="art" onclick="selectSubject('art')">
+      <span class="nav-icon">🎨</span>
+      <span class="nav-label">音美</span>
+      <span class="nav-count">0/9</span>
+    </div><div class="nav-item" data-subject="comp" onclick="selectSubject('comp')">
+      <span class="nav-icon">🧩</span>
+      <span class="nav-label">综合</span>
+      <span class="nav-count">0/9</span>
+    </div></nav>
+  <div class="sidebar-footer">
+    <div class="progress-summary" id="progressSummary">总进度：0%（0/150）</div>
+    <div class="progress-bar-wrap">
+      <div class="progress-bar-fill" id="progressBar" style="width: 0%; background: rgb(255, 107, 107);"></div>
+    </div>
+  </div>
+</aside>
+
+<!-- MAIN CONTENT -->
+<main class="main" id="mainContent">
+  <div id="subjectView" class="view">
+    <div class="subject-header">
+      <div class="subject-icon">📖</div>
+      <div>
+        <div class="subject-title">语文</div>
+        <div class="subject-subtitle">今日共 37 个任务，已完成 0 个</div>
+      </div>
+      <div class="subject-progress">
+        <div class="pct" style="color:#FF6B6B">0%</div>
+        <div class="label">今日进度</div>
+      </div>
+    </div>
+    
+      <div class="unit-section">
+        <div class="unit-title">第一单元 · 天地人
+          <span style="font-size:.75rem;font-weight:400;color:var(--muted)">0/5</span>
+        </div>
+        <div class="unit-progress-wrap" style="margin-bottom:12px">
+          <div class="unit-progress-fill" style="width:0%;background:#FF6B6B"></div>
+        </div>
+        <div class="task-grid">
+          <div class="task-card" onclick="toggleTask('c1t1',event)" title="一次性任务">
+              <div class="task-check"></div>
+              <div class="task-info">
+                <div class="task-name">《天地人》课文预习</div>
+                <div class="task-meta">
+                  <span class="task-reward">☀️ +5</span>
+                  
+                  <span class="task-tag">待完成</span>
+                </div>
+              </div>
+            </div><div class="task-card" onclick="toggleTask('c1t2',event)" title="一次性任务">
+              <div class="task-check"></div>
+              <div class="task-info">
+                <div class="task-name">认识"天、地、人、你、我、他"</div>
+                <div class="task-meta">
+                  <span class="task-reward">☀️ +5</span>
+                  
+                  <span class="task-tag">待完成</span>
+                </div>
+              </div>
+            </div><div class="task-card" onclick="toggleTask('c1t3',event)" title="一次性任务">
+              <div class="task-check"></div>
+              <div class="task-info">
+                <div class="task-name">学写生字：天地人</div>
+                <div class="task-meta">
+                  <span class="task-reward">☀️ +5</span>
+                  
+                  <span class="task-tag">待完成</span>
+                </div>
+              </div>
+            </div><div class="task-card" onclick="toggleTask('c1t4',event)" title="一次性任务">
+              <div class="task-check"></div>
+              <div class="task-info">
+                <div class="task-name">《金木水火土》朗读与背诵</div>
+                <div class="task-meta">
+                  <span class="task-reward">☀️ +5</span>
+                  
+                  <span class="task-tag">待完成</span>
+                </div>
+              </div>
+            </div><div class="task-card" onclick="toggleTask('c1t5',event)" title="一次性任务">
+              <div class="task-check"></div>
+              <div class="task-info">
+                <div class="task-name">认识"一二三四五上下"</div>
+                <div class="task-meta">
+                  <span class="task-reward">☀️ +5</span>
+                  
+                  <span class="task-tag">待完成</span>
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>
+      <div class="unit-section">
+        <div class="unit-title">第二单元 · 汉语拼音（1）
+          <span style="font-size:.75rem;font-weight:400;color:var(--muted)">0/5</span>
+        </div>
+        <div class="unit-progress-wrap" style="margin-bottom:12px">
+          <div class="unit-progress-fill" style="width:0%;background:#FF6B6B"></div>
+        </div>
+        <div class="task-grid">
+          <div class="task-card" onclick="toggleTask('c2t1',event)" title="一次性任务">
+              <div class="task-check"></div>
+              <div class="task-info">
+                <div class="task-name">学习单韵母 a o e</div>
+                <div class="task-meta">
+                  <span class="task-reward">☀️ +5</span>
+                  
+                  <span class="task-tag">待完成</span>
+                </div>
+              </div>
+            </div><div class="task-card" onclick="toggleTask('c2t2',event)" title="一次性任务">
+              <div class="task-check"></div>
+              <div class="task-info">
+                <div class="task-name">学习单韵母 i u ü</div>
+                <div class="task-meta">
+                  <span class="task-reward">☀️ +5</span>
+                  
+                  <span class="task-tag">待完成</span>
+                </div>
+              </div>
+            </div><div class="task-card" onclick="toggleTask('c2t3',event)" title="一次性任务">
+              <div class="task-check"></div>
+              <div class="task-info">
+                <div class="task-name">学习声母 b p m f</div>
+                <div class="task-meta">
+                  <span class="task-reward">☀️ +5</span>
+                  
+                  <span class="task-tag">待完成</span>
+                </div>
+              </div>
+            </div><div class="task-card" onclick="toggleTask('c2t4',event)" title="一次性任务">
+              <div class="task-check"></div>
+              <div class="task-info">
+                <div class="task-name">学习声母 d t n l</div>
+                <div class="task-meta">
+                  <span class="task-reward">☀️ +5</span>
+                  
+                  <span class="task-tag">待完成</span>
+                </div>
+              </div>
+            </div><div class="task-card" onclick="toggleTask('c2t5',event)" title="一次性任务">
+              <div class="task-check"></div>
+              <div class="task-info">
+                <div class="task-name">拼音拼读练习（第二单元）</div>
+                <div class="task-meta">
+                  <span class="task-reward">☀️ +5</span>
+                  
+                  <span class="task-tag">待完成</span>
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>
+      <div class="unit-section">
+        <div class="unit-title">第三单元 · 汉语拼音（2）
+          <span style="font-size:.75rem;font-weight:400;color:var(--muted)">0/5</span>
+        </div>
+        <div class="unit-progress-wrap" style="margin-bottom:12px">
+          <div class="unit-progress-fill" style="width:0%;background:#FF6B6B"></div>
+        </div>
+        <div class="task-grid">
+          <div class="task-card" onclick="toggleTask('c3t1',event)" title="一次性任务">
+              <div class="task-check"></div>
+              <div class="task-info">
+                <div class="task-name">学习声母 g k h j q x</div>
+                <div class="task-meta">
+                  <span class="task-reward">☀️ +5</span>
+                  
+                  <span class="task-tag">待完成</span>
+                </div>
+              </div>
+            </div><div class="task-card" onclick="toggleTask('c3t2',event)" title="一次性任务">
+              <div class="task-check"></div>
+              <div class="task-info">
+                <div class="task-name">学习声母 zh ch sh r z c s</div>
+                <div class="task-meta">
+                  <span class="task-reward">☀️ +5</span>
+                  
+                  <span class="task-tag">待完成</span>
+                </div>
+              </div>
+            </div><div class="task-card" onclick="toggleTask('c3t3',event)" title="一次性任务">
+              <div class="task-check"></div>
+              <div class="task-info">
+                <div class="task-name">学习复韵母 ai ei ui ao ou iu</div>
+                <div class="task-meta">
+                  <span class="task-reward">☀️ +5</span>
+                  
+                  <span class="task-tag">待完成</span>
+                </div>
+              </div>
+            </div><div class="task-card" onclick="toggleTask('c3t4',event)" title="一次性任务">
+              <div class="task-check"></div>
+              <div class="task-info">
+                <div class="task-name">学习鼻韵母 an en in un ün</div>
+                <div class="task-meta">
+                  <span class="task-reward">☀️ +5</span>
+                  
+                  <span class="task-tag">待完成</span>
+                </div>
+              </div>
+            </div><div class="task-card" onclick="toggleTask('c3t5',event)" title="一次性任务">
+              <div class="task-check"></div>
+              <div class="task-info">
+                <div class="task-name">拼音总复习与综合测试</div>
+                <div class="task-meta">
+                  <span class="task-reward">☀️ +5</span>
+                  
+                  <span class="task-tag">待完成</span>
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>
+      <div class="unit-section">
+        <div class="unit-title">第四单元 · 课文（1）
+          <span style="font-size:.75rem;font-weight:400;color:var(--muted)">0/5</span>
+        </div>
+        <div class="unit-progress-wrap" style="margin-bottom:12px">
+          <div class="unit-progress-fill" style="width:0%;background:#FF6B6B"></div>
+        </div>
+        <div class="task-grid">
+          <div class="task-card" onclick="toggleTask('c4t1',event)" title="一次性任务">
+              <div class="task-check"></div>
+              <div class="task-info">
+                <div class="task-name">《秋天》朗读与生字学习</div>
+                <div class="task-meta">
+                  <span class="task-reward">☀️ +5</span>
+                  
+                  <span class="task-tag">待完成</span>
+                </div>
+              </div>
+            </div><div class="task-card" onclick="toggleTask('c4t2',event)" title="一次性任务">
+              <div class="task-check"></div>
+              <div class="task-info">
+                <div class="task-name">《小小的船》朗读与背诵</div>
+                <div class="task-meta">
+                  <span class="task-reward">☀️ +5</span>
+                  
+                  <span class="task-tag">待完成</span>
+                </div>
+              </div>
+            </div><div class="task-card" onclick="toggleTask('c4t3',event)" title="一次性任务">
+              <div class="task-check"></div>
+              <div class="task-info">
+                <div class="task-name">《四季》课文学习与仿说</div>
+                <div class="task-meta">
+                  <span class="task-reward">☀️ +5</span>
+                  
+                  <span class="task-tag">待完成</span>
+                </div>
+              </div>
+            </div><div class="task-card" onclick="toggleTask('c4t4',event)" title="一次性任务">
+              <div class="task-check"></div>
+              <div class="task-info">
+                <div class="task-name">《江南》朗读与背诵</div>
+                <div class="task-meta">
+                  <span class="task-reward">☀️ +5</span>
+                  
+                  <span class="task-tag">待完成</span>
+                </div>
+              </div>
+            </div><div class="task-card" onclick="toggleTask('c4t5',event)" title="一次性任务">
+              <div class="task-check"></div>
+              <div class="task-info">
+                <div class="task-name">语文园地四 复习巩固</div>
+                <div class="task-meta">
+                  <span class="task-reward">☀️ +5</span>
+                  
+                  <span class="task-tag">待完成</span>
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>
+      <div class="unit-section">
+        <div class="unit-title">第五单元 · 识字（1）
+          <span style="font-size:.75rem;font-weight:400;color:var(--muted)">0/5</span>
+        </div>
+        <div class="unit-progress-wrap" style="margin-bottom:12px">
+          <div class="unit-progress-fill" style="width:0%;background:#FF6B6B"></div>
+        </div>
+        <div class="task-grid">
+          <div class="task-card" onclick="toggleTask('c5t1',event)" title="一次性任务">
+              <div class="task-check"></div>
+              <div class="task-info">
+                <div class="task-name">《画》古诗朗读与背诵</div>
+                <div class="task-meta">
+                  <span class="task-reward">☀️ +5</span>
+                  
+                  <span class="task-tag">待完成</span>
+                </div>
+              </div>
+            </div><div class="task-card" onclick="toggleTask('c5t2',event)" title="一次性任务">
+              <div class="task-check"></div>
+              <div class="task-info">
+                <div class="task-name">学习反义词（远-近、高-低等）</div>
+                <div class="task-meta">
+                  <span class="task-reward">☀️ +5</span>
+                  
+                  <span class="task-tag">待完成</span>
+                </div>
+              </div>
+            </div><div class="task-card" onclick="toggleTask('c5t3',event)" title="一次性任务">
+              <div class="task-check"></div>
+              <div class="task-info">
+                <div class="task-name">《大小多少》量词学习</div>
+                <div class="task-meta">
+                  <span class="task-reward">☀️ +5</span>
+                  
+                  <span class="task-tag">待完成</span>
+                </div>
+              </div>
+            </div><div class="task-card" onclick="toggleTask('c5t4',event)" title="一次性任务">
+              <div class="task-check"></div>
+              <div class="task-info">
+                <div class="task-name">《小书包》认识文具名称</div>
+                <div class="task-meta">
+                  <span class="task-reward">☀️ +5</span>
+                  
+                  <span class="task-tag">待完成</span>
+                </div>
+              </div>
+            </div><div class="task-card" onclick="toggleTask('c5t5',event)" title="一次性任务">
+              <div class="task-check"></div>
+              <div class="task-info">
+                <div class="task-name">《日月明》会意字识字</div>
+                <div class="task-meta">
+                  <span class="task-reward">☀️ +5</span>
+                  
+                  <span class="task-tag">待完成</span>
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>
+      <div class="unit-section">
+        <div class="unit-title">第六单元 · 课文（2）
+          <span style="font-size:.75rem;font-weight:400;color:var(--muted)">0/4</span>
+        </div>
+        <div class="unit-progress-wrap" style="margin-bottom:12px">
+          <div class="unit-progress-fill" style="width:0%;background:#FF6B6B"></div>
+        </div>
+        <div class="task-grid">
+          <div class="task-card" onclick="toggleTask('c6t1',event)" title="一次性任务">
+              <div class="task-check"></div>
+              <div class="task-info">
+                <div class="task-name">《影子》朗读与生字学习</div>
+                <div class="task-meta">
+                  <span class="task-reward">☀️ +5</span>
+                  
+                  <span class="task-tag">待完成</span>
+                </div>
+              </div>
+            </div><div class="task-card" onclick="toggleTask('c6t2',event)" title="一次性任务">
+              <div class="task-check"></div>
+              <div class="task-info">
+                <div class="task-name">《比尾巴》朗读与背诵</div>
+                <div class="task-meta">
+                  <span class="task-reward">☀️ +5</span>
+                  
+                  <span class="task-tag">待完成</span>
+                </div>
+              </div>
+            </div><div class="task-card" onclick="toggleTask('c6t3',event)" title="一次性任务">
+              <div class="task-check"></div>
+              <div class="task-info">
+                <div class="task-name">学习问号、感叹号的读法</div>
+                <div class="task-meta">
+                  <span class="task-reward">☀️ +5</span>
+                  
+                  <span class="task-tag">待完成</span>
+                </div>
+              </div>
+            </div><div class="task-card" onclick="toggleTask('c6t4',event)" title="一次性任务">
+              <div class="task-check"></div>
+              <div class="task-info">
+                <div class="task-name">语文园地六 复习巩固</div>
+                <div class="task-meta">
+                  <span class="task-reward">☀️ +5</span>
+                  
+                  <span class="task-tag">待完成</span>
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>
+      <div class="unit-section">
+        <div class="unit-title">第七单元 · 课文（3）
+          <span style="font-size:.75rem;font-weight:400;color:var(--muted)">0/4</span>
+        </div>
+        <div class="unit-progress-wrap" style="margin-bottom:12px">
+          <div class="unit-progress-fill" style="width:0%;background:#FF6B6B"></div>
+        </div>
+        <div class="task-grid">
+          <div class="task-card" onclick="toggleTask('c7t1',event)" title="一次性任务">
+              <div class="task-check"></div>
+              <div class="task-info">
+                <div class="task-name">《明天要远足》朗读与识字</div>
+                <div class="task-meta">
+                  <span class="task-reward">☀️ +5</span>
+                  
+                  <span class="task-tag">待完成</span>
+                </div>
+              </div>
+            </div><div class="task-card" onclick="toggleTask('c7t2',event)" title="一次性任务">
+              <div class="task-check"></div>
+              <div class="task-info">
+                <div class="task-name">《大还是小》阅读理解</div>
+                <div class="task-meta">
+                  <span class="task-reward">☀️ +5</span>
+                  
+                  <span class="task-tag">待完成</span>
+                </div>
+              </div>
+            </div><div class="task-card" onclick="toggleTask('c7t3',event)" title="一次性任务">
+              <div class="task-check"></div>
+              <div class="task-info">
+                <div class="task-name">《项链》朗读与好词积累</div>
+                <div class="task-meta">
+                  <span class="task-reward">☀️ +5</span>
+                  
+                  <span class="task-tag">待完成</span>
+                </div>
+              </div>
+            </div><div class="task-card" onclick="toggleTask('c7t4',event)" title="一次性任务">
+              <div class="task-check"></div>
+              <div class="task-info">
+                <div class="task-name">语文园地七 复习巩固</div>
+                <div class="task-meta">
+                  <span class="task-reward">☀️ +5</span>
+                  
+                  <span class="task-tag">待完成</span>
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>
+      <div class="unit-section">
+        <div class="unit-title">第八单元 · 课文（4）
+          <span style="font-size:.75rem;font-weight:400;color:var(--muted)">0/4</span>
+        </div>
+        <div class="unit-progress-wrap" style="margin-bottom:12px">
+          <div class="unit-progress-fill" style="width:0%;background:#FF6B6B"></div>
+        </div>
+        <div class="task-grid">
+          <div class="task-card" onclick="toggleTask('c8t1',event)" title="一次性任务">
+              <div class="task-check"></div>
+              <div class="task-info">
+                <div class="task-name">《雪地里的小画家》朗读与背诵</div>
+                <div class="task-meta">
+                  <span class="task-reward">☀️ +5</span>
+                  
+                  <span class="task-tag">待完成</span>
+                </div>
+              </div>
+            </div><div class="task-card" onclick="toggleTask('c8t2',event)" title="一次性任务">
+              <div class="task-check"></div>
+              <div class="task-info">
+                <div class="task-name">《乌鸦喝水》朗读与故事复述</div>
+                <div class="task-meta">
+                  <span class="task-reward">☀️ +5</span>
+                  
+                  <span class="task-tag">待完成</span>
+                </div>
+              </div>
+            </div><div class="task-card" onclick="toggleTask('c8t3',event)" title="一次性任务">
+              <div class="task-check"></div>
+              <div class="task-info">
+                <div class="task-name">《小蜗牛》看图说话</div>
+                <div class="task-meta">
+                  <span class="task-reward">☀️ +5</span>
+                  
+                  <span class="task-tag">待完成</span>
+                </div>
+              </div>
+            </div><div class="task-card" onclick="toggleTask('c8t4',event)" title="一次性任务">
+              <div class="task-check"></div>
+              <div class="task-info">
+                <div class="task-name">语文园地八 期末复习</div>
+                <div class="task-meta">
+                  <span class="task-reward">☀️ +5</span>
+                  
+                  <span class="task-tag">待完成</span>
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>
+  </div>
+  <div id="checkinView" class="view active">
+    <div class="checkin-container">
+      <div class="checkin-card">
+        <div class="checkin-title">📅 每日打卡</div>
+        <div class="checkin-subtitle">每天坚持打卡，获得 20 阳光！</div>
+        <button class="checkin-btn checked" onclick="doCheckin()">
+          <span class="btn-icon">✅</span>
+          <span class="btn-text">已打卡</span>
+        </button>
+        <div style="font-size:.85rem;color:var(--muted);margin-bottom:16px">
+          今天已完成打卡，真棒！
+        </div>
+        <div class="streak-display">
+          <div class="streak-item">
+            <div class="streak-num">1</div>
+            <div class="streak-label">连续天数 🔥</div>
+          </div>
+          <div class="streak-item">
+            <div class="streak-num">1</div>
+            <div class="streak-label">累计打卡 📆</div>
+          </div>
+          <div class="streak-item">
+            <div class="streak-num">20</div>
+            <div class="streak-label">打卡获得 ☀️</div>
+          </div>
+        </div>
+      </div>
+      <div class="checkin-calendar">
+        <div class="calendar-title">2026年10月 打卡日历</div>
+        <div class="calendar-grid"><div class="calendar-header">日</div><div class="calendar-header">一</div><div class="calendar-header">二</div><div class="calendar-header">三</div><div class="calendar-header">四</div><div class="calendar-header">五</div><div class="calendar-header">六</div><div class="calendar-day empty"></div><div class="calendar-day empty"></div><div class="calendar-day empty"></div><div class="calendar-day empty"></div><div class="calendar-day">1</div><div class="calendar-day">2</div><div class="calendar-day">3</div><div class="calendar-day">4</div><div class="calendar-day">5</div><div class="calendar-day">6</div><div class="calendar-day">7</div><div class="calendar-day">8</div><div class="calendar-day">9</div><div class="calendar-day">10</div><div class="calendar-day">11</div><div class="calendar-day">12</div><div class="calendar-day">13</div><div class="calendar-day">14</div><div class="calendar-day">15</div><div class="calendar-day">16</div><div class="calendar-day">17</div><div class="calendar-day">18</div><div class="calendar-day">19</div><div class="calendar-day current checked">20</div><div class="calendar-day">21</div><div class="calendar-day">22</div><div class="calendar-day">23</div><div class="calendar-day">24</div><div class="calendar-day">25</div><div class="calendar-day">26</div><div class="calendar-day">27</div><div class="calendar-day">28</div><div class="calendar-day">29</div><div class="calendar-day">30</div><div class="calendar-day">31</div></div>
+      </div>
+    </div>
+  </div>
+  <div id="shopView" class="view">
+    <div class="shop-container">
+      <div class="shop-header">
+        <div class="shop-header-left">
+          <span style="font-size:1.5rem">🏪</span>
+          <div>
+            <div class="shop-header-title">阳光兑换商店</div>
+            <div class="shop-header-sub">当前余额：️ 35 阳光</div>
+          </div>
+        </div>
+      </div>
+      <div class="shop-tabs">
+            <div class="shop-tab active" onclick="switchShopTab('shop')">🏪 兑换商店</div>
+            <div class="shop-tab" onclick="switchShopTab('history')">📋 兑换记录</div>
+          </div>
+          
+          <div class="shop-note">
+            📋 兑换规则由家长和孩子提前商量约定，本工具只做积分记账，不自动放行奖励。
+          </div>
+          <div class="shop-grid">
+            <div class="shop-card" style="position:relative">
+                
+                <div class="shop-emoji">📺</div>
+                <div class="shop-name">看一集动画片</div>
+                <div class="shop-price">☀️ 60 阳光</div>
+                <button class="shop-btn redeem" disabled="" onclick="redeemReward('r1',60,'看一集动画片','📺')">
+                  阳光不足
+                </button>
+                <div class="shop-redeemed-count">已兑换 2 次</div>
+              </div><div class="shop-card" style="position:relative">
+                
+                <div class="shop-emoji">🎮</div>
+                <div class="shop-name">玩30分钟游戏</div>
+                <div class="shop-price">☀️ 120 阳光</div>
+                <button class="shop-btn redeem" disabled="" onclick="redeemReward('r2',120,'玩30分钟游戏','🎮')">
+                  阳光不足
+                </button>
+                
+              </div><div class="shop-card" style="position:relative">
+                
+                <div class="shop-emoji">🎡</div>
+                <div class="shop-name">周末外出游玩</div>
+                <div class="shop-price">☀️ 300 阳光</div>
+                <button class="shop-btn redeem" disabled="" onclick="redeemReward('r3',300,'周末外出游玩','🎡')">
+                  阳光不足
+                </button>
+                
+              </div>
+          </div>
+          <div class="add-reward-section">
+            <div class="add-reward-title">✨ 自定义奖励</div>
+            <div class="add-reward-form">
+              <input class="form-emoji" id="newRewardEmoji" placeholder="表情" maxlength="2">
+              <input class="form-name" id="newRewardName" placeholder="奖励名称" maxlength="20">
+              <input class="form-price" id="newRewardPrice" type="number" placeholder="阳光" min="1" max="9999">
+              <button onclick="addCustomReward()">添加</button>
+            </div>
+          </div>
+          
+    </div>
+  </div>
+  <!-- SHOP FLOATING PANEL -->
+  <div class="shop-floating-panel collapsed" id="shopFloatingPanel">
+    <div class="shop-floating-header" onclick="toggleShopPanel()">
+      <div class="shop-floating-title">🏪 阳光兑换商店</div>
+      <div class="shop-floating-toggle" id="shopToggleText">展开</div>
+    </div>
+    <div class="shop-floating-body" id="shopFloatingBody"><div class="shop-floating-item">
+      <div class="shop-floating-item-name">📺 看一集动画片</div>
+      <div class="shop-floating-item-redeemed">已兑换 0 次</div>
+      <div class="shop-floating-item-footer">
+        <div class="shop-floating-price">️ 60</div>
+        <button class="shop-floating-btn " disabled="" onclick="redeemReward('r1',60,'看一集动画片','📺')">
+          阳光不足
+        </button>
+      </div>
+    </div><div class="shop-floating-item">
+      <div class="shop-floating-item-name">🍦 可以吃1个冰激凌</div>
+      <div class="shop-floating-item-redeemed">已兑换 0 次</div>
+      <div class="shop-floating-item-footer">
+        <div class="shop-floating-price">️ 60</div>
+        <button class="shop-floating-btn " disabled="" onclick="redeemReward('r6',60,'可以吃1个冰激凌','🍦')">
+          阳光不足
+        </button>
+      </div>
+    </div><div class="shop-floating-item">
+      <div class="shop-floating-item-name">🎮 玩30min游戏</div>
+      <div class="shop-floating-item-redeemed">已兑换 0 次</div>
+      <div class="shop-floating-item-footer">
+        <div class="shop-floating-price">️ 120</div>
+        <button class="shop-floating-btn " disabled="" onclick="redeemReward('r2',120,'玩30min游戏','🎮')">
+          阳光不足
+        </button>
+      </div>
+    </div><div class="shop-floating-item">
+      <div class="shop-floating-item-name">🎁 买一件不超过50元的礼品</div>
+      <div class="shop-floating-item-redeemed">已兑换 0 次</div>
+      <div class="shop-floating-item-footer">
+        <div class="shop-floating-price">️ 200</div>
+        <button class="shop-floating-btn " disabled="" onclick="redeemReward('r3',200,'买一件不超过50元的礼品','🎁')">
+          阳光不足
+        </button>
+      </div>
+    </div><div class="shop-floating-item">
+      <div class="shop-floating-item-name">🛏️ 换1次爸妈陪睡</div>
+      <div class="shop-floating-item-redeemed">已兑换 0 次</div>
+      <div class="shop-floating-item-footer">
+        <div class="shop-floating-price">️ 200</div>
+        <button class="shop-floating-btn " disabled="" onclick="redeemReward('r5',200,'换1次爸妈陪睡','🛏️')">
+          阳光不足
+        </button>
+      </div>
+    </div><div class="shop-floating-item">
+      <div class="shop-floating-item-name">✈️ 换1次外地旅游</div>
+      <div class="shop-floating-item-redeemed">已兑换 0 次</div>
+      <div class="shop-floating-item-footer">
+        <div class="shop-floating-price">️ 500</div>
+        <button class="shop-floating-btn " disabled="" onclick="redeemReward('r4',500,'换1次外地旅游','✈️')">
+          阳光不足
+        </button>
+      </div>
+    </div></div>
+  </div>
+  <div id="dataView" class="view">
+    <div class="data-container">
+      <div class="data-card">
+        <div class="data-card-title">📊 学习统计</div>
+        <div class="data-stats">
+          <div class="stat-card">
+            <div class="stat-num">0</div>
+            <div class="stat-label">当前阳光</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num">0/150</div>
+            <div class="stat-label">完成任务</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num">0</div>
+            <div class="stat-label">连续打卡</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num">0</div>
+            <div class="stat-label">累计打卡</div>
+          </div>
+        </div>
+      </div>
+      <div class="data-card">
+        <div class="data-card-title">📤 导出数据</div>
+        <p>将所有学习数据导出为 JSON 文件，可用于备份或迁移到其他浏览器/设备。</p>
+        <button class="data-btn export" onclick="exportData()">📤 导出数据</button>
+      </div>
+      <div class="data-card">
+        <div class="data-card-title">📥 导入数据</div>
+        <p>从 JSON 文件导入学习数据。注意：导入将覆盖当前所有数据。</p>
+        <button class="data-btn import" onclick="document.getElementById('fileInput').click()">📥 选择文件导入</button>
+      </div>
+      <div class="data-card">
+        <div class="data-card-title">🗑️ 重置数据</div>
+        <p>清除所有学习数据，恢复到初始状态。此操作不可撤销！</p>
+        <button class="data-btn reset" onclick="confirmReset()">🗑️ 重置所有数据</button>
+      </div>
+    </div>
+  </div>
+  <!-- TIMETABLE VIEW -->
+  <div id="timetableView" class="view"><div class="timetable-container"><div class="timetable-hero"><div><div class="timetable-title">🗓️ 周课程表</div><div class="timetable-subtitle">用日历和全天时间轴安排课程。</div></div><button class="timetable-btn" onclick="createTimetable()">＋ 创建课表</button></div><div class="timetable-card"><div class="timetable-card-title">🕘 历史课表（0）</div><div class="history-list"><div class="timetable-empty">还没有历史课表。每次保存不同版本时，原课表会自动保存在这里。</div></div></div></div></div>
+  <!-- MANAGE VIEW -->
+  <div id="manageView" class="view">
+    <div class="manage-container">
+      <div class="manage-header">
+        <div class="manage-header-left">
+          <span style="font-size:1.5rem">⚙️</span>
+          <div>
+            <div class="manage-header-title">学习内容管理</div>
+            <div class="manage-header-sub">自定义科目、单元和任务</div>
+          </div>
+        </div>
+        <button class="manage-add-btn" onclick="showAddSubjectModal()">+ 添加科目</button>
+      </div>
+      
+      <div class="manage-sections">
+        <div class="manage-section">
+          <div class="manage-section-title">📚 默认科目</div>
+          <div class="manage-subject-list" id="defaultSubjectList">
+    <div class="manage-subject-item">
+      <div class="manage-subject-icon">📖</div>
+      <div class="manage-subject-info">
+        <div class="manage-subject-name">语文</div>
+        <div class="manage-subject-units">8 个单元 · 37 个任务</div>
+      </div>
+      <div class="manage-subject-actions">
+        <button class="manage-action-btn view" onclick="viewSubject('chinese')" title="查看">👁️</button>
+        <button class="manage-action-btn edit" onclick="editSubject('default','chinese')" title="编辑">✏️</button>
+        <button class="manage-action-btn delete" onclick="deleteDefaultSubject('chinese')" title="删除">🗑️</button>
+      </div>
+    </div>
+  
+    <div class="manage-subject-item">
+      <div class="manage-subject-icon">🔢</div>
+      <div class="manage-subject-info">
+        <div class="manage-subject-name">数学</div>
+        <div class="manage-subject-units">3 个单元 · 14 个任务</div>
+      </div>
+      <div class="manage-subject-actions">
+        <button class="manage-action-btn view" onclick="viewSubject('math')" title="查看">👁️</button>
+        <button class="manage-action-btn edit" onclick="editSubject('default','math')" title="编辑">✏️</button>
+        <button class="manage-action-btn delete" onclick="deleteDefaultSubject('math')" title="删除">🗑️</button>
+      </div>
+    </div>
+  
+    <div class="manage-subject-item">
+      <div class="manage-subject-icon">🔤</div>
+      <div class="manage-subject-info">
+        <div class="manage-subject-name">英语</div>
+        <div class="manage-subject-units">5 个单元 · 46 个任务</div>
+      </div>
+      <div class="manage-subject-actions">
+        <button class="manage-action-btn view" onclick="viewSubject('english')" title="查看">👁️</button>
+        <button class="manage-action-btn edit" onclick="editSubject('default','english')" title="编辑">✏️</button>
+        <button class="manage-action-btn delete" onclick="deleteDefaultSubject('english')" title="删除">🗑️</button>
+      </div>
+    </div>
+  
+    <div class="manage-subject-item">
+      <div class="manage-subject-icon">🔬</div>
+      <div class="manage-subject-info">
+        <div class="manage-subject-name">科学</div>
+        <div class="manage-subject-units">3 个单元 · 15 个任务</div>
+      </div>
+      <div class="manage-subject-actions">
+        <button class="manage-action-btn view" onclick="viewSubject('science')" title="查看">👁️</button>
+        <button class="manage-action-btn edit" onclick="editSubject('default','science')" title="编辑">✏️</button>
+        <button class="manage-action-btn delete" onclick="deleteDefaultSubject('science')" title="删除">🗑️</button>
+      </div>
+    </div>
+  
+    <div class="manage-subject-item">
+      <div class="manage-subject-icon">🌈</div>
+      <div class="manage-subject-info">
+        <div class="manage-subject-name">道法</div>
+        <div class="manage-subject-units">3 个单元 · 12 个任务</div>
+      </div>
+      <div class="manage-subject-actions">
+        <button class="manage-action-btn view" onclick="viewSubject('moral')" title="查看">👁️</button>
+        <button class="manage-action-btn edit" onclick="editSubject('default','moral')" title="编辑">✏️</button>
+        <button class="manage-action-btn delete" onclick="deleteDefaultSubject('moral')" title="删除">🗑️</button>
+      </div>
+    </div>
+  
+    <div class="manage-subject-item">
+      <div class="manage-subject-icon">⚽</div>
+      <div class="manage-subject-info">
+        <div class="manage-subject-name">体育</div>
+        <div class="manage-subject-units">3 个单元 · 8 个任务</div>
+      </div>
+      <div class="manage-subject-actions">
+        <button class="manage-action-btn view" onclick="viewSubject('pe')" title="查看">👁️</button>
+        <button class="manage-action-btn edit" onclick="editSubject('default','pe')" title="编辑">✏️</button>
+        <button class="manage-action-btn delete" onclick="deleteDefaultSubject('pe')" title="删除">🗑️</button>
+      </div>
+    </div>
+  
+    <div class="manage-subject-item">
+      <div class="manage-subject-icon">🎨</div>
+      <div class="manage-subject-info">
+        <div class="manage-subject-name">音美</div>
+        <div class="manage-subject-units">3 个单元 · 9 个任务</div>
+      </div>
+      <div class="manage-subject-actions">
+        <button class="manage-action-btn view" onclick="viewSubject('art')" title="查看">👁️</button>
+        <button class="manage-action-btn edit" onclick="editSubject('default','art')" title="编辑">✏️</button>
+        <button class="manage-action-btn delete" onclick="deleteDefaultSubject('art')" title="删除">🗑️</button>
+      </div>
+    </div>
+  
+    <div class="manage-subject-item">
+      <div class="manage-subject-icon">🧩</div>
+      <div class="manage-subject-info">
+        <div class="manage-subject-name">综合</div>
+        <div class="manage-subject-units">3 个单元 · 9 个任务</div>
+      </div>
+      <div class="manage-subject-actions">
+        <button class="manage-action-btn view" onclick="viewSubject('comp')" title="查看">👁️</button>
+        <button class="manage-action-btn edit" onclick="editSubject('default','comp')" title="编辑">✏️</button>
+        <button class="manage-action-btn delete" onclick="deleteDefaultSubject('comp')" title="删除">🗑️</button>
+      </div>
+    </div>
+  </div>
+        </div>
+        
+        <div class="manage-section">
+          <div class="manage-section-title">✨ 自定义科目</div>
+          <div class="manage-subject-list" id="customSubjectList"></div>
+          <div class="manage-empty" id="customSubjectEmpty" style="display: block;">
+            <div style="font-size:2rem;margin-bottom:8px"></div>
+            <div style="color:var(--muted);font-size:.9rem">还没有自定义科目，点击上方按钮添加</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- TOAST -->
+<div class="toast success" id="toast">打卡成功！+20 阳光 ☀️</div>
+<!-- CONFETTI -->
+<div class="confetti-container" id="confetti"></div>
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal" id="modal">
+    <div class="modal-icon" id="modalIcon" style="display: block;">⚠️</div>
+    <div class="modal-title" id="modalTitle" style="text-align: center;">编辑科目：道法</div>
+    <div class="modal-text" id="modalText">
+    <div class="manage-form-group">
+      <label class="manage-form-label">科目名称</label>
+      <input type="text" class="manage-form-input" id="editSubjectName" value="道法">
+    </div>
+    <div class="manage-form-group">
+      <label class="manage-form-label">图标 (emoji)</label>
+      <input type="text" class="manage-form-input" id="editSubjectIcon" value="🌈" maxlength="2">
+    </div>
+    <div class="manage-form-group">
+      <label class="manage-form-label">主题颜色</label>
+      <input type="color" class="manage-form-input" id="editSubjectColor" value="#FB923C" style="height:44px;padding:4px;">
+    </div>
+    <div class="manage-form-group">
+      <label class="manage-form-label">单元和任务</label>
+      <div class="manage-unit-list" id="editUnitList">
+        
+    <div class="manage-unit-item">
+      <div class="manage-unit-header">
+        <div class="manage-unit-name">第一单元 · 认识新朋友</div>
+        <button class="manage-task-delete" onclick="deleteUnit(0)" title="删除单元">✕</button>
+      </div>
+      <div class="manage-task-list">
+        
+          <div class="manage-task-item">
+            <div class="manage-task-name">自我介绍，认识3个新朋友</div>
+            <button class="manage-task-delete" onclick="deleteTaskByIndex(0, 0)" title="删除任务">✕</button>
+          </div>
+        
+          <div class="manage-task-item">
+            <div class="manage-task-name">记住同学的名字</div>
+            <button class="manage-task-delete" onclick="deleteTaskByIndex(0, 1)" title="删除任务">✕</button>
+          </div>
+        
+          <div class="manage-task-item">
+            <div class="manage-task-name">和同学一起做游戏</div>
+            <button class="manage-task-delete" onclick="deleteTaskByIndex(0, 2)" title="删除任务">✕</button>
+          </div>
+        
+          <div class="manage-task-item">
+            <div class="manage-task-name">学会礼貌用语</div>
+            <button class="manage-task-delete" onclick="deleteTaskByIndex(0, 3)" title="删除任务">✕</button>
+          </div>
+        
+        <button class="manage-add-unit-btn" onclick="addTaskToUnit(0)" style="margin-top:6px;padding:6px;font-size:.8rem;">+ 添加任务</button>
+      </div>
+    </div>
+  
+    <div class="manage-unit-item">
+      <div class="manage-unit-header">
+        <div class="manage-unit-name">第二单元 · 校园小主人</div>
+        <button class="manage-task-delete" onclick="deleteUnit(1)" title="删除单元">✕</button>
+      </div>
+      <div class="manage-task-list">
+        
+          <div class="manage-task-item">
+            <div class="manage-task-name">熟悉校园各个场所</div>
+            <button class="manage-task-delete" onclick="deleteTaskByIndex(1, 0)" title="删除任务">✕</button>
+          </div>
+        
+          <div class="manage-task-item">
+            <div class="manage-task-name">了解课堂规则和课间规则</div>
+            <button class="manage-task-delete" onclick="deleteTaskByIndex(1, 1)" title="删除任务">✕</button>
+          </div>
+        
+          <div class="manage-task-item">
+            <div class="manage-task-name">学习整理书包和课桌</div>
+            <button class="manage-task-delete" onclick="deleteTaskByIndex(1, 2)" title="删除任务">✕</button>
+          </div>
+        
+          <div class="manage-task-item">
+            <div class="manage-task-name">爱护校园环境</div>
+            <button class="manage-task-delete" onclick="deleteTaskByIndex(1, 3)" title="删除任务">✕</button>
+          </div>
+        
+        <button class="manage-add-unit-btn" onclick="addTaskToUnit(1)" style="margin-top:6px;padding:6px;font-size:.8rem;">+ 添加任务</button>
+      </div>
+    </div>
+  
+    <div class="manage-unit-item">
+      <div class="manage-unit-header">
+        <div class="manage-unit-name">第三单元 · 安全自护</div>
+        <button class="manage-task-delete" onclick="deleteUnit(2)" title="删除单元">✕</button>
+      </div>
+      <div class="manage-task-list">
+        
+          <div class="manage-task-item">
+            <div class="manage-task-name">认识交通安全标志</div>
+            <button class="manage-task-delete" onclick="deleteTaskByIndex(2, 0)" title="删除任务">✕</button>
+          </div>
+        
+          <div class="manage-task-item">
+            <div class="manage-task-name">学会安全上下学</div>
+            <button class="manage-task-delete" onclick="deleteTaskByIndex(2, 1)" title="删除任务">✕</button>
+          </div>
+        
+          <div class="manage-task-item">
+            <div class="manage-task-name">不跟陌生人走</div>
+            <button class="manage-task-delete" onclick="deleteTaskByIndex(2, 2)" title="删除任务">✕</button>
+          </div>
+        
+          <div class="manage-task-item">
+            <div class="manage-task-name">记住家庭地址和电话</div>
+            <button class="manage-task-delete" onclick="deleteTaskByIndex(2, 3)" title="删除任务">✕</button>
+          </div>
+        
+        <button class="manage-add-unit-btn" onclick="addTaskToUnit(2)" style="margin-top:6px;padding:6px;font-size:.8rem;">+ 添加任务</button>
+      </div>
+    </div>
+  
+      </div>
+      <button class="manage-add-unit-btn" onclick="addUnit()">+ 添加单元</button>
+    </div>
+  </div>
+    <div class="modal-btns" id="modalBtns">
+    <button class="modal-btn cancel" onclick="closeManageModal()">取消</button>
+    <button class="modal-btn confirm" onclick="saveSubjectEdit()">保存</button>
+  </div>
+  </div>
+</div>
+<!-- HIDDEN FILE INPUT -->
+<input type="file" id="fileInput" accept=".json" style="display:none" onchange="handleImport(event)">
+
+<script>
+/* The enlarged type scale needs a matching calendar grid rhythm. */
+const SCHEDULE_SLOT_HEIGHT=56, SCHEDULE_HEADER_HEIGHT=76;
+function scheduleGrid(table,readOnly=false){const events=eventsForVisibleWeek(table),selected=scheduleSelection,weekStart=currentWeekStart(),now=new Date(),nowKey=dateKey(now),showNow=weekStartFor(nowKey)===weekStart,nowOffset=SCHEDULE_HEADER_HEIGHT+(now.getHours()*2+now.getMinutes()/30)*SCHEDULE_SLOT_HEIGHT;const labels=Array.from({length:48},(_,slot)=>`<div class="schedule-time-label${slot%2===0?' hour':''}">${clockForSlot(slot)}</div>`).join('');const days=TIMETABLE_DAYS.map((day,d)=>{const dayKey=plusDays(weekStart,d),slots=Array.from({length:48},(_,slot)=>{const event=events.find(e=>e.day===d&&e.startSlot===slot),selectedClass=selected&&selected.day===d&&selected.slot===slot?' selected':'';const eventHtml=event?`<div class="schedule-event${d%2?' alt':''}" style="height:${Math.max(1,Math.min(event.duration,48-slot))*SCHEDULE_SLOT_HEIGHT-4}px">${safeText(event.title)}<br>${clockForSlot(event.startSlot)}–${clockForSlot(Math.min(48,event.startSlot+event.duration))}</div>`:'';const action=readOnly?'':` onclick="selectScheduleSlot(${d},${slot})" ondblclick="openCourseModal(${d},${slot})"`;return `<div class="schedule-slot${slot%2===0?' hour':''}${selectedClass}" data-schedule-slot="${d}-${slot}"${action}>${eventHtml}</div>`;}).join('');return `<div class="schedule-day-col"><div class="schedule-day-head">${day}<br><span style="font-size:14px">${dayKey.slice(5).replace('-','/')}</span></div>${slots}</div>`;}).join('');return `<div class="schedule-scroll"><div class="schedule-board"><div class="schedule-time-col"><div class="schedule-time-head">时间</div>${labels}</div>${days}${showNow?`<div class="current-time-line" style="top:${nowOffset}px"></div>`:''}</div></div>`;}
+function scrollScheduleToNow(){const scroll=document.querySelector('#timetableView .schedule-scroll');if(!scroll)return;const now=new Date(),slot=now.getHours()*2+(now.getMinutes()>=30?1:0);scroll.scrollTop=Math.max(0,slot*SCHEDULE_SLOT_HEIGHT-130);}
+function refreshCurrentTimeLine(){const line=document.querySelector('#timetableView .current-time-line');if(line){const now=new Date();line.style.top=(SCHEDULE_HEADER_HEIGHT+(now.getHours()*2+now.getMinutes()/30)*SCHEDULE_SLOT_HEIGHT)+'px';}}
+
+/* ===========================
+   CONSTANTS
+   =========================== */
+const POINTS_PER_TASK = 5;
+const POINTS_PER_CHECKIN = 20;
+
+const SUBJECTS = [
+  {
+    id:'chinese', name:'语文', icon:'📖',
+    color:'#FF6B6B', lightColor:'#FFE0E0',
+    units:[
+      {name:'第一单元 · 天地人', tasks:[
+        {id:'c1t1',name:'《天地人》课文预习'},
+        {id:'c1t2',name:'认识"天、地、人、你、我、他"'},
+        {id:'c1t3',name:'学写生字：天地人'},
+        {id:'c1t4',name:'《金木水火土》朗读与背诵'},
+        {id:'c1t5',name:'认识"一二三四五上下"'},
+      ]},
+      {name:'第二单元 · 汉语拼音（1）', tasks:[
+        {id:'c2t1',name:'学习单韵母 a o e'},
+        {id:'c2t2',name:'学习单韵母 i u ü'},
+        {id:'c2t3',name:'学习声母 b p m f'},
+        {id:'c2t4',name:'学习声母 d t n l'},
+        {id:'c2t5',name:'拼音拼读练习（第二单元）'},
+      ]},
+      {name:'第三单元 · 汉语拼音（2）', tasks:[
+        {id:'c3t1',name:'学习声母 g k h j q x'},
+        {id:'c3t2',name:'学习声母 zh ch sh r z c s'},
+        {id:'c3t3',name:'学习复韵母 ai ei ui ao ou iu'},
+        {id:'c3t4',name:'学习鼻韵母 an en in un ün'},
+        {id:'c3t5',name:'拼音总复习与综合测试'},
+      ]},
+      {name:'第四单元 · 课文（1）', tasks:[
+        {id:'c4t1',name:'《秋天》朗读与生字学习'},
+        {id:'c4t2',name:'《小小的船》朗读与背诵'},
+        {id:'c4t3',name:'《四季》课文学习与仿说'},
+        {id:'c4t4',name:'《江南》朗读与背诵'},
+        {id:'c4t5',name:'语文园地四 复习巩固'},
+      ]},
+      {name:'第五单元 · 识字（1）', tasks:[
+        {id:'c5t1',name:'《画》古诗朗读与背诵'},
+        {id:'c5t2',name:'学习反义词（远-近、高-低等）'},
+        {id:'c5t3',name:'《大小多少》量词学习'},
+        {id:'c5t4',name:'《小书包》认识文具名称'},
+        {id:'c5t5',name:'《日月明》会意字识字'},
+      ]},
+      {name:'第六单元 · 课文（2）', tasks:[
+        {id:'c6t1',name:'《影子》朗读与生字学习'},
+        {id:'c6t2',name:'《比尾巴》朗读与背诵'},
+        {id:'c6t3',name:'学习问号、感叹号的读法'},
+        {id:'c6t4',name:'语文园地六 复习巩固'},
+      ]},
+      {name:'第七单元 · 课文（3）', tasks:[
+        {id:'c7t1',name:'《明天要远足》朗读与识字'},
+        {id:'c7t2',name:'《大还是小》阅读理解'},
+        {id:'c7t3',name:'《项链》朗读与好词积累'},
+        {id:'c7t4',name:'语文园地七 复习巩固'},
+      ]},
+      {name:'第八单元 · 课文（4）', tasks:[
+        {id:'c8t1',name:'《雪地里的小画家》朗读与背诵'},
+        {id:'c8t2',name:'《乌鸦喝水》朗读与故事复述'},
+        {id:'c8t3',name:'《小蜗牛》看图说话'},
+        {id:'c8t4',name:'语文园地八 期末复习'},
+      ]},
+    ]
+  },
+  {
+    id:'math', name:'数学', icon:'🔢',
+    color:'#60A5FA', lightColor:'#DBEAFE',
+    units:[
+      {name:'第一单元 · 小数乘法', tasks:[
+        {id:'m1t1',name:'小数乘整数（如 0.8×3）'},
+        {id:'m1t2',name:'小数乘小数（如 0.5×0.6）'},
+        {id:'m1t3',name:'积的小数位数规律'},
+        {id:'m1t4',name:'小数乘法的验算方法'},
+        {id:'m1t5',name:'小数乘法应用题练习'},
+      ]},
+      {name:'第二单元 · 位置', tasks:[
+        {id:'m2t1',name:'认识行和列的概念'},
+        {id:'m2t2',name:'用数对表示位置（如第3列第2行）'},
+        {id:'m2t3',name:'在方格纸上确定物体位置'},
+        {id:'m2t4',name:'位置与方向综合练习'},
+      ]},
+      {name:'第三单元 · 小数除法', tasks:[
+        {id:'m3t1',name:'小数除以整数（如 6.4÷4）'},
+        {id:'m3t2',name:'除数是小数的除法'},
+        {id:'m3t3',name:'商的近似值（四舍五入）'},
+        {id:'m3t4',name:'认识循环小数'},
+        {id:'m3t5',name:'小数乘除法综合应用题'},
+      ]},
+    ]
+  },
+  {
+    id:'english', name:'英语', icon:'🔤',
+    color:'#34D399', lightColor:'#D1FAE5',
+    units:[
+      {name:'Module 1 · Getting ready', tasks:[
+        {id:'e1t1',name:'Hello! / Goodbye! 问候练习'},
+        {id:'e1t2',name:"I'm ___ 自我介绍"},
+        {id:'e1t3',name:'How are you? — Fine, thank you.'},
+        {id:'e1t4',name:'Module 1 歌曲跟唱'},
+      ]},
+      {name:'Module 2 · Using my five senses', tasks:[
+        {id:'e2t1',name:'I can see / hear / touch 句型'},
+        {id:'e2t2',name:'描述物体：big / small / long'},
+        {id:'e2t3',name:'Look and say 看图说话练习'},
+        {id:'e2t4',name:'Module 2 对话角色扮演'},
+      ]},
+      {name:'Module 3 · About me', tasks:[
+        {id:'e3t1',name:'My family 家庭成员词汇'},
+        {id:'e3t2',name:'I have ___ 描述自己'},
+        {id:'e3t3',name:'Numbers 1-10 数字歌'},
+        {id:'e3t4',name:'Module 3 绘本跟读'},
+      ]},
+      {name:'Module 4 · The natural world', tasks:[
+        {id:'e4t1',name:'In the park 公园词汇与句型'},
+        {id:'e4t2',name:'On the farm 农场动物词汇'},
+        {id:'e4t3',name:'Seasons 四季词汇与简单表达'},
+        {id:'e4t4',name:'Module 4 综合复习'},
+      ]},
+      {name:'RAZ-G 阅读计划', tasks:[
+        {id:'e5t1',name:'RAZ-G: A Big, Big Bug'},
+        {id:'e5t2',name:'RAZ-G: A New Pet'},
+        {id:'e5t3',name:'RAZ-G: Ants'},
+        {id:'e5t4',name:'RAZ-G: At the Beach'},
+        {id:'e5t5',name:'RAZ-G: Baby Animals'},
+        {id:'e5t6',name:'RAZ-G: Bats'},
+        {id:'e5t7',name:'RAZ-G: Bears'},
+        {id:'e5t8',name:'RAZ-G: Bugs'},
+        {id:'e5t9',name:'RAZ-G: Butterflies'},
+        {id:'e5t10',name:'RAZ-G: Cats'},
+        {id:'e5t11',name:'RAZ-G: Chickens'},
+        {id:'e5t12',name:'RAZ-G: Dogs'},
+        {id:'e5t13',name:'RAZ-G: Ducks'},
+        {id:'e5t14',name:'RAZ-G: Fish'},
+        {id:'e5t15',name:'RAZ-G: Frogs'},
+        {id:'e5t16',name:'RAZ-G: Horses'},
+        {id:'e5t17',name:'RAZ-G: Insects'},
+        {id:'e5t18',name:'RAZ-G: My Family'},
+        {id:'e5t19',name:'RAZ-G: My Friends'},
+        {id:'e5t20',name:'RAZ-G: My House'},
+        {id:'e5t21',name:'RAZ-G: My School'},
+        {id:'e5t22',name:'RAZ-G: Penguins'},
+        {id:'e5t23',name:'RAZ-G: Pigs'},
+        {id:'e5t24',name:'RAZ-G: Rabbits'},
+        {id:'e5t25',name:'RAZ-G: Snakes'},
+        {id:'e5t26',name:'RAZ-G: Spiders'},
+        {id:'e5t27',name:'RAZ-G: The Farm'},
+        {id:'e5t28',name:'RAZ-G: The Garden'},
+        {id:'e5t29',name:'RAZ-G: The Park'},
+        {id:'e5t30',name:'RAZ-G: The Zoo'},
+      ]},
+    ]
+  },
+  {
+    id:'science', name:'科学', icon:'🔬',
+    color:'#A78BFA', lightColor:'#EDE9FE',
+    units:[
+      {name:'第一单元 · 光', tasks:[
+        {id:'s1t1',name:'认识光源（太阳、灯泡、蜡烛）'},
+        {id:'s1t2',name:'光的直线传播实验'},
+        {id:'s1t3',name:'影子的形成与变化规律'},
+        {id:'s1t4',name:'光的反射现象（镜子实验）'},
+        {id:'s1t5',name:'光的折射现象（水中筷子）'},
+      ]},
+      {name:'第二单元 · 地球表面', tasks:[
+        {id:'s2t1',name:'认识地形：山地、平原、高原'},
+        {id:'s2t2',name:'观察河流与湖泊的特征'},
+        {id:'s2t3',name:'认识海洋与岛屿'},
+        {id:'s2t4',name:'制作简单地形模型'},
+        {id:'s2t5',name:'地球表面变化（风化与侵蚀）'},
+      ]},
+      {name:'第三单元 · 运动和力', tasks:[
+        {id:'s3t1',name:'认识各种运动形式（直线、曲线、旋转）'},
+        {id:'s3t2',name:'力可以改变物体的运动状态'},
+        {id:'s3t3',name:'认识重力与弹力'},
+        {id:'s3t4',name:'摩擦力实验（不同表面比较）'},
+        {id:'s3t5',name:'设计和制作小车'},
+      ]},
+    ]
+  },
+  {
+    id:'moral', name:'道法', icon:'🌈',
+    color:'#FB923C', lightColor:'#FFF7ED',
+    units:[
+      {name:'第一单元 · 认识新朋友', tasks:[
+        {id:'d1t1',name:'自我介绍，认识3个新朋友'},
+        {id:'d1t2',name:'记住同学的名字'},
+        {id:'d1t3',name:'和同学一起做游戏'},
+        {id:'d1t4',name:'学会礼貌用语'},
+      ]},
+      {name:'第二单元 · 校园小主人', tasks:[
+        {id:'d2t1',name:'熟悉校园各个场所'},
+        {id:'d2t2',name:'了解课堂规则和课间规则'},
+        {id:'d2t3',name:'学习整理书包和课桌'},
+        {id:'d2t4',name:'爱护校园环境'},
+      ]},
+      {name:'第三单元 · 安全自护', tasks:[
+        {id:'d3t1',name:'认识交通安全标志'},
+        {id:'d3t2',name:'学会安全上下学'},
+        {id:'d3t3',name:'不跟陌生人走'},
+        {id:'d3t4',name:'记住家庭地址和电话'},
+      ]},
+    ]
+  },
+  {
+    id:'pe', name:'体育', icon:'⚽',
+    color:'#4ECDC4', lightColor:'#D4F5F2',
+    units:[
+      {name:'游泳', tasks:[
+        {id:'p1t1',name:'游泳练习1次'},
+      ]},
+      {name:'跳绳练习', tasks:[
+        {id:'p2t1',name:'跳绳练习（连续50个）'},
+        {id:'p2t2',name:'跳绳练习（连续60个）'},
+        {id:'p2t3',name:'跳绳练习（连续70个）'},
+        {id:'p2t4',name:'跳绳练习（连续80个）'},
+        {id:'p2t5',name:'跳绳练习（连续90个）'},
+        {id:'p2t6',name:'跳绳练习（连续100个）'},
+      ]},
+      {name:'篮球', tasks:[
+        {id:'p3t1',name:'篮球练习1次'},
+      ]},
+    ]
+  },
+  {
+    id:'art', name:'音美', icon:'🎨',
+    color:'#F472B6', lightColor:'#FCE7F3',
+    units:[
+      {name:'第一单元 · 唱歌与节奏', tasks:[
+        {id:'a1t1',name:'学唱一首儿童歌曲'},
+        {id:'a1t2',name:'跟节拍拍手和跺脚'},
+        {id:'a1t3',name:'认识简单的音符（do re mi）'},
+      ]},
+      {name:'第二单元 · 绘画与色彩', tasks:[
+        {id:'a2t1',name:'用彩色画笔画一幅自画像'},
+        {id:'a2t2',name:'认识红黄蓝三原色'},
+        {id:'a2t3',name:'画一幅四季的画'},
+      ]},
+      {name:'第三单元 · 手工与创造', tasks:[
+        {id:'a3t1',name:'用彩纸做简单撕贴画'},
+        {id:'a3t2',name:'用橡皮泥捏一个小动物'},
+        {id:'a3t3',name:'折纸：折一只小船或飞机'},
+      ]},
+    ]
+  },
+  {
+    id:'comp', name:'综合', icon:'🧩',
+    color:'#FFD93D', lightColor:'#FFF8DC',
+    units:[
+      {name:'第一单元 · 巧手制作', tasks:[
+        {id:'x1t1',name:'制作一张手工贺卡'},
+        {id:'x1t2',name:'学习简单折纸（3种以上）'},
+        {id:'x1t3',name:'用废旧材料做小玩具'},
+      ]},
+      {name:'第二单元 · 我是小能手', tasks:[
+        {id:'x2t1',name:'学会整理书包'},
+        {id:'x2t2',name:'学会系鞋带'},
+        {id:'x2t3',name:'学会打扫自己的房间'},
+      ]},
+      {name:'第三单元 · 观察与发现', tasks:[
+        {id:'x3t1',name:'观察并记录一天的生活'},
+        {id:'x3t2',name:'画一张从家到学校的路线图'},
+        {id:'x3t3',name:'采访家人：他们小时候的童年'},
+      ]},
+    ]
+  },
+];
+
+const DEFAULT_SHOP = [
+  {id:'r1',name:'看一集动画片',emoji:'📺',price:60,type:'default'},
+  {id:'r6',name:'可以吃1个冰激凌',emoji:'🍦',price:60,type:'default'},
+  {id:'r2',name:'玩30min游戏',emoji:'🎮',price:120,type:'default'},
+  {id:'r3',name:'买一件不超过50元的礼品',emoji:'🎁',price:200,type:'default'},
+  {id:'r5',name:'换1次爸妈陪睡',emoji:'🛏️',price:200,type:'default'},
+  {id:'r4',name:'换1次外地旅游',emoji:'✈️',price:500,type:'default'},
+];
+
+/* ===========================
+   STATE
+   =========================== */
+
+/* 本地时区日期 key（YYYY-MM-DD）—— 需求6：跨天边界以系统时间所在时区为准 */
+function localDateKey(d){
+  d = d || new Date();
+  const y = d.getFullYear();
+  const m = String(d.getMonth()+1).padStart(2,'0');
+  const day = String(d.getDate()).padStart(2,'0');
+  return `${y}-${m}-${day}`;
+}
+
+/* 给所有旧任务模板补齐 repeatType 字段（默认 once），不会影响已完成历史 */
+function _migrateTaskTemplates(){
+  function walkSubjects(subjs){
+    if(!Array.isArray(subjs)) return;
+    subjs.forEach(s => {
+      if(!s || !Array.isArray(s.units)) return;
+      s.units.forEach(u => {
+        if(!Array.isArray(u.tasks)) return;
+        u.tasks.forEach(t => {
+          if(t && typeof t === 'object' && !('repeatType' in t)){
+            t.repeatType = 'once';
+          }
+        });
+      });
+    });
+  }
+  walkSubjects(SUBJECTS);
+  walkSubjects(state.customSubjects);
+}
+
+let state = loadState();
+
+function defaultState(){
+  return {
+    childName:'小朋友',
+    pageTitle:'阳光学习',
+    stars:0,
+    completedTasks:{},            // once 任务：{taskId:true}
+    taskHistory:{},               // daily 任务每日完成记录：{taskId: {'2026-10-20':true, ...}}
+    taskRewardGiven:{},           // 防止同一天重复发奖：{taskId: {'2026-10-20':true}}
+    checkin:{lastDate:'',streak:0,total:0,history:[]},
+    redeemedItems:{},
+    customRewards:[],
+    redemptionHistory:[],
+    customSubjects:[],
+    defaultSubjects:null,
+    deletedDefaultSubjects:[],
+    defaultShopEdits:{},
+    timetable:null,
+    timetableHistory:[]
+  };
+}
+
+function loadState(){
+  try{
+    const s = localStorage.getItem('study_workbench_v2');
+    if(s){
+      const parsed = JSON.parse(s);
+      const def = defaultState();
+      return {...def,...parsed, checkin:{...def.checkin,...(parsed.checkin||{})}};
+    }
+  }catch(e){console.error('Load error',e)}
+  return defaultState();
+}
+
+/* Apply saved default-subject edits back to the SUBJECTS array */
+function applyDefaultSubjectMods(){
+  if(state.defaultSubjects && Array.isArray(state.defaultSubjects)){
+    state.defaultSubjects.forEach(saved => {
+      const orig = SUBJECTS.find(s => s.id === saved.id);
+      if(orig) Object.assign(orig, JSON.parse(JSON.stringify(saved)));
+    });
+  }
+}
+applyDefaultSubjectMods();
+
+/* Apply saved default-shop edits back to the DEFAULT_SHOP array */
+function applyDefaultShopMods(){
+  if(state.defaultShopEdits && typeof state.defaultShopEdits === 'object'){
+    Object.keys(state.defaultShopEdits).forEach(id => {
+      const orig = DEFAULT_SHOP.find(r => r.id === id);
+      if(orig) Object.assign(orig, state.defaultShopEdits[id]);
+    });
+  }
+}
+applyDefaultShopMods();
+
+/* 最后：给所有任务模板补齐 repeatType，不触碰已完成历史（需求5） */
+_migrateTaskTemplates();
+
+function saveState(){
+  try{localStorage.setItem('study_workbench_v2',JSON.stringify(state))}
+  catch(e){console.error('Save error',e)}
+}
+
+/* ===========================
+   RENDERING
+   =========================== */
+let currentSubject = 'chinese';
+let currentView = 'subject';
+
+function render(){
+  renderSidebar();
+  if(currentView==='subject') renderSubjectView();
+  if(currentView==='checkin') renderCheckinView();
+  if(currentView==='shop') renderShopView();
+  if(currentView==='data') renderDataView();
+  if(currentView==='timetable') renderTimetableView();
+  if(currentView==='manage') renderManageView();
+  updateGlobalStats();
+}
+
+function getSubjectStats(subjectId){
+  const allSubjects = getAllSubjects();
+  const s = allSubjects.find(x=>x.id===subjectId);
+  if(!s) return {total:0,done:0,pct:0};
+  const today = localDateKey();
+  const total = s.units.reduce((a,u)=>a+u.tasks.length,0);
+  const done = s.units.reduce((a,u)=>a+u.tasks.filter(t=>{
+    const rt = t && t.repeatType === 'daily';
+    return rt ? !!(state.taskHistory[t.id] && state.taskHistory[t.id][today]) : !!state.completedTasks[t.id];
+  }).length,0);
+  return {total,done,pct:total?Math.round(done/total*100):0};
+}
+
+function getAllSubjects(){
+  const deleted = state.deletedDefaultSubjects || [];
+  const defaults = SUBJECTS.filter(s => !deleted.includes(s.id));
+  const custom = state.customSubjects || [];
+  return [...defaults, ...custom];
+}
+
+function renderSidebar(){
+  const nav = document.getElementById('sidebarNav');
+  const allSubjects = getAllSubjects();
+  const defaultIds = SUBJECTS.map(s=>s.id);
+  nav.innerHTML = allSubjects.map(s=>{
+    const st = getSubjectStats(s.id);
+    const isActive = currentSubject===s.id;
+    const isCustom = !defaultIds.includes(s.id);
+    const inlineStyle = isCustom ? `style="--sc:${s.color};--sl:${s.lightColor}"` : '';
+    return `<div class="nav-item${isActive?' active':''}" data-subject="${s.id}" onclick="selectSubject('${s.id}')" ${inlineStyle}>
+      <span class="nav-icon">${s.icon}</span>
+      <span class="nav-label">${s.name}</span>
+      <span class="nav-count">${st.done}/${st.total}</span>
+    </div>`;
+  }).join('');
+}
+
+function selectSubject(id){
+  currentSubject = id;
+  currentView = 'subject';
+  // Update CSS variables for subject color
+  const s = getAllSubjects().find(x=>x.id===id);
+  if(s){
+    document.documentElement.style.setProperty('--subject-color',s.color);
+    document.documentElement.style.setProperty('--subject-light',s.lightColor);
+  }
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.getElementById('subjectView').classList.add('active');
+  renderSidebar();
+  renderSubjectView();
+  updateGlobalStats();
+  closeSidebar();
+}
+
+function renderSubjectView(){
+  const allSubjects = getAllSubjects();
+  const s = allSubjects.find(x=>x.id===currentSubject);
+  if(!s) return;
+  const {total,done,pct} = getSubjectStats(s.id);
+  const today = localDateKey();
+
+  const el = document.getElementById('subjectView');
+  el.innerHTML = `
+    <div class="subject-header">
+      <div class="subject-icon">${s.icon}</div>
+      <div>
+        <div class="subject-title">${s.name}</div>
+        <div class="subject-subtitle">今日共 ${total} 个任务，已完成 ${done} 个</div>
+      </div>
+      <div class="subject-progress">
+        <div class="pct" style="color:${s.color}">${pct}%</div>
+        <div class="label">今日进度</div>
+      </div>
+    </div>
+    ${s.units.map(u=>{
+      const uTotal = u.tasks.length;
+      const uDone = u.tasks.filter(t=>{
+        const rt = t && t.repeatType === 'daily';
+        return rt ? !!(state.taskHistory[t.id] && state.taskHistory[t.id][today]) : !!state.completedTasks[t.id];
+      }).length;
+      const uPct = uTotal?Math.round(uDone/uTotal*100):0;
+      return `
+      <div class="unit-section">
+        <div class="unit-title">${u.name}
+          <span style="font-size:.75rem;font-weight:400;color:var(--muted)">${uDone}/${uTotal}</span>
+        </div>
+        <div class="unit-progress-wrap" style="margin-bottom:12px">
+          <div class="unit-progress-fill" style="width:${uPct}%;background:${s.color}"></div>
+        </div>
+        <div class="task-grid">
+          ${u.tasks.map(t=>{
+            const repeatType = (t && t.repeatType) || 'once';
+            const isDaily = repeatType === 'daily';
+            const isDone = isDaily
+              ? !!(state.taskHistory[t.id] && state.taskHistory[t.id][today])
+              : !!state.completedTasks[t.id];
+            const repeatTag = isDaily
+              ? `<span class="task-tag" style="background:#FFD53D;color:#1D3D91;border-color:#1D3D91;">🔁 每日</span>`
+              : '';
+            return `<div class="task-card${isDone?' done':''}" onclick="toggleTask('${t.id}',event)" title="${isDaily?'每天 0 点自动重置为待完成':'一次性任务'}">
+              <div class="task-check">${isDone?'✓':''}</div>
+              <div class="task-info">
+                <div class="task-name">${t.name}</div>
+                <div class="task-meta">
+                  <span class="task-reward">☀️ +${POINTS_PER_TASK}</span>
+                  ${repeatTag}
+                  <span class="task-tag">${isDone?'已完成':'待完成'}</span>
+                </div>
+              </div>
+            </div>`;
+          }).join('')}
+        </div>
+      </div>`;
+    }).join('')}
+  `;
+}
+
+function renderCheckinView(){
+  const today = localDateKey();
+  const checked = state.checkin.lastDate === today;
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = now.getMonth();
+
+  const firstDay = new Date(year,month,1).getDay();
+  const daysInMonth = new Date(year,month+1,0).getDate();
+  const dayNames = ['日','一','二','三','四','五','六'];
+  let calDays = dayNames.map(d=>`<div class="calendar-header">${d}</div>`).join('');
+  for(let i=0;i<firstDay;i++) calDays += `<div class="calendar-day empty"></div>`;
+  for(let d=1;d<=daysInMonth;d++){
+    const dateStr = `${year}-${String(month+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const isToday = dateStr === today;
+    const isChecked = state.checkin.history.includes(dateStr);
+    let cls = 'calendar-day';
+    if(isToday) cls += ' current';
+    if(isChecked) cls += ' checked';
+    calDays += `<div class="${cls}">${d}</div>`;
+  }
+
+  const el = document.getElementById('checkinView');
+  el.innerHTML = `
+    <div class="checkin-container">
+      <div class="checkin-card">
+        <div class="checkin-title">📅 每日打卡</div>
+        <div class="checkin-subtitle">每天坚持打卡，获得 ${POINTS_PER_CHECKIN} 阳光！</div>
+        <button class="checkin-btn${checked?' checked':''}" onclick="doCheckin()">
+          <span class="btn-icon">${checked?'✅':'👆'}</span>
+          <span class="btn-text">${checked?'已打卡':'打卡'}</span>
+        </button>
+        <div style="font-size:.85rem;color:var(--muted);margin-bottom:16px">
+          ${checked?'今天已完成打卡，真棒！':'今日未打卡，快来打卡吧！'}
+        </div>
+        <div class="streak-display">
+          <div class="streak-item">
+            <div class="streak-num">${state.checkin.streak}</div>
+            <div class="streak-label">连续天数 🔥</div>
+          </div>
+          <div class="streak-item">
+            <div class="streak-num">${state.checkin.total}</div>
+            <div class="streak-label">累计打卡 📆</div>
+          </div>
+          <div class="streak-item">
+            <div class="streak-num">${state.checkin.total * POINTS_PER_CHECKIN}</div>
+            <div class="streak-label">打卡获得 ☀️</div>
+          </div>
+        </div>
+      </div>
+      <div class="checkin-calendar">
+        <div class="calendar-title">${year}年${month+1}月 打卡日历</div>
+        <div class="calendar-grid">${calDays}</div>
+      </div>
+    </div>
+  `;
+}
+
+let shopTab = 'shop';
+
+function renderShopView(){
+  const allRewards = [...DEFAULT_SHOP,...state.customRewards];
+  const history = state.redemptionHistory || [];
+  const el = document.getElementById('shopView');
+  el.innerHTML = `
+    <div class="shop-container">
+      <div class="shop-header">
+        <div class="shop-header-left">
+          <span style="font-size:1.5rem">🏪</span>
+          <div>
+            <div class="shop-header-title">阳光兑换商店</div>
+            <div class="shop-header-sub">当前余额：️ ${state.stars} 阳光</div>
+          </div>
+        </div>
+      </div>
+      <div class="shop-tabs">
+            <div class="shop-tab${shopTab==='shop'?' active':''}" onclick="switchShopTab('shop')">🏪 兑换商店</div>
+            <div class="shop-tab${shopTab==='history'?' active':''}" onclick="switchShopTab('history')">📋 兑换记录</div>
+          </div>
+          ${shopTab==='shop' ? `
+          <div class="shop-note">
+            📋 兑换规则由家长和孩子提前商量约定，本工具只做积分记账，不自动放行奖励。
+          </div>
+          <div class="shop-grid">
+            ${allRewards.map(r=>{
+              const redeemed = state.redeemedItems[r.id] || 0;
+              const canAfford = state.stars >= r.price;
+              return `<div class="shop-card" style="position:relative">
+                <button class="edit-reward" onclick="event.stopPropagation();editReward('${r.id}')" title="编辑">✏️</button>
+                ${r.type==='custom'?`<button class="delete-reward" onclick="event.stopPropagation();deleteCustomReward('${r.id}')" title="删除">✕</button>`:''}
+                <div class="shop-emoji">${r.emoji}</div>
+                <div class="shop-name">${r.name}</div>
+                <div class="shop-price">☀️ ${r.price} 阳光</div>
+                <button class="shop-btn ${canAfford?'redeem':'redeem'}" ${canAfford?'':`disabled`}
+                  onclick="redeemReward('${r.id}',${r.price},'${r.name.replace(/'/g,"\\'")}','${r.emoji}')">
+                  ${canAfford?'兑换':'阳光不足'}
+                </button>
+                ${redeemed?`<div class="shop-redeemed-count">已兑换 ${redeemed} 次</div>`:''}
+              </div>`;
+            }).join('')}
+          </div>
+          <div class="add-reward-section">
+            <div class="add-reward-title">✨ 自定义奖励</div>
+            <div class="add-reward-form">
+              <input class="form-emoji" id="newRewardEmoji" placeholder="表情" maxlength="2">
+              <input class="form-name" id="newRewardName" placeholder="奖励名称" maxlength="20">
+              <input class="form-price" id="newRewardPrice" type="number" placeholder="阳光" min="1" max="9999">
+              <button onclick="addCustomReward()">添加</button>
+            </div>
+          </div>
+          ` : `
+          <div class="history-section">
+            ${history.length === 0 ? `
+              <div class="history-empty">
+                <div style="font-size:2.5rem;margin-bottom:8px">📭</div>
+                <div style="color:var(--muted);font-size:.9rem">还没有兑换记录，快去完成任务赚阳光吧！</div>
+              </div>
+            ` : (() => {
+              const grouped = {};
+              history.forEach(h => {
+                if (!grouped[h.date]) grouped[h.date] = [];
+                grouped[h.date].push(h);
+              });
+              const dates = Object.keys(grouped).sort((a, b) => b.localeCompare(a));
+              return dates.map(date => {
+                const items = grouped[date];
+                const dayTotal = items.reduce((s, i) => s + i.price, 0);
+                const d = new Date(date);
+                const weekdays = ['日','一','二','三','四','五','六'];
+                const dateDisplay = `${d.getMonth()+1}月${d.getDate()}日 周${weekdays[d.getDay()]}`;
+                return `
+                  <div class="history-day-group">
+                    <div class="history-day-header">
+                      <span class="history-date">${dateDisplay}</span>
+                      <span class="history-day-total">共消耗 ☀️ ${dayTotal} 阳光</span>
+                    </div>
+                    <div class="history-list">
+                      ${items.map(item => `
+                        <div class="history-item">
+                          <div class="history-item-left">
+                            <span class="history-item-emoji">${item.emoji}</span>
+                            <div>
+                              <div class="history-item-name">${item.name}</div>
+                              <div class="history-item-time">${item.time}</div>
+                            </div>
+                          </div>
+                          <div class="history-item-price">-${item.price} ️</div>
+                        </div>
+                      `).join('')}
+                    </div>
+                  </div>
+                `;
+              }).join('');
+            })()}
+          </div>
+          `}
+    </div>
+  `;
+}
+
+function switchShopTab(tab){
+  shopTab = tab;
+  renderShopView();
+}
+
+function renderDataView(){
+  let totalTasks = 0, doneTasks = 0;
+  getAllSubjects().forEach(s=>s.units.forEach(u=>u.tasks.forEach(t=>{
+    totalTasks++;
+    if(state.completedTasks[t.id]) doneTasks++;
+  })));
+
+  const el = document.getElementById('dataView');
+  el.innerHTML = `
+    <div class="data-container">
+      <div class="data-card">
+        <div class="data-card-title">📊 学习统计</div>
+        <div class="data-stats">
+          <div class="stat-card">
+            <div class="stat-num">${state.stars}</div>
+            <div class="stat-label">当前阳光</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num">${doneTasks}/${totalTasks}</div>
+            <div class="stat-label">完成任务</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num">${state.checkin.streak}</div>
+            <div class="stat-label">连续打卡</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num">${state.checkin.total}</div>
+            <div class="stat-label">累计打卡</div>
+          </div>
+        </div>
+      </div>
+      <div class="data-card">
+        <div class="data-card-title">📤 导出数据</div>
+        <p>将所有学习数据导出为 JSON 文件，可用于备份或迁移到其他浏览器/设备。</p>
+        <button class="data-btn export" onclick="exportData()">📤 导出数据</button>
+      </div>
+      <div class="data-card">
+        <div class="data-card-title">📥 导入数据</div>
+        <p>从 JSON 文件导入学习数据。注意：导入将覆盖当前所有数据。</p>
+        <button class="data-btn import" onclick="document.getElementById('fileInput').click()">📥 选择文件导入</button>
+      </div>
+      <div class="data-card">
+        <div class="data-card-title">🗑️ 重置数据</div>
+        <p>清除所有学习数据，恢复到初始状态。此操作不可撤销！</p>
+        <button class="data-btn reset" onclick="confirmReset()">🗑️ 重置所有数据</button>
+      </div>
+    </div>
+  `;
+}
+
+function updateGlobalStats(){
+  document.getElementById('totalStars').textContent = state.stars;
+  document.getElementById('nameText').textContent = state.childName;
+
+  let totalTasks = 0, doneTasks = 0;
+  getAllSubjects().forEach(s=>s.units.forEach(u=>u.tasks.forEach(t=>{
+    totalTasks++;
+    if(state.completedTasks[t.id]) doneTasks++;
+  })));
+  const pct = totalTasks?Math.round(doneTasks/totalTasks*100):0;
+  document.getElementById('progressSummary').textContent = `总进度：${pct}%（${doneTasks}/${totalTasks}）`;
+  // Progress bar uses current subject color
+  const s = getAllSubjects().find(x=>x.id===currentSubject);
+  const bar = document.getElementById('progressBar');
+  bar.style.width = pct+'%';
+  bar.style.background = s ? s.color : 'var(--primary)';
+  // Update floating shop panel
+  renderShopFloatingPanel();
+}
+
+/* ===========================
+   SHOP FLOATING PANEL
+   =========================== */
+let shopPanelExpanded = false;
+
+function renderShopFloatingPanel(){
+  const allRewards = [...DEFAULT_SHOP,...state.customRewards];
+  const body = document.getElementById('shopFloatingBody');
+  if(!body) return;
+  body.innerHTML = allRewards.map(r=>{
+    const redeemed = state.redeemedItems[r.id] || 0;
+    const canAfford = state.stars >= r.price;
+    return `<div class="shop-floating-item">
+      <div class="shop-floating-item-name">${r.emoji} ${r.name}</div>
+      <div class="shop-floating-item-redeemed">已兑换 ${redeemed} 次</div>
+      <div class="shop-floating-item-footer">
+        <div class="shop-floating-price">️ ${r.price}</div>
+        <button class="shop-floating-btn ${canAfford?'affordable':''}" 
+          ${canAfford?'':`disabled`}
+          onclick="redeemReward('${r.id}',${r.price},'${r.name.replace(/'/g,"\\'")}','${r.emoji}')">
+          ${canAfford?'兑换':'阳光不足'}
+        </button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function toggleShopPanel(){
+  shopPanelExpanded = !shopPanelExpanded;
+  const panel = document.getElementById('shopFloatingPanel');
+  const toggleText = document.getElementById('shopToggleText');
+  if(shopPanelExpanded){
+    panel.classList.remove('collapsed');
+    toggleText.textContent = '收起';
+  } else {
+    panel.classList.add('collapsed');
+    toggleText.textContent = '展开';
+  }
+}
+
+/* ===========================
+   VIEW SWITCHING
+   =========================== */
+function showView(view){
+  currentView = view;
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  if(view==='subject'){
+    document.getElementById('subjectView').classList.add('active');
+    renderSubjectView();
+  } else if(view==='checkin'){
+    document.getElementById('checkinView').classList.add('active');
+    renderCheckinView();
+  } else if(view==='shop'){
+    document.getElementById('shopView').classList.add('active');
+    renderShopView();
+  } else if(view==='data'){
+    document.getElementById('dataView').classList.add('active');
+    renderDataView();
+  } else if(view==='timetable'){
+    document.getElementById('timetableView').classList.add('active');
+    renderTimetableView();
+  } else if(view==='manage'){
+    document.getElementById('manageView').classList.add('active');
+    renderManageView();
+  }
+}
+
+/* ===========================
+   ACTIONS
+   =========================== */
+
+/* 在全系统范围内查找 task 模板（遍历默认+自定义科目） */
+function findTaskTemplate(taskId){
+  const allSubjects = getAllSubjects();
+  for(const s of allSubjects){
+    for(const u of s.units || []){
+      for(const t of u.tasks || []){
+        if(t && t.id === taskId) return t;
+      }
+    }
+  }
+  return null;
+}
+
+function toggleTask(taskId, evt){
+  const task = findTaskTemplate(taskId);
+  const repeatType = (task && task.repeatType) || 'once';
+  const today = localDateKey();
+
+  if(repeatType === 'daily'){
+    // === 每日重复：按天独立记录 ===
+    if(!state.taskHistory[taskId]) state.taskHistory[taskId] = {};
+    const doneToday = !!state.taskHistory[taskId][today];
+    if(doneToday){
+      // 取消当天完成标记 —— 需求4：只取消当天，不影响其他日期；阳光不退
+      delete state.taskHistory[taskId][today];
+      showToast('已取消今日完成标记','warning');
+    } else {
+      state.taskHistory[taskId][today] = true;
+      // 发放奖励（同一天首次完成才发奖）—— 需求3
+      if(!state.taskRewardGiven[taskId]) state.taskRewardGiven[taskId] = {};
+      if(!state.taskRewardGiven[taskId][today]){
+        state.taskRewardGiven[taskId][today] = true;
+        state.stars += POINTS_PER_TASK;
+        showToast('今日任务完成！+'+POINTS_PER_TASK+' 阳光 ☀️','success');
+        showFloatingStar(evt);
+      } else {
+        showToast('今日已领取过奖励，进度已更新','success');
+      }
+      checkSubjectCompletion();
+    }
+  } else {
+    // === 仅一次（once，含未设 repeatType 的老任务） ===
+    if(state.completedTasks[taskId]){
+      delete state.completedTasks[taskId];
+      state.stars = Math.max(0, state.stars - POINTS_PER_TASK);
+      showToast('已取消完成，-'+POINTS_PER_TASK+' 阳光','warning');
+    } else {
+      state.completedTasks[taskId] = true;
+      state.stars += POINTS_PER_TASK;
+      showToast('完成！+'+POINTS_PER_TASK+' 阳光 ☀️','success');
+      showFloatingStar(evt);
+      checkSubjectCompletion();
+    }
+  }
+  saveState();
+  render();
+}
+
+/* 判断一个任务在"今天"是否完成 */
+function isTaskDoneToday(taskId){
+  const task = findTaskTemplate(taskId);
+  const repeatType = (task && task.repeatType) || 'once';
+  if(repeatType === 'daily'){
+    const map = state.taskHistory[taskId];
+    return !!(map && map[localDateKey()]);
+  }
+  return !!state.completedTasks[taskId];
+}
+
+function checkSubjectCompletion(){
+  const s = getAllSubjects().find(x=>x.id===currentSubject);
+  if(!s) return;
+  const {total,done} = getSubjectStats(s.id);
+  if(done===total && total>0){
+    setTimeout(()=>{
+      showModal('🎉','太棒了！',`${s.name}全部任务已完成！你是最棒的！`,[
+        {text:'继续加油',cls:'confirm',action:()=>closeModal()}
+      ]);
+      launchConfetti();
+    },300);
+  }
+}
+
+function doCheckin(){
+  const today = localDateKey();
+  if(state.checkin.lastDate === today){
+    showToast('今天已经打过卡啦！','warning');
+    return;
+  }
+  const yesterday = new Date();
+  yesterday.setDate(yesterday.getDate()-1);
+  const yesterdayStr = localDateKey(yesterday);
+  if(state.checkin.lastDate === yesterdayStr){
+    state.checkin.streak++;
+  } else {
+    state.checkin.streak = 1;
+  }
+  state.checkin.lastDate = today;
+  state.checkin.total++;
+  if(!state.checkin.history.includes(today)){
+    state.checkin.history.push(today);
+  }
+  state.stars += POINTS_PER_CHECKIN;
+  saveState();
+  render();
+  showToast(`打卡成功！+${POINTS_PER_CHECKIN} 阳光 ☀️`,'success');
+  launchConfetti();
+}
+
+function redeemReward(rewardId, price, name, emoji){
+  if(state.stars < price){
+    showToast('阳光不够哦，继续努力！','error');
+    return;
+  }
+  showModal(emoji||'🎁','确认兑换',`确定要用 ${price} 阳光兑换「${name}」吗？\n请家长确认后再兑换。`,[
+    {text:'再想想',cls:'cancel',action:()=>closeModal()},
+    {text:'确认兑换',cls:'confirm',action:()=>{
+      state.stars -= price;
+      state.redeemedItems[rewardId] = (state.redeemedItems[rewardId]||0)+1;
+      if(!state.redemptionHistory) state.redemptionHistory = [];
+      const now = new Date();
+      state.redemptionHistory.push({
+        id: rewardId,
+        name: name,
+        emoji: emoji||'🎁',
+        price: price,
+        date: localDateKey(now),
+        time: now.toTimeString().slice(0,5)
+      });
+      saveState();
+      render();
+      closeModal();
+      showToast(`兑换成功！获得「${name}」${emoji||'🎉'}`,'success');
+      launchConfetti();
+    }}
+  ]);
+}
+
+function addCustomReward(){
+  const emoji = document.getElementById('newRewardEmoji').value.trim() || '🎁';
+  const name = document.getElementById('newRewardName').value.trim();
+  const price = parseInt(document.getElementById('newRewardPrice').value);
+  if(!name){showToast('请输入奖励名称','warning');return}
+  if(!price || price<1){showToast('请输入有效的阳光数','warning');return}
+  const id = 'cr_'+Date.now();
+  state.customRewards.push({id,name,emoji,price,type:'custom'});
+  saveState();
+  render();
+  showToast('自定义奖励已添加！','success');
+}
+
+function deleteCustomReward(id){
+  state.customRewards = state.customRewards.filter(r=>r.id!==id);
+  saveState();
+  render();
+  showToast('已删除','warning');
+}
+
+function editReward(id){
+  const allRewards = [...DEFAULT_SHOP,...state.customRewards];
+  const reward = allRewards.find(r=>r.id===id);
+  if(!reward) return;
+  
+  const isDefault = reward.type === 'default';
+  const modalHtml = `
+    <div class="edit-reward-form">
+      <div class="edit-reward-group">
+        <label class="edit-reward-label">表情符号</label>
+        <input class="edit-reward-input edit-reward-emoji" id="editRewardEmoji" value="${reward.emoji}" maxlength="2">
+      </div>
+      <div class="edit-reward-group">
+        <label class="edit-reward-label">奖励名称</label>
+        <input class="edit-reward-input" id="editRewardName" value="${reward.name}" maxlength="20">
+      </div>
+      <div class="edit-reward-group">
+        <label class="edit-reward-label">所需阳光</label>
+        <input class="edit-reward-input" id="editRewardPrice" type="number" value="${reward.price}" min="1" max="9999">
+      </div>
+      ${isDefault ? '<div class="edit-reward-tip">💡 修改默认奖励会保存到本地</div>' : ''}
+    </div>
+  `;
+  
+  showModal('✏️', '编辑奖励', '', [
+    {text:'取消', cls:'cancel', action:()=>closeModal()},
+    {text:'保存', cls:'confirm', action:()=>saveEditReward(id)}
+  ]);
+  
+  document.getElementById('modalText').innerHTML = modalHtml;
+}
+
+function saveEditReward(id){
+  const emoji = document.getElementById('editRewardEmoji').value.trim() || '🎁';
+  const name = document.getElementById('editRewardName').value.trim();
+  const price = parseInt(document.getElementById('editRewardPrice').value);
+  
+  if(!name){showToast('请输入奖励名称','warning');return}
+  if(!price || price<1){showToast('请输入有效的阳光数','warning');return}
+  
+  // Check if it's a default reward
+  const defaultReward = DEFAULT_SHOP.find(r=>r.id===id);
+  if(defaultReward){
+    // Update default reward
+    defaultReward.emoji = emoji;
+    defaultReward.name = name;
+    defaultReward.price = price;
+    
+    // Save to state
+    if(!state.defaultShopEdits) state.defaultShopEdits = {};
+    state.defaultShopEdits[id] = {emoji, name, price};
+  } else {
+    // Update custom reward
+    const customReward = state.customRewards.find(r=>r.id===id);
+    if(customReward){
+      customReward.emoji = emoji;
+      customReward.name = name;
+      customReward.price = price;
+    }
+  }
+  
+  saveState();
+  render();
+  closeModal();
+  showToast('奖励已更新！','success');
+}
+
+/* ===========================
+   NAME EDITING
+   =========================== */
+function editName(){
+  const display = document.getElementById('nameDisplay');
+  const input = document.getElementById('nameInput');
+  display.style.display = 'none';
+  input.style.display = 'block';
+  input.value = state.childName;
+  input.focus();
+  input.select();
+}
+
+function saveName(){
+  const display = document.getElementById('nameDisplay');
+  const input = document.getElementById('nameInput');
+  const name = input.value.trim();
+  if(name){
+    state.childName = name;
+    saveState();
+  }
+  input.style.display = 'none';
+  display.style.display = 'flex';
+  document.getElementById('nameText').textContent = state.childName;
+}
+
+function editPageTitle(){
+  const newTitle = prompt('请输入页面标题：', state.pageTitle);
+  if(newTitle && newTitle.trim()){
+    state.pageTitle = newTitle.trim();
+    saveState();
+    updatePageTitle();
+  }
+}
+
+function updatePageTitle(){
+  const logo = document.querySelector('.logo');
+  if(logo){
+    logo.textContent = '☀️ ' + state.pageTitle + ' ✏️';
+  }
+  document.title = state.pageTitle + '工作台';
+}
+
+/* ===========================
+   DATA EXPORT / IMPORT
+   =========================== */
+function exportData(){
+  const data = JSON.stringify(state, null, 2);
+  const blob = new Blob([data],{type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `学习数据_${state.childName}_${new Date().toISOString().slice(0,10)}.json`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  showToast('数据已导出！','success');
+}
+
+function handleImport(event){
+  const file = event.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e){
+    try{
+      const data = JSON.parse(e.target.result);
+      showModal('📥','确认导入',`将导入「${data.childName||'未知'}」的学习数据，当前数据将被覆盖。确定继续吗？`,[
+        {text:'取消',cls:'cancel',action:()=>{closeModal();event.target.value=''}},
+        {text:'确认导入',cls:'confirm',action:()=>{
+          const def = defaultState();
+          state = {...def,...data,checkin:{...def.checkin,...(data.checkin||{})}};
+          saveState();
+          render();
+          updatePageTitle();
+          closeModal();
+          showToast('数据导入成功！','success');
+          event.target.value='';
+        }}
+      ]);
+    }catch(err){
+      showToast('文件格式错误，请选择有效的 JSON 文件','error');
+      event.target.value='';
+    }
+  };
+  reader.readAsText(file);
+}
+
+function confirmReset(){
+  showModal('⚠️','确认重置','此操作将清除所有学习数据，包括阳光、任务进度、打卡记录等。确定要继续吗？',
+  [
+    {text:'取消',cls:'cancel',action:()=>closeModal()},
+    {text:'确认重置',cls:'confirm',action:()=>{
+      state = defaultState();
+      saveState();
+      render();
+      closeModal();
+      showToast('数据已重置','warning');
+    }}
+  ]);
+}
+
+/* ===========================
+   WEEKLY TIMETABLE
+   =========================== */
+const TIMETABLE_DAYS = ['星期一','星期二','星期三','星期四','星期五'];
+const TIMETABLE_PERIODS = ['第一节','第二节','第三节','第四节','第五节','第六节','第七节'];
+
+function safeText(value){
+  return String(value || '').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+function newTimetable(){
+  const entries = {};
+  TIMETABLE_DAYS.forEach((_, day)=>TIMETABLE_PERIODS.forEach((_, period)=>entries[`${day}-${period}`]=''));
+  return {id:'timetable_'+Date.now(),name:'我的周课程表',effectiveDate:new Date().toISOString().slice(0,10),expiryDate:'',periodTimes:defaultPeriodTimes(),entries,updatedAt:new Date().toISOString()};
+}
+
+function defaultPeriodTimes(){
+  return ['08:00 - 08:40','08:50 - 09:30','09:50 - 10:30','10:40 - 11:20','13:00 - 13:40','13:50 - 14:30','14:40 - 15:20'];
+}
+
+function getPeriodTimes(table){
+  return TIMETABLE_PERIODS.map((_,index)=>(table.periodTimes||[])[index] || defaultPeriodTimes()[index]);
+}
+
+function timetableCells(table, editable){
+  const periodTimes=getPeriodTimes(table);
+  return TIMETABLE_PERIODS.map((period,p)=>`<tr><td>${period}${editable?`<input class="timetable-time-input" data-period-time="${p}" value="${safeText(periodTimes[p])}" aria-label="${period}时间">`:`<span class="timetable-time">${safeText(periodTimes[p])}</span>`}</td>${TIMETABLE_DAYS.map((day,d)=>{
+    const value=safeText((table.entries||{})[`${d}-${p}`]);
+    return editable ? `<td class="timetable-cell"><input data-slot="${d}-${p}" value="${value}" placeholder="课程"></td>` : `<td>${value || '—'}</td>`;
+  }).join('')}</tr>`).join('');
+}
+
+function renderTimetableView(){
+  const el=document.getElementById('timetableView');
+  const table=state.timetable;
+  const history=Array.isArray(state.timetableHistory)?state.timetableHistory:[];
+  if(!table){
+    el.innerHTML=`<div class="timetable-container"><div class="timetable-hero"><div><div class="timetable-title">🗓️ 周课程表</div><div class="timetable-subtitle">新建一份课表，随时查看本周课程安排。</div></div><button class="timetable-btn" onclick="createTimetable()">＋ 创建课表</button></div><div class="timetable-card timetable-empty">还没有当前课表<br><button class="timetable-btn" style="margin-top:14px" onclick="createTimetable()">创建第一份课表</button></div>${renderTimetableHistory(history)}</div>`;
+    return;
+  }
+  const todayIndex=(new Date().getDay()+6)%7;
+  const todayCourses=TIMETABLE_PERIODS.map((period,p)=>({period,time:getPeriodTimes(table)[p],course:(table.entries||{})[`${todayIndex}-${p}`]})).filter(x=>x.course);
+  const validity=table.expiryDate?`生效：${safeText(table.effectiveDate)} 至 ${safeText(table.expiryDate)}`:`生效：${safeText(table.effectiveDate)}（长期有效）`;
+  el.innerHTML=`<div class="timetable-container"><div class="timetable-hero"><div><div class="timetable-title">🗓️ 周课程表 · ${safeText(table.name)}</div><div class="timetable-subtitle">${validity}　最后修改：${new Date(table.updatedAt).toLocaleDateString('zh-CN')}</div><div class="today-strip">${todayCourses.length?todayCourses.map(x=>`<span class="today-class">今天 ${x.period}（${safeText(x.time)}）：${safeText(x.course)}</span>`).join(''):'<span class="today-class">今天暂未安排课程</span>'}</div></div><button class="timetable-btn secondary" onclick="createTimetable()">＋ 新建课表</button></div><div class="timetable-card"><div class="timetable-card-title">✏️ 编辑当前课表</div><div class="timetable-form"><label class="timetable-field">课表名称<input id="timetableName" value="${safeText(table.name)}" maxlength="24"></label><label class="timetable-field">生效日期<input id="timetableDate" type="date" value="${safeText(table.effectiveDate)}"></label><label class="timetable-field">失效日期（留空为长期有效）<input id="timetableExpiryDate" type="date" value="${safeText(table.expiryDate)}"></label></div><div class="timetable-grid"><table class="timetable-table"><thead><tr><th>节次 / 时间</th>${TIMETABLE_DAYS.map(day=>`<th>${day}</th>`).join('')}</tr></thead><tbody>${timetableCells(table,true)}</tbody></table></div><div class="timetable-actions"><button class="timetable-btn secondary" onclick="saveTimetable()">💾 保存修改</button></div></div>${renderTimetableHistory(history)}</div>`;
+}
+
+function renderTimetableHistory(history){
+  const cards=history.length?history.map((item,index)=>`<div class="history-item"><div class="history-name">${safeText(item.name)}</div><div class="history-meta">生效：${safeText(item.effectiveDate)}${item.expiryDate?' 至 '+safeText(item.expiryDate):'（长期有效）'}<br>存档：${new Date(item.updatedAt).toLocaleDateString('zh-CN')}</div><button class="timetable-btn secondary" onclick="previewTimetable(${index})">👁️ 预览</button><button class="timetable-btn secondary" onclick="restoreTimetable(${index})">恢复</button><button class="timetable-btn" onclick="confirmDeleteTimetable(${index})">🗑️ 删除</button></div>`).join(''):'<div class="timetable-empty">还没有历史课表。每次保存不同版本时，原课表会自动保存在这里。</div>';
+  return `<div class="timetable-card"><div class="timetable-card-title">🕘 历史课表（${history.length}）</div><div class="history-list">${cards}</div></div>`;
+}
+
+function createTimetable(){
+  if(state.timetable){
+    state.timetableHistory=[...(state.timetableHistory||[]),state.timetable];
+    state.timetable=newTimetable();
+  }else state.timetable=newTimetable();
+  saveState(); renderTimetableView(); showToast('已创建课表，请填写课程并保存','success');
+}
+
+function saveTimetable(){
+  if(!state.timetable) return;
+  const updated=JSON.parse(JSON.stringify(state.timetable));
+  updated.name=(document.getElementById('timetableName').value.trim() || '我的周课程表');
+  updated.effectiveDate=document.getElementById('timetableDate').value || new Date().toISOString().slice(0,10);
+  updated.expiryDate=document.getElementById('timetableExpiryDate').value || '';
+  if(updated.expiryDate && updated.expiryDate < updated.effectiveDate){
+    showToast('失效日期不能早于生效日期','error'); return;
+  }
+  updated.periodTimes=[]; document.querySelectorAll('#timetableView [data-period-time]').forEach(input=>updated.periodTimes[Number(input.dataset.periodTime)]=input.value.trim());
+  updated.entries={}; document.querySelectorAll('#timetableView [data-slot]').forEach(input=>updated.entries[input.dataset.slot]=input.value.trim());
+  const before=JSON.stringify({name:state.timetable.name,effectiveDate:state.timetable.effectiveDate,expiryDate:state.timetable.expiryDate||'',periodTimes:getPeriodTimes(state.timetable),entries:state.timetable.entries});
+  const after=JSON.stringify({name:updated.name,effectiveDate:updated.effectiveDate,expiryDate:updated.expiryDate,periodTimes:updated.periodTimes,entries:updated.entries});
+  if(before!==after) state.timetableHistory=[...(state.timetableHistory||[]),state.timetable];
+  updated.updatedAt=new Date().toISOString(); state.timetable=updated; saveState(); renderTimetableView(); showToast('课表已保存','success');
+}
+
+function restoreTimetable(index){
+  const history=state.timetableHistory||[]; const selected=history[index]; if(!selected) return;
+  const current=state.timetable; state.timetable=JSON.parse(JSON.stringify(selected)); state.timetable.id='timetable_'+Date.now(); state.timetable.updatedAt=new Date().toISOString();
+  state.timetableHistory=history.filter((_,i)=>i!==index); if(current) state.timetableHistory.push(current);
+  saveState(); renderTimetableView(); showToast('已恢复历史课表','success');
+}
+
+function confirmDeleteTimetable(index){
+  const item=(state.timetableHistory||[])[index]; if(!item) return;
+  showModal('⚠️','删除历史课表',`确定删除「${item.name||'未命名课表'}」吗？删除后无法恢复。`,[
+    {text:'取消',cls:'cancel',action:()=>closeModal()},
+    {text:'确认删除',cls:'confirm',action:()=>{
+      state.timetableHistory.splice(index,1); saveState(); closeModal(); renderTimetableView(); showToast('历史课表已删除','warning');
+    }}
+  ]);
+}
+
+function previewTimetable(index){
+  const table=(state.timetableHistory||[])[index]; if(!table) return;
+  const modal=document.getElementById('modalOverlay');
+  document.getElementById('modal').className='modal timetable-preview-modal';
+  document.getElementById('modalIcon').style.display='block';
+  document.getElementById('modalIcon').textContent='🗓️';
+  document.getElementById('modalTitle').textContent=`历史课表：${table.name||'未命名课表'}`;
+  const validity=table.expiryDate?`生效：${safeText(table.effectiveDate)} 至 ${safeText(table.expiryDate)}`:`生效：${safeText(table.effectiveDate)}（长期有效）`;
+  document.getElementById('modalText').innerHTML=`<div style="margin-bottom:14px">${validity}</div><div class="timetable-grid"><table class="timetable-table"><thead><tr><th>节次 / 时间</th>${TIMETABLE_DAYS.map(day=>`<th>${day}</th>`).join('')}</tr></thead><tbody>${timetableCells(table,false)}</tbody></table></div>`;
+  document.getElementById('modalBtns').innerHTML='<button class="modal-btn cancel" onclick="closeTimetablePreview()">关闭</button>';
+  modal.classList.add('show');
+}
+
+function closeTimetablePreview(){
+  const modal=document.getElementById('modal');
+  modal.className='modal';
+  document.getElementById('modalIcon').style.display='block';
+  document.getElementById('modalTitle').style.textAlign='center';
+  document.getElementById('modalOverlay').classList.remove('show');
+}
+
+/* 全天 30 分钟课程时间轴（新课表格式；旧格式会在读取时自动转换） */
+let scheduleSelection=null;
+function clockForSlot(slot){return String(Math.floor(slot/2)).padStart(2,'0')+':' +(slot%2?'30':'00');}
+function newTimetable(){return {id:'timetable_'+Date.now(),name:'我的周课程表',effectiveDate:new Date().toISOString().slice(0,10),expiryDate:'',scheduleEvents:[],updatedAt:new Date().toISOString()};}
+function getScheduleEvents(table){
+  if(Array.isArray(table.scheduleEvents)) return table.scheduleEvents;
+  const starts=[16,18,20,22,26,28,30];
+  return Object.entries(table.entries||{}).filter(([,title])=>title).map(([key,title],i)=>{const [day,period]=key.split('-').map(Number);return {id:'legacy_'+i,day,startSlot:starts[period]||16,duration:2,title};});
+}
+function scheduleGrid(table,readOnly=false){
+  const events=getScheduleEvents(table), selected=scheduleSelection;
+  const labels=Array.from({length:48},(_,slot)=>`<div class="schedule-time-label${slot%2===0?' hour':''}">${clockForSlot(slot)}</div>`).join('');
+  const days=TIMETABLE_DAYS.map((day,d)=>{const slots=Array.from({length:48},(_,slot)=>{const event=events.find(e=>e.day===d&&e.startSlot===slot);const selectedClass=selected&&selected.day===d&&selected.slot===slot?' selected':'';const eventHtml=event?`<div class="schedule-event${d%2?' alt':''}" style="height:${Math.max(1,Math.min(event.duration,48-slot))*26-4}px">${safeText(event.title)}<br>${clockForSlot(event.startSlot)}–${clockForSlot(Math.min(48,event.startSlot+event.duration))}</div>`:'';const action=readOnly?'':` onclick="selectScheduleSlot(${d},${slot})" ondblclick="openCourseModal(${d},${slot})"`;return `<div class="schedule-slot${slot%2===0?' hour':''}${selectedClass}" data-schedule-slot="${d}-${slot}"${action}>${eventHtml}</div>`;}).join('');return `<div class="schedule-day-col"><div class="schedule-day-head">${day}</div>${slots}</div>`;}).join('');
+  return `<div class="timetable-grid"><div class="schedule-board"><div class="schedule-time-col"><div class="schedule-time-head">时间</div>${labels}</div>${days}</div></div>`;
+}
+function selectScheduleSlot(day,slot){scheduleSelection={day,slot};document.querySelectorAll('[data-schedule-slot]').forEach(el=>el.classList.toggle('selected',el.dataset.scheduleSlot===`${day}-${slot}`));}
+function renderTimetableView(){
+  const el=document.getElementById('timetableView'),table=state.timetable,history=Array.isArray(state.timetableHistory)?state.timetableHistory:[];
+  if(!table){el.innerHTML=`<div class="timetable-container"><div class="timetable-hero"><div><div class="timetable-title">🗓️ 周课程表</div><div class="timetable-subtitle">用全天时间轴安排每周课程。</div></div><button class="timetable-btn" onclick="createTimetable()">＋ 创建课表</button></div>${renderTimetableHistory(history)}</div>`;return;}
+  const today=(new Date().getDay()+6)%7, todayEvents=getScheduleEvents(table).filter(e=>e.day===today).sort((a,b)=>a.startSlot-b.startSlot),validity=table.expiryDate?`生效：${safeText(table.effectiveDate)} 至 ${safeText(table.expiryDate)}`:`生效：${safeText(table.effectiveDate)}（长期有效）`;
+  el.innerHTML=`<div class="timetable-container"><div class="timetable-hero"><div><div class="timetable-title">🗓️ 周课程表 · ${safeText(table.name)}</div><div class="timetable-subtitle">${validity}　最后修改：${new Date(table.updatedAt).toLocaleDateString('zh-CN')}</div><div class="today-strip">${todayEvents.length?todayEvents.map(e=>`<span class="today-class">今天 ${clockForSlot(e.startSlot)}–${clockForSlot(e.startSlot+e.duration)}：${safeText(e.title)}</span>`).join(''):'<span class="today-class">今天暂未安排课程</span>'}</div></div><button class="timetable-btn secondary" onclick="createTimetable()">＋ 新建课表</button></div><div class="timetable-card"><div class="timetable-card-title">✏️ 课表设置</div><div class="timetable-form"><label class="timetable-field">课表名称<input id="timetableName" value="${safeText(table.name)}" maxlength="24"></label><label class="timetable-field">生效日期<input id="timetableDate" type="date" value="${safeText(table.effectiveDate)}"></label><label class="timetable-field">失效日期（留空为长期有效）<input id="timetableExpiryDate" type="date" value="${safeText(table.expiryDate)}"></label></div><div class="schedule-hint">🎮 每个小格代表 30 分钟；粗线代表整点。单击小格可高亮选中，双击小格即可添加课程；双击已有课程可编辑或删除。</div>${scheduleGrid(table)}<div class="timetable-actions"><button class="timetable-btn secondary" onclick="saveTimetable()">💾 保存课表设置</button></div></div>${renderTimetableHistory(history)}</div>`;
+}
+function saveTimetable(){const current=state.timetable;if(!current)return;const next=JSON.parse(JSON.stringify(current));next.name=document.getElementById('timetableName').value.trim()||'我的周课程表';next.effectiveDate=document.getElementById('timetableDate').value||new Date().toISOString().slice(0,10);next.expiryDate=document.getElementById('timetableExpiryDate').value||'';if(next.expiryDate&&next.expiryDate<next.effectiveDate){showToast('失效日期不能早于生效日期','error');return;}commitTimetable(next,'课表设置已保存');}
+function commitTimetable(next,message){const clean=x=>JSON.stringify({...x,updatedAt:''});if(clean(state.timetable)!==clean(next))state.timetableHistory=[...(state.timetableHistory||[]),JSON.parse(JSON.stringify(state.timetable))];next.updatedAt=new Date().toISOString();next.scheduleEvents=getScheduleEvents(next);delete next.entries;delete next.periodTimes;state.timetable=next;saveState();renderTimetableView();showToast(message,'success');}
+function openCourseModal(day,slot){const existing=getScheduleEvents(state.timetable).find(e=>e.day===day&&slot>=e.startSlot&&slot<e.startSlot+e.duration);const event=existing||{id:'course_'+Date.now(),day,startSlot:slot,duration:2,title:''};const end=Math.min(48,event.startSlot+event.duration),options=Array.from({length:49},(_,i)=>`<option value="${i}">${i===48?'24:00':clockForSlot(i)}</option>`).join('');const modal=document.getElementById('modalOverlay');document.getElementById('modal').className='modal schedule-course-modal';document.getElementById('modalIcon').textContent='⭐';document.getElementById('modalTitle').textContent=existing?'编辑课程':'添加课程';document.getElementById('modalText').innerHTML=`<div class="schedule-course-form"><label>课程标题<input id="courseTitle" maxlength="30" value="${safeText(event.title)}" placeholder="例如：数学"></label><label>开始时间<select id="courseStart">${options}</select></label><label>结束时间<select id="courseEnd">${options}</select></label></div>`;document.getElementById('courseStart').value=event.startSlot;document.getElementById('courseEnd').value=end;document.getElementById('modalBtns').innerHTML=`<div class="schedule-course-actions">${existing?`<button class="modal-btn schedule-delete-btn" onclick="deleteScheduleCourse('${event.id}')">删除课程</button>`:''}<span><button class="modal-btn cancel" onclick="closeScheduleCourseModal()">取消</button><button class="modal-btn confirm" onclick="saveScheduleCourse('${event.id}',${event.day})">保存</button></span></div>`;modal.classList.add('show');}
+function saveScheduleCourse(id,day){const title=document.getElementById('courseTitle').value.trim(),start=Number(document.getElementById('courseStart').value),end=Number(document.getElementById('courseEnd').value);if(!title){showToast('请填写课程标题','error');return;}if(end<=start){showToast('结束时间需晚于开始时间','error');return;}const next=JSON.parse(JSON.stringify(state.timetable));const events=getScheduleEvents(next).filter(e=>e.id!==id);if(events.some(e=>e.day===day&&start<e.startSlot+e.duration&&end>e.startSlot)){showToast('该时间段与已有课程重叠','error');return;}events.push({id,day,startSlot:start,duration:end-start,title});next.scheduleEvents=events;closeScheduleCourseModal();commitTimetable(next,'课程已保存');}
+function deleteScheduleCourse(id){const next=JSON.parse(JSON.stringify(state.timetable));next.scheduleEvents=getScheduleEvents(next).filter(e=>e.id!==id);closeScheduleCourseModal();commitTimetable(next,'课程已删除');}
+function closeScheduleCourseModal(){const modal=document.getElementById('modal');modal.className='modal';document.getElementById('modalTitle').style.textAlign='center';document.getElementById('modalOverlay').classList.remove('show');}
+function previewTimetable(index){const table=(state.timetableHistory||[])[index];if(!table)return;const modal=document.getElementById('modalOverlay');document.getElementById('modal').className='modal timetable-preview-modal';document.getElementById('modalIcon').textContent='🗓️';document.getElementById('modalTitle').textContent=`历史课表：${table.name||'未命名课表'}`;const validity=table.expiryDate?`生效：${safeText(table.effectiveDate)} 至 ${safeText(table.expiryDate)}`:`生效：${safeText(table.effectiveDate)}（长期有效）`;document.getElementById('modalText').innerHTML=`<div style="margin-bottom:14px">${validity}</div>${scheduleGrid(table,true)}`;document.getElementById('modalBtns').innerHTML='<button class="modal-btn cancel" onclick="closeTimetablePreview()">关闭</button>';modal.classList.add('show');}
+
+/* Teams-style calendar navigation and recurring course series */
+let scheduleSelectedDate=dateKey(new Date());
+let scheduleMonthCursor=new Date(new Date().getFullYear(),new Date().getMonth(),1);
+function dateKey(date){return `${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,'0')}-${String(date.getDate()).padStart(2,'0')}`;}
+function dateFromKey(key){const [y,m,d]=key.split('-').map(Number);return new Date(y,m-1,d);}
+function plusDays(key,amount){const date=dateFromKey(key);date.setDate(date.getDate()+amount);return dateKey(date);}
+function weekStartFor(key){const date=dateFromKey(key),offset=(date.getDay()+6)%7;date.setDate(date.getDate()-offset);return dateKey(date);}
+function currentWeekStart(){return weekStartFor(scheduleSelectedDate);}
+function dateInTableRange(table,key){return (!table.effectiveDate||key>=table.effectiveDate)&&(!table.expiryDate||key<=table.expiryDate);}
+function eventOccursOn(table,event,key){if(!dateInTableRange(table,key))return false;const series=event.series||{},start=series.startDate||table.effectiveDate||key,end=series.endDate||table.expiryDate||'';if(key<start||(end&&key>end))return false;const weeks=Math.floor((dateFromKey(weekStartFor(key))-dateFromKey(weekStartFor(start)))/(7*86400000));return weeks>=0&&weeks%(Number(series.intervalWeeks)||1)===0;}
+function eventsForVisibleWeek(table){const start=currentWeekStart();return getScheduleEvents(table).filter(event=>eventOccursOn(table,event,plusDays(start,event.day)));}
+function renderMiniCalendar(table){const cursor=scheduleMonthCursor,year=cursor.getFullYear(),month=cursor.getMonth(),first=new Date(year,month,1),offset=first.getDay(),start=new Date(year,month,1-offset),weekdays=['日','一','二','三','四','五','六'];const days=Array.from({length:42},(_,i)=>{const day=new Date(start);day.setDate(start.getDate()+i);const key=dateKey(day),other=day.getMonth()!==month,range=dateInTableRange(table,key),selected=key===scheduleSelectedDate;return `<button class="mini-calendar-day${other?' other':''}${range?' in-range':''}${selected?' selected':''}" onclick="selectCalendarDate('${key}')">${day.getDate()}</button>`;}).join('');return `<div class="mini-calendar-head"><button class="mini-calendar-btn" onclick="changeCalendarMonth(-1)">‹</button><span>${year}年${month+1}月</span><button class="mini-calendar-btn" onclick="changeCalendarMonth(1)">›</button></div><div class="mini-calendar-grid">${weekdays.map(x=>`<div class="mini-calendar-weekday">${x}</div>`).join('')}${days}</div><div class="calendar-legend">🟡 标出课表有效日期<br>🔴 当前选中的日期</div>`;}
+function changeCalendarMonth(offset){scheduleMonthCursor=new Date(scheduleMonthCursor.getFullYear(),scheduleMonthCursor.getMonth()+offset,1);renderTimetableView();}
+function selectCalendarDate(key){scheduleSelectedDate=key;scheduleMonthCursor=new Date(dateFromKey(key).getFullYear(),dateFromKey(key).getMonth(),1);scheduleSelection=null;renderTimetableView();}
+function scheduleGrid(table,readOnly=false){const events=eventsForVisibleWeek(table),selected=scheduleSelection,weekStart=currentWeekStart();const labels=Array.from({length:48},(_,slot)=>`<div class="schedule-time-label${slot%2===0?' hour':''}">${clockForSlot(slot)}</div>`).join('');const days=TIMETABLE_DAYS.map((day,d)=>{const dayKey=plusDays(weekStart,d),slots=Array.from({length:48},(_,slot)=>{const event=events.find(e=>e.day===d&&e.startSlot===slot),selectedClass=selected&&selected.day===d&&selected.slot===slot?' selected':'';const eventHtml=event?`<div class="schedule-event${d%2?' alt':''}" style="height:${Math.max(1,Math.min(event.duration,48-slot))*26-4}px">${safeText(event.title)}<br>${clockForSlot(event.startSlot)}–${clockForSlot(Math.min(48,event.startSlot+event.duration))}</div>`:'';const action=readOnly?'':` onclick="selectScheduleSlot(${d},${slot})" ondblclick="openCourseModal(${d},${slot})"`;return `<div class="schedule-slot${slot%2===0?' hour':''}${selectedClass}" data-schedule-slot="${d}-${slot}"${action}>${eventHtml}</div>`;}).join('');return `<div class="schedule-day-col"><div class="schedule-day-head">${day}<br><span style="font-size:.34rem">${dayKey.slice(5).replace('-','/')}</span></div>${slots}</div>`;}).join('');return `<div class="schedule-scroll"><div class="schedule-board"><div class="schedule-time-col"><div class="schedule-time-head">时间</div>${labels}</div>${days}</div></div>`;}
+function scrollScheduleToNow(){const scroll=document.querySelector('#timetableView .schedule-scroll');if(!scroll)return;const now=new Date(),slot=now.getHours()*2+(now.getMinutes()>=30?1:0);scroll.scrollTop=Math.max(0,slot*26-130);}
+function renderTimetableView(){const el=document.getElementById('timetableView'),table=state.timetable,history=Array.isArray(state.timetableHistory)?state.timetableHistory:[];if(!table){el.innerHTML=`<div class="timetable-container"><div class="timetable-hero"><div><div class="timetable-title">🗓️ 周课程表</div><div class="timetable-subtitle">用日历和全天时间轴安排课程。</div></div><button class="timetable-btn" onclick="createTimetable()">＋ 创建课表</button></div>${renderTimetableHistory(history)}</div>`;return;}const weekStart=currentWeekStart(),weekEnd=plusDays(weekStart,4),today=(new Date().getDay()+6)%7,todayEvents=eventsForVisibleWeek(table).filter(e=>e.day===today).sort((a,b)=>a.startSlot-b.startSlot),validity=table.expiryDate?`生效：${safeText(table.effectiveDate)} 至 ${safeText(table.expiryDate)}`:`生效：${safeText(table.effectiveDate)}（长期有效）`;el.innerHTML=`<div class="timetable-container"><div class="timetable-hero"><div><div class="timetable-title">🗓️ 周课程表 · ${safeText(table.name)}</div><div class="timetable-subtitle">${validity}</div><div class="today-strip">${todayEvents.length?todayEvents.map(e=>`<span class="today-class">今天 ${clockForSlot(e.startSlot)}–${clockForSlot(e.startSlot+e.duration)}：${safeText(e.title)}</span>`).join(''):'<span class="today-class">今天暂未安排课程</span>'}</div></div><div class="mario-friends" title="一起出发吧！"><span>🍄</span><span>⭐</span><span>🐢</span><span>👸</span></div><button class="timetable-btn secondary" onclick="createTimetable()">＋ 新建课表</button></div><div class="timetable-layout"><aside class="timetable-card calendar-panel"><div class="timetable-card-title">📅 选择日期</div>${renderMiniCalendar(table)}</aside><section><div class="timetable-card"><div class="week-heading"><h3>${weekStart} ～ ${weekEnd}</h3><button class="timetable-btn secondary" onclick="selectCalendarDate('${dateKey(new Date())}')">回到今天</button></div><div class="timetable-card-title">✏️ 课表设置</div><div class="timetable-form"><label class="timetable-field">课表名称<input id="timetableName" value="${safeText(table.name)}" maxlength="24"></label><label class="timetable-field">生效日期<input id="timetableDate" type="date" value="${safeText(table.effectiveDate)}"></label><label class="timetable-field">失效日期（留空为长期有效）<input id="timetableExpiryDate" type="date" value="${safeText(table.expiryDate)}"></label></div><div class="schedule-hint">🌟 每格 30 分钟，粗线为整点。日历选择日期后显示该周；时间轴默认定位到现在，滚动即可查看其他时段。双击格子设置课程系列。</div>${scheduleGrid(table)}<div class="timetable-actions"><button class="timetable-btn secondary" onclick="saveTimetable()">💾 保存课表设置</button></div></div></section></div>${renderTimetableHistory(history)}</div>`;setTimeout(scrollScheduleToNow,0);}
+function openCourseModal(day,slot){const weekStart=currentWeekStart(),targetDate=plusDays(weekStart,day),existing=eventsForVisibleWeek(state.timetable).find(e=>e.day===day&&slot>=e.startSlot&&slot<e.startSlot+e.duration),event=existing||{id:'course_'+Date.now(),day,startSlot:slot,duration:2,title:'',series:{startDate:targetDate,endDate:'',intervalWeeks:1}},series=event.series||{startDate:targetDate,endDate:'',intervalWeeks:1},end=Math.min(48,event.startSlot+event.duration),options=Array.from({length:49},(_,i)=>`<option value="${i}">${i===48?'24:00':clockForSlot(i)}</option>`).join(''),modal=document.getElementById('modalOverlay');document.getElementById('modal').className='modal schedule-course-modal';document.getElementById('modalIcon').textContent='⭐';document.getElementById('modalTitle').textContent=existing?'编辑课程系列':'添加课程系列';document.getElementById('modalText').innerHTML=`<div class="schedule-course-form"><label>课程标题<input id="courseTitle" maxlength="30" value="${safeText(event.title)}" placeholder="例如：数学"></label><label>开始时间<select id="courseStart">${options}</select></label><label>结束时间<select id="courseEnd">${options}</select></label><label>系列开始日期<input id="courseSeriesStart" type="date" value="${safeText(series.startDate)}"></label><label>系列结束日期（留空为长期）<input id="courseSeriesEnd" type="date" value="${safeText(series.endDate)}"></label><label>重复规则（${TIMETABLE_DAYS[day]}）<select id="courseSeriesInterval"><option value="1">每 1 周重复</option><option value="2">每 2 周重复</option></select></label></div>`;document.getElementById('courseStart').value=event.startSlot;document.getElementById('courseEnd').value=end;document.getElementById('courseSeriesInterval').value=series.intervalWeeks||1;document.getElementById('modalBtns').innerHTML=`<div class="schedule-course-actions">${existing?`<button class="modal-btn schedule-delete-btn" onclick="deleteScheduleCourse('${event.id}')">删除课程</button>`:''}<span><button class="modal-btn cancel" onclick="closeScheduleCourseModal()">取消</button><button class="modal-btn confirm" onclick="saveScheduleCourse('${event.id}',${event.day})">保存</button></span></div>`;modal.classList.add('show');}
+function saveScheduleCourse(id,day){const title=document.getElementById('courseTitle').value.trim(),start=Number(document.getElementById('courseStart').value),end=Number(document.getElementById('courseEnd').value),seriesStart=document.getElementById('courseSeriesStart').value,seriesEnd=document.getElementById('courseSeriesEnd').value,intervalWeeks=Number(document.getElementById('courseSeriesInterval').value);if(!title||!seriesStart){showToast('请填写课程标题和系列开始日期','error');return;}if(end<=start){showToast('结束时间需晚于开始时间','error');return;}if(seriesEnd&&seriesEnd<seriesStart){showToast('系列结束日期不能早于开始日期','error');return;}const next=JSON.parse(JSON.stringify(state.timetable)),events=getScheduleEvents(next).filter(e=>e.id!==id);if(eventsForVisibleWeek(next).filter(e=>e.id!==id).some(e=>e.day===day&&start<e.startSlot+e.duration&&end>e.startSlot)){showToast('该周的时间段与已有课程重叠','error');return;}events.push({id,day,startSlot:start,duration:end-start,title,series:{startDate:seriesStart,endDate:seriesEnd,intervalWeeks}});next.scheduleEvents=events;closeScheduleCourseModal();commitTimetable(next,'课程系列已保存');}
+function previewTimetable(index){const table=(state.timetableHistory||[])[index];if(!table)return;const savedDate=scheduleSelectedDate;scheduleSelectedDate=table.effectiveDate||savedDate;const grid=scheduleGrid(table,true);scheduleSelectedDate=savedDate;const modal=document.getElementById('modalOverlay');document.getElementById('modal').className='modal timetable-preview-modal';document.getElementById('modalIcon').textContent='🗓️';document.getElementById('modalTitle').textContent=`历史课表：${table.name||'未命名课表'}`;document.getElementById('modalText').innerHTML=`<div style="margin-bottom:14px">生效：${safeText(table.effectiveDate)}${table.expiryDate?' 至 '+safeText(table.expiryDate):'（长期有效）'}</div>${grid}`;document.getElementById('modalBtns').innerHTML='<button class="modal-btn cancel" onclick="closeTimetablePreview()">关闭</button>';modal.classList.add('show');setTimeout(scrollScheduleToNow,0);}
+
+/* One course can occur on several weekdays in the same weekly/biweekly series. */
+function eventDays(event){return Array.isArray(event.days)&&event.days.length?event.days.map(Number):[Number(event.day)];}
+function eventsForVisibleWeek(table){const start=currentWeekStart();return getScheduleEvents(table).flatMap(event=>eventDays(event).filter(day=>eventOccursOn(table,event,plusDays(start,day))).map(day=>({...event,day})));}
+function scheduleGrid(table,readOnly=false){const events=eventsForVisibleWeek(table),selected=scheduleSelection,weekStart=currentWeekStart(),now=new Date(),nowKey=dateKey(now),showNow=weekStartFor(nowKey)===weekStart,nowOffset=54+(now.getHours()*2+now.getMinutes()/30)*26;const labels=Array.from({length:48},(_,slot)=>`<div class="schedule-time-label${slot%2===0?' hour':''}">${clockForSlot(slot)}</div>`).join('');const days=TIMETABLE_DAYS.map((day,d)=>{const dayKey=plusDays(weekStart,d),slots=Array.from({length:48},(_,slot)=>{const event=events.find(e=>e.day===d&&e.startSlot===slot),selectedClass=selected&&selected.day===d&&selected.slot===slot?' selected':'';const eventHtml=event?`<div class="schedule-event${d%2?' alt':''}" style="height:${Math.max(1,Math.min(event.duration,48-slot))*26-4}px">${safeText(event.title)}<br>${clockForSlot(event.startSlot)}–${clockForSlot(Math.min(48,event.startSlot+event.duration))}</div>`:'';const action=readOnly?'':` onclick="selectScheduleSlot(${d},${slot})" ondblclick="openCourseModal(${d},${slot})"`;return `<div class="schedule-slot${slot%2===0?' hour':''}${selectedClass}" data-schedule-slot="${d}-${slot}"${action}>${eventHtml}</div>`;}).join('');return `<div class="schedule-day-col"><div class="schedule-day-head">${day}<br><span style="font-size:.34rem">${dayKey.slice(5).replace('-','/')}</span></div>${slots}</div>`;}).join('');return `<div class="schedule-scroll"><div class="schedule-board"><div class="schedule-time-col"><div class="schedule-time-head">时间</div>${labels}</div>${days}${showNow?`<div class="current-time-line" style="top:${nowOffset}px"></div>`:''}</div></div>`;}
+function refreshCurrentTimeLine(){const line=document.querySelector('#timetableView .current-time-line');if(line){const now=new Date();line.style.top=(54+(now.getHours()*2+now.getMinutes()/30)*26)+'px';}}
+function openCourseModal(day,slot){const weekStart=currentWeekStart(),targetDate=plusDays(weekStart,day),existing=eventsForVisibleWeek(state.timetable).find(e=>e.day===day&&slot>=e.startSlot&&slot<e.startSlot+e.duration),event=existing||{id:'course_'+Date.now(),day,startSlot:slot,duration:2,title:'',series:{startDate:targetDate,endDate:'',intervalWeeks:1}},series=event.series||{startDate:targetDate,endDate:'',intervalWeeks:1},days=eventDays(event),end=Math.min(48,event.startSlot+event.duration),options=Array.from({length:49},(_,i)=>`<option value="${i}">${i===48?'24:00':clockForSlot(i)}</option>`).join(''),weekdayChoices=TIMETABLE_DAYS.map((name,index)=>`<label class="weekday-pill"><input type="checkbox" name="courseWeekday" value="${index}" ${days.includes(index)?'checked':''}>${name}</label>`).join(''),modal=document.getElementById('modalOverlay');document.getElementById('modal').className='modal schedule-course-modal';document.getElementById('modalIcon').textContent='⭐';document.getElementById('modalTitle').textContent=existing?'编辑课程系列':'添加课程系列';document.getElementById('modalText').innerHTML=`<div class="schedule-course-form"><label>课程标题<input id="courseTitle" maxlength="30" value="${safeText(event.title)}" placeholder="例如：数学"></label><label>开始时间<select id="courseStart">${options}</select></label><label>结束时间<select id="courseEnd">${options}</select></label><label>重复星期（可多选）<span class="weekday-pills">${weekdayChoices}</span></label><label>系列开始日期<input id="courseSeriesStart" type="date" value="${safeText(series.startDate)}"></label><label>系列结束日期（留空为长期）<input id="courseSeriesEnd" type="date" value="${safeText(series.endDate)}"></label><label>重复间隔<select id="courseSeriesInterval"><option value="1">每 1 周重复</option><option value="2">每 2 周重复</option></select></label></div>`;document.getElementById('courseStart').value=event.startSlot;document.getElementById('courseEnd').value=end;document.getElementById('courseSeriesInterval').value=series.intervalWeeks||1;document.getElementById('modalBtns').innerHTML=`<div class="schedule-course-actions">${existing?`<button class="modal-btn schedule-delete-btn" onclick="deleteScheduleCourse('${event.id}')">删除课程</button>`:''}<span><button class="modal-btn cancel" onclick="closeScheduleCourseModal()">取消</button><button class="modal-btn confirm" onclick="saveScheduleCourse('${event.id}')">保存</button></span></div>`;modal.classList.add('show');}
+function saveScheduleCourse(id){const title=document.getElementById('courseTitle').value.trim(),start=Number(document.getElementById('courseStart').value),end=Number(document.getElementById('courseEnd').value),seriesStart=document.getElementById('courseSeriesStart').value,seriesEnd=document.getElementById('courseSeriesEnd').value,intervalWeeks=Number(document.getElementById('courseSeriesInterval').value),days=[...document.querySelectorAll('input[name="courseWeekday"]:checked')].map(el=>Number(el.value));if(!title||!seriesStart||!days.length){showToast('请填写标题、开始日期并选择重复星期','error');return;}if(end<=start){showToast('结束时间需晚于开始时间','error');return;}if(seriesEnd&&seriesEnd<seriesStart){showToast('系列结束日期不能早于开始日期','error');return;}const next=JSON.parse(JSON.stringify(state.timetable)),events=getScheduleEvents(next).filter(e=>e.id!==id),visible=eventsForVisibleWeek(next);if(visible.some(e=>days.includes(e.day)&&start<e.startSlot+e.duration&&end>e.startSlot)){showToast('该周的时间段与已有课程重叠','error');return;}events.push({id,day:days[0],days,startSlot:start,duration:end-start,title,series:{startDate:seriesStart,endDate:seriesEnd,intervalWeeks}});next.scheduleEvents=events;closeScheduleCourseModal();commitTimetable(next,'课程系列已保存');}
+setInterval(refreshCurrentTimeLine,60000);
+
+/* ===========================
+   UI HELPERS
+   =========================== */
+function showToast(msg, type='success'){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast '+type+' show';
+  clearTimeout(t._timer);
+  t._timer = setTimeout(()=>t.classList.remove('show'),2500);
+}
+
+function showModal(icon,title,text,btns){
+  document.getElementById('modalIcon').textContent = icon;
+  document.getElementById('modalTitle').textContent = title;
+  document.getElementById('modalText').textContent = text;
+  document.getElementById('modalBtns').innerHTML = btns.map((b,i)=>
+    `<button class="modal-btn ${b.cls}" onclick="modalActions[${i}]()">${b.text}</button>`
+  ).join('');
+  window.modalActions = btns.map(b=>b.action);
+  document.getElementById('modalOverlay').classList.add('show');
+}
+
+function closeModal(){
+  const content=document.getElementById('modal');
+  if(content.classList.contains('timetable-preview-modal') || content.classList.contains('schedule-course-modal')){
+    content.className='modal';
+    document.getElementById('modalTitle').style.textAlign='center';
+  }
+  document.getElementById('modalOverlay').classList.remove('show');
+}
+
+document.getElementById('modalOverlay').addEventListener('click',function(e){
+  if(e.target===this) closeModal();
+});
+
+function toggleSidebar(){
+  document.getElementById('sidebar').classList.toggle('open');
+}
+function closeSidebar(){
+  document.getElementById('sidebar').classList.remove('open');
+}
+
+function showFloatingStar(e){
+  if(!e) return;
+  const el = document.createElement('div');
+  el.className = 'star-earn';
+  el.textContent = '☀️ +'+POINTS_PER_TASK;
+  el.style.left = (e.clientX||e.pageX||window.innerWidth/2)+'px';
+  el.style.top = (e.clientY||e.pageY||300)+'px';
+  document.body.appendChild(el);
+  setTimeout(()=>el.remove(),1000);
+}
+
+function launchConfetti(){
+  const container = document.getElementById('confetti');
+  const colors = ['#FF6B6B','#4ECDC4','#FFD93D','#A78BFA','#60A5FA','#FB923C','#F472B6','#34D399'];
+  for(let i=0;i<30;i++){
+    const piece = document.createElement('div');
+    piece.className = 'confetti-piece';
+    piece.style.left = Math.random()*100+'%';
+    piece.style.background = colors[Math.floor(Math.random()*colors.length)];
+    piece.style.animationDelay = Math.random()*0.5+'s';
+    piece.style.animationDuration = (1+Math.random())+'s';
+    piece.style.borderRadius = Math.random()>0.5?'50%':'2px';
+    piece.style.width = (6+Math.random()*8)+'px';
+    piece.style.height = (6+Math.random()*8)+'px';
+    container.appendChild(piece);
+    setTimeout(()=>piece.remove(),2500);
+  }
+}
+
+/* ===========================
+   CONTENT MANAGEMENT
+   =========================== */
+function renderManageView(){
+  const defaultList = document.getElementById('defaultSubjectList');
+  const customList = document.getElementById('customSubjectList');
+  const customEmpty = document.getElementById('customSubjectEmpty');
+  
+  // Render default subjects (filter out deleted ones)
+  const deleted = state.deletedDefaultSubjects || [];
+  const visibleDefaults = SUBJECTS.filter(s => !deleted.includes(s.id));
+  defaultList.innerHTML = visibleDefaults.map(s => `
+    <div class="manage-subject-item">
+      <div class="manage-subject-icon">${s.icon}</div>
+      <div class="manage-subject-info">
+        <div class="manage-subject-name">${s.name}</div>
+        <div class="manage-subject-units">${s.units.length} 个单元 · ${s.units.reduce((a,u) => a + u.tasks.length, 0)} 个任务</div>
+      </div>
+      <div class="manage-subject-actions">
+        <button class="manage-action-btn view" onclick="viewSubject('${s.id}')" title="查看">👁️</button>
+        <button class="manage-action-btn edit" onclick="editSubject('default','${s.id}')" title="编辑">✏️</button>
+        <button class="manage-action-btn delete" onclick="deleteDefaultSubject('${s.id}')" title="删除">🗑️</button>
+      </div>
+    </div>
+  `).join('');
+  
+  // Render custom subjects
+  const customSubjects = state.customSubjects || [];
+  if(customSubjects.length === 0){
+    customList.innerHTML = '';
+    customEmpty.style.display = 'block';
+  } else {
+    customEmpty.style.display = 'none';
+    customList.innerHTML = customSubjects.map((s, idx) => `
+      <div class="manage-subject-item">
+        <div class="manage-subject-icon">${s.icon || '📚'}</div>
+        <div class="manage-subject-info">
+          <div class="manage-subject-name">${s.name}</div>
+          <div class="manage-subject-units">${s.units.length} 个单元 · ${s.units.reduce((a,u) => a + u.tasks.length, 0)} 个任务</div>
+        </div>
+        <div class="manage-subject-actions">
+          <button class="manage-action-btn view" onclick="viewSubject('custom_${idx}')" title="查看">👁️</button>
+          <button class="manage-action-btn edit" onclick="editSubject('custom',${idx})" title="编辑">✏️</button>
+          <button class="manage-action-btn delete" onclick="deleteCustomSubject(${idx})" title="删除">🗑️</button>
+        </div>
+      </div>
+    `).join('');
+  }
+}
+
+function showAddSubjectModal(){
+  const modal = document.getElementById('modalOverlay');
+  const modalContent = document.getElementById('modal');
+  modalContent.className = 'modal manage-modal';
+  document.getElementById('modalIcon').style.display = 'none';
+  document.getElementById('modalTitle').textContent = '添加自定义科目';
+  document.getElementById('modalTitle').style.textAlign = 'left';
+  document.getElementById('modalText').innerHTML = `
+    <div class="manage-form-group">
+      <label class="manage-form-label">科目名称</label>
+      <input type="text" class="manage-form-input" id="newSubjectName" placeholder="例如：编程">
+    </div>
+    <div class="manage-form-group">
+      <label class="manage-form-label">图标 (emoji)</label>
+      <input type="text" class="manage-form-input" id="newSubjectIcon" placeholder="例如：💻" maxlength="2" value="">
+    </div>
+    <div class="manage-form-group">
+      <label class="manage-form-label">主题颜色</label>
+      <input type="color" class="manage-form-input" id="newSubjectColor" value="#FF6B6B" style="height:44px;padding:4px;">
+    </div>
+  `;
+  document.getElementById('modalBtns').innerHTML = `
+    <button class="modal-btn cancel" onclick="closeManageModal()">取消</button>
+    <button class="modal-btn confirm" onclick="saveNewSubject()">添加</button>
+  `;
+  modal.classList.add('show');
+  setTimeout(() => document.getElementById('newSubjectName').focus(), 100);
+}
+
+function saveNewSubject(){
+  const name = document.getElementById('newSubjectName').value.trim();
+  const icon = document.getElementById('newSubjectIcon').value.trim() || '📚';
+  const color = document.getElementById('newSubjectColor').value;
+  
+  if(!name){
+    showToast('请输入科目名称', 'warning');
+    return;
+  }
+  
+  if(!state.customSubjects) state.customSubjects = [];
+  
+  const lightColor = color + '20'; // Add transparency
+  state.customSubjects.push({
+    id: 'custom_' + Date.now(),
+    name: name,
+    icon: icon,
+    color: color,
+    lightColor: lightColor,
+    units: []
+  });
+  
+  saveState();
+  closeManageModal();
+  renderManageView();
+  renderSidebar();
+  showToast('科目已添加！', 'success');
+}
+
+/* --- Unified edit helper: returns reference to the subject being edited --- */
+let _editRef = null;
+function _editSubjectRef(type, key){
+  if(type === 'default') return SUBJECTS.find(s => s.id === key);
+  return state.customSubjects[key];
+}
+function _reRenderEditModal(){
+  if(!_editRef) return;
+  editSubject(_editRef.type, _editRef.key);
+}
+function _persistDefaultIfNeeded(){
+  if(_editRef && _editRef.type === 'default')
+    state.defaultSubjects = JSON.parse(JSON.stringify(SUBJECTS));
+}
+
+/* --- Open unified edit modal for both default and custom subjects --- */
+function editSubject(type, key){
+  const subject = _editSubjectRef(type, key);
+  if(!subject) return;
+  _editRef = {type, key};
+
+  const modal = document.getElementById('modalOverlay');
+  const modalContent = document.getElementById('modal');
+  modalContent.className = 'modal manage-modal';
+  document.getElementById('modalIcon').style.display = 'none';
+  document.getElementById('modalTitle').textContent = '编辑科目：' + subject.name;
+  document.getElementById('modalTitle').style.textAlign = 'left';
+
+  let unitsHtml = subject.units.map((u, uIdx) => `
+    <div class="manage-unit-item">
+      <div class="manage-unit-header">
+        <div class="manage-unit-name">${u.name}</div>
+        <button class="manage-task-delete" onclick="deleteUnit(${uIdx})" title="删除单元">✕</button>
+      </div>
+      <div class="manage-task-list">
+        ${u.tasks.map((t, tIdx) => {
+          const rt = (t && t.repeatType) === 'daily' ? 'daily' : 'once';
+          const rtLabel = rt === 'daily' ? '🔁 每天重复' : '单次';
+          return `
+          <div class="manage-task-item" style="flex-wrap:wrap">
+            <div class="manage-task-name" title="${t.name}" style="max-width:60%">${t.name}</div>
+            <select onchange="setTaskRepeatType(${uIdx},${tIdx},this.value)" title="重复方式"
+              style="padding:3px 5px;font-size:.7rem;background:#C6B28A;border:2px solid #3D3D3D;color:#1A1A1A;min-width:92px">
+              <option value="once"${rt==='once'?' selected':''}>一次性</option>
+              <option value="daily"${rt==='daily'?' selected':''}>每天重复</option>
+            </select>
+            <button class="manage-task-delete" onclick="renameTaskInline(${uIdx},${tIdx})" title="修改名称" style="margin-left:2px">✏️</button>
+            <button class="manage-task-delete" onclick="deleteTaskByIndex(${uIdx}, ${tIdx})" title="删除任务（历史记录保留）">✕</button>
+          </div>`;
+        }).join('')}
+        <button class="manage-add-unit-btn" onclick="addTaskToUnit(${uIdx})" style="margin-top:6px;padding:6px;font-size:.8rem;">+ 添加任务</button>
+      </div>
+    </div>
+  `).join('');
+
+  document.getElementById('modalText').innerHTML = `
+    <div class="manage-form-group">
+      <label class="manage-form-label">科目名称</label>
+      <input type="text" class="manage-form-input" id="editSubjectName" value="${subject.name}">
+    </div>
+    <div class="manage-form-group">
+      <label class="manage-form-label">图标 (emoji)</label>
+      <input type="text" class="manage-form-input" id="editSubjectIcon" value="${subject.icon}" maxlength="2">
+    </div>
+    <div class="manage-form-group">
+      <label class="manage-form-label">主题颜色</label>
+      <input type="color" class="manage-form-input" id="editSubjectColor" value="${subject.color}" style="height:44px;padding:4px;">
+    </div>
+    <div class="manage-form-group">
+      <label class="manage-form-label">单元和任务</label>
+      <div class="manage-unit-list" id="editUnitList">
+        ${unitsHtml}
+      </div>
+      <button class="manage-add-unit-btn" onclick="addUnit()">+ 添加单元</button>
+    </div>
+  `;
+  document.getElementById('modalBtns').innerHTML = `
+    <button class="modal-btn cancel" onclick="closeManageModal()">取消</button>
+    <button class="modal-btn confirm" onclick="saveSubjectEdit()">保存</button>
+  `;
+  modal.classList.add('show');
+}
+
+/* --- Save subject edits (name/icon/color) --- */
+function saveSubjectEdit(){
+  if(!_editRef) return;
+  const subject = _editSubjectRef(_editRef.type, _editRef.key);
+  if(!subject) return;
+
+  const name = document.getElementById('editSubjectName').value.trim();
+  const icon = document.getElementById('editSubjectIcon').value.trim() || subject.icon;
+  const color = document.getElementById('editSubjectColor').value;
+
+  if(!name){ showToast('请输入科目名称', 'warning'); return; }
+
+  subject.name = name;
+  subject.icon = icon;
+  subject.color = color;
+  subject.lightColor = color + '20';
+
+  _persistDefaultIfNeeded();
+  saveState();
+  closeManageModal();
+  renderManageView();
+  renderSidebar();
+  if(currentSubject === subject.id){
+    document.documentElement.style.setProperty('--subject-color', subject.color);
+    document.documentElement.style.setProperty('--subject-light', subject.lightColor);
+  }
+  showToast('科目已更新！', 'success');
+}
+
+function deleteCustomSubject(idx){
+  if(!confirm('确定要删除这个科目吗？相关任务进度也会丢失。')) return;
+  state.customSubjects.splice(idx, 1);
+  saveState();
+  renderManageView();
+  renderSidebar();
+  showToast('科目已删除', 'warning');
+}
+
+function deleteDefaultSubject(id){
+  if(!confirm('确定要删除这个默认科目吗？相关任务进度也会隐藏。')) return;
+  if(!state.deletedDefaultSubjects) state.deletedDefaultSubjects = [];
+  state.deletedDefaultSubjects.push(id);
+  if(currentSubject === id){
+    const remaining = getAllSubjects();
+    if(remaining.length > 0) currentSubject = remaining[0].id;
+  }
+  saveState();
+  renderManageView();
+  renderSidebar();
+  render();
+  showToast('科目已删除', 'warning');
+}
+
+/* --- Unified unit/task management (uses _editRef) --- */
+function addUnit(){
+  if(!_editRef) return;
+  const subject = _editSubjectRef(_editRef.type, _editRef.key);
+  const name = prompt('请输入单元名称：');
+  if(!name || !name.trim()) return;
+  subject.units.push({name: name.trim(), tasks: []});
+  _persistDefaultIfNeeded(); saveState();
+  _reRenderEditModal();
+  showToast('单元已添加', 'success');
+}
+
+function deleteUnit(unitIdx){
+  if(!_editRef) return;
+  if(!confirm('确定要删除这个单元吗？')) return;
+  const subject = _editSubjectRef(_editRef.type, _editRef.key);
+  if(unitIdx >= 0 && unitIdx < subject.units.length) subject.units.splice(unitIdx, 1);
+  _persistDefaultIfNeeded(); saveState();
+  _reRenderEditModal();
+  showToast('单元已删除', 'warning');
+}
+
+function addTaskToUnit(unitIdx){
+  if(!_editRef) return;
+  const subject = _editSubjectRef(_editRef.type, _editRef.key);
+  if(!subject || !subject.units[unitIdx]) return;
+
+  /* 小范围 prompt 表单：同时采集任务名和重复方式 */
+  const name = prompt('请输入任务名称：');
+  if(!name || !name.trim()) return;
+  const rtRaw = prompt('重复方式：输入 "1" = 一次性（默认），输入 "2" = 每天重复', '1');
+  const repeatType = (rtRaw === '2') ? 'daily' : 'once';
+
+  subject.units[unitIdx].tasks.push({
+    id: 'custom_task_' + Date.now() + '_' + Math.floor(Math.random()*10000),
+    name: name.trim(),
+    repeatType: repeatType
+  });
+  _persistDefaultIfNeeded(); saveState();
+  _reRenderEditModal();
+  showToast('任务已添加（' + (repeatType==='daily'?'每天重复':'一次性') + '）', 'success');
+}
+
+/* 切换单个任务的重复方式（历史记录保留，不回溯）—— 需求5 */
+function setTaskRepeatType(unitIdx, taskIdx, newType){
+  if(!_editRef) return;
+  const subject = _editSubjectRef(_editRef.type, _editRef.key);
+  const t = subject && subject.units[unitIdx] && subject.units[unitIdx].tasks[taskIdx];
+  if(!t) return;
+  if(t.repeatType === newType) return;
+  t.repeatType = newType;
+  _persistDefaultIfNeeded(); saveState();
+  // 不需要整体重绘：已通过 onchange 完成即时反馈，保存即可
+  showToast('重复方式已更新：' + (newType==='daily'?'每天重复':'一次性'), 'success');
+}
+
+/* 内联修改任务名 */
+function renameTaskInline(unitIdx, taskIdx){
+  if(!_editRef) return;
+  const subject = _editSubjectRef(_editRef.type, _editRef.key);
+  const t = subject && subject.units[unitIdx] && subject.units[unitIdx].tasks[taskIdx];
+  if(!t) return;
+  const newName = prompt('修改任务名称：', t.name);
+  if(!newName || !newName.trim()) return;
+  t.name = newName.trim();
+  _persistDefaultIfNeeded(); saveState();
+  _reRenderEditModal();
+  showToast('任务名称已更新', 'success');
+}
+
+function deleteTaskByIndex(unitIdx, taskIdx){
+  if(!_editRef) return;
+  const subject = _editSubjectRef(_editRef.type, _editRef.key);
+  if(!subject) return;
+  const t = subject.units[unitIdx] && subject.units[unitIdx].tasks[taskIdx];
+  if(!t) return;
+  if(!confirm('确定要删除这个任务模板吗？\n✅ 历史已完成记录会被保留，不会被删除或回溯修改。')) return;
+  // 注意：这里只删除任务模板本身；
+  // state.completedTasks / state.taskHistory / state.taskRewardGiven 中的历史记录 **保留不回溯**（需求5）
+  subject.units[unitIdx].tasks.splice(taskIdx, 1);
+  _persistDefaultIfNeeded(); saveState();
+  _reRenderEditModal();
+  showToast('任务模板已删除（历史记录已保留）', 'warning');
+}
+
+function viewSubject(subjectId){
+  closeManageModal();
+  selectSubject(subjectId);
+}
+
+function closeManageModal(){
+  const modal = document.getElementById('modalOverlay');
+  const modalContent = document.getElementById('modal');
+  modalContent.className = 'modal';
+  document.getElementById('modalIcon').style.display = 'block';
+  document.getElementById('modalTitle').style.textAlign = 'center';
+  modal.classList.remove('show');
+}
+
+/* ===========================
+   INIT
+   =========================== */
+// Set initial subject color
+const initSubject = SUBJECTS.find(x=>x.id===currentSubject);
+if(initSubject){
+  document.documentElement.style.setProperty('--subject-color',initSubject.color);
+  document.documentElement.style.setProperty('--subject-light',initSubject.lightColor);
+}
+render();
+updatePageTitle();
+showView('subject');
+
+/* 每天本地 0 点自动重新渲染 —— daily 任务天然按日独立，自然变为"待完成"（需求2/6） */
+function scheduleMidnightRender(){
+  const now = new Date();
+  const next = new Date(now);
+  next.setHours(24, 0, 0, 0); // 本地时区次日 0 点
+  const delay = next.getTime() - now.getTime();
+  setTimeout(() => {
+    render();
+    scheduleMidnightRender(); // 每天排一次
+  }, delay);
+}
+scheduleMidnightRender();
+
+function updateTimeDisplay(){
+  var now=new Date();
+  var y=now.getFullYear();
+  var mo=String(now.getMonth()+1).padStart(2,'0');
+  var d=String(now.getDate()).padStart(2,'0');
+  var h=String(now.getHours()).padStart(2,'0');
+  var mi=String(now.getMinutes()).padStart(2,'0');
+  var s=String(now.getSeconds()).padStart(2,'0');
+  var wk=['星期日','星期一','星期二','星期三','星期四','星期五','星期六'];
+  var w=wk[now.getDay()];
+  var el=document.getElementById('timeDisplay');
+  if(el) el.textContent=y+'-'+mo+'-'+d+' '+h+':'+mi+':'+s+' '+w;
+}
+setInterval(updateTimeDisplay,1000);
+updateTimeDisplay();
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="star-earn" style="left: 656px; top: 572px;">☀️ +5</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body></html>
