@@ -756,7 +756,7 @@ body{line-height:1.5}
     <input class="name-input" id="nameInput" placeholder="输入名字" maxlength="10" onkeydown="if(event.key==='Enter')saveName()" onblur="saveName()" style="display: none;">
   </div>
   <div class="header-right">
-    <div class="star-badge">
+    <div class="star-badge" onclick="showView('stars')" title="点击查看阳光明细" style="cursor:pointer">
       <span class="star-icon">☀️</span>
       <span id="totalStars">20</span>
       <span style="font-size:.8rem">阳光</span>
@@ -1453,6 +1453,15 @@ body{line-height:1.5}
       </div>
     </div></div>
   </div>
+  <div id="starsView" class="view">
+    <div class="data-container">
+      <div class="data-card">
+        <div class="data-card-title">📒 阳光收支明细</div>
+        <div style="font-size:.8rem;color:var(--muted);margin:8px 0 16px">点击卡片可回到科目视图；下方按日期倒序展示所有阳光的获得与支出。</div>
+        <div id="starsHistoryBody"></div>
+      </div>
+    </div>
+  </div>
   <div id="dataView" class="view">
     <div class="data-container">
       <div class="data-card">
@@ -2092,6 +2101,7 @@ function defaultState(){
     completedTasks:{},            // once 任务：{taskId:true}
     taskHistory:{},               // daily 任务每日完成记录：{taskId: {'2026-10-20':true, ...}}
     taskRewardGiven:{},           // 防止同一天重复发奖：{taskId: {'2026-10-20':true}}
+    starHistory:[],               // 阳光收支明细：[{id,date,time,taskName,amount,type}]
     checkin:{lastDate:'',streak:0,total:0,history:[]},
     redeemedItems:{},
     customRewards:[],
@@ -2145,6 +2155,20 @@ _migrateTaskTemplates();
 function saveState(){
   try{localStorage.setItem('study_workbench_v2',JSON.stringify(state))}
   catch(e){console.error('Save error',e)}
+}
+
+/* 记录阳光收支明细（获得 / 扣回 / 打卡 / 兑换）—— 用于"阳光明细"页面 */
+function addStarHistory(taskName, amount, type){
+  const now = new Date();
+  if(!Array.isArray(state.starHistory)) state.starHistory = [];
+  state.starHistory.push({
+    id: 'sh_' + Date.now() + '_' + Math.floor(Math.random()*10000),
+    date: localDateKey(now),
+    time: now.toTimeString().slice(0,5),
+    taskName: taskName,
+    amount: amount,        // 正数=获得，负数=扣回/支出
+    type: type             // 'task' | 'task_cancel' | 'checkin' | 'redeem'
+  });
 }
 
 /* ===========================
@@ -2446,6 +2470,84 @@ function switchShopTab(tab){
   renderShopView();
 }
 
+/* 阳光收支明细页面 —— 按日期倒序分组，展示每笔获得/扣回/兑换 */
+function renderStarsView(){
+  const body = document.getElementById('starsHistoryBody');
+  const history = Array.isArray(state.starHistory) ? state.starHistory : [];
+  if(!body) return;
+
+  if(history.length === 0){
+    body.innerHTML = `<div style="text-align:center;padding:40px 0;color:var(--muted)">
+      还没有阳光收支记录，去完成任务或打卡吧！<br>
+      <button class="manage-add-unit-btn" onclick="showView('subject')" style="margin-top:16px">回到科目</button>
+    </div>`;
+    return;
+  }
+
+  // 按日期倒序分组
+  const groups = {};
+  history.slice().reverse().forEach(r => {
+    if(!groups[r.date]) groups[r.date] = [];
+    groups[r.date].push(r);
+  });
+
+  const totalIn = history.filter(r=>r.amount>0).reduce((a,r)=>a+r.amount,0);
+  const totalOut = history.filter(r=>r.amount<0).reduce((a,r)=>a+r.amount,0);
+
+  const typeLabel = {
+    task: '任务完成',
+    task_cancel: '取消完成',
+    checkin: '每日打卡',
+    redeem: '兑换支出'
+  };
+  const typeColor = {
+    task: '#27AE60',
+    task_cancel: '#C0392B',
+    checkin: '#F39C12',
+    redeem: '#8E44AD'
+  };
+
+  const html = `
+    <div style="display:flex;gap:12px;margin-bottom:18px;flex-wrap:wrap">
+      <div class="stat-card" style="flex:1;min-width:120px">
+        <div class="stat-num" style="color:#27AE60">+${totalIn}</div>
+        <div class="stat-label">累计获得</div>
+      </div>
+      <div class="stat-card" style="flex:1;min-width:120px">
+        <div class="stat-num" style="color:#C0392B">${totalOut}</div>
+        <div class="stat-label">累计支出/回收</div>
+      </div>
+      <div class="stat-card" style="flex:1;min-width:120px">
+        <div class="stat-num">${state.stars}</div>
+        <div class="stat-label">当前余额</div>
+      </div>
+    </div>
+    ${Object.keys(groups).sort().reverse().map(date => `
+      <div style="margin-bottom:18px">
+        <div style="font-weight:bold;color:var(--primary);margin-bottom:8px;padding:6px 10px;background:var(--card);border:2px solid var(--border)">${date}</div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          ${groups[date].map(r=>{
+            const positive = r.amount > 0;
+            return `<div style="display:flex;justify-content:space-between;align-items:center;padding:10px 12px;background:#FFF8E7;border:2px solid #D4A24C;border-radius:8px;gap:8px">
+              <div style="flex:1;min-width:0">
+                <div style="font-weight:bold;color:#3D3D3D;word-break:break-word">${r.taskName}</div>
+                <div style="font-size:.75rem;color:var(--muted);margin-top:2px">
+                  <span style="display:inline-block;padding:1px 6px;background:${typeColor[r.type]||'#999'};color:#fff;border-radius:4px;font-size:.7rem;margin-right:6px">${typeLabel[r.type]||r.type}</span>
+                  ${r.time}
+                </div>
+              </div>
+              <div style="font-size:1.1rem;font-weight:bold;white-space:nowrap;color:${positive?'#27AE60':'#C0392B'}">
+                ${positive?'+':''}${r.amount} ☀️
+              </div>
+            </div>`;
+          }).join('')}
+        </div>
+      </div>
+    `).join('')}
+  `;
+  body.innerHTML = html;
+}
+
 function renderDataView(){
   let totalTasks = 0, doneTasks = 0;
   getAllSubjects().forEach(s=>s.units.forEach(u=>u.tasks.forEach(t=>{
@@ -2580,6 +2682,9 @@ function showView(view){
   } else if(view==='manage'){
     document.getElementById('manageView').classList.add('active');
     renderManageView();
+  } else if(view==='stars'){
+    document.getElementById('starsView').classList.add('active');
+    renderStarsView();
   }
 }
 
@@ -2604,22 +2709,32 @@ function toggleTask(taskId, evt){
   const task = findTaskTemplate(taskId);
   const repeatType = (task && task.repeatType) || 'once';
   const today = localDateKey();
+  const taskName = (task && task.name) || '任务';
 
   if(repeatType === 'daily'){
     // === 每日重复：按天独立记录 ===
     if(!state.taskHistory[taskId]) state.taskHistory[taskId] = {};
     const doneToday = !!state.taskHistory[taskId][today];
     if(doneToday){
-      // 取消当天完成标记 —— 需求4：只取消当天，不影响其他日期；阳光不退
+      // 取消当天完成标记 —— 只取消当天，不影响其他日期；阳光奖励回收
       delete state.taskHistory[taskId][today];
-      showToast('已取消今日完成标记','warning');
+      // 若今天曾发过奖励，则回收并清除标记（允许再次完成时重新领奖）
+      if(state.taskRewardGiven[taskId] && state.taskRewardGiven[taskId][today]){
+        delete state.taskRewardGiven[taskId][today];
+        state.stars = Math.max(0, state.stars - POINTS_PER_TASK);
+        addStarHistory(taskName, -POINTS_PER_TASK, 'task_cancel');
+        showToast('已取消今日完成，回收 '+POINTS_PER_TASK+' 阳光','warning');
+      } else {
+        showToast('已取消今日完成标记','warning');
+      }
     } else {
       state.taskHistory[taskId][today] = true;
-      // 发放奖励（同一天首次完成才发奖）—— 需求3
+      // 发放奖励（同一天首次完成才发奖）
       if(!state.taskRewardGiven[taskId]) state.taskRewardGiven[taskId] = {};
       if(!state.taskRewardGiven[taskId][today]){
         state.taskRewardGiven[taskId][today] = true;
         state.stars += POINTS_PER_TASK;
+        addStarHistory(taskName, POINTS_PER_TASK, 'task');
         showToast('今日任务完成！+'+POINTS_PER_TASK+' 阳光 ☀️','success');
         showFloatingStar(evt);
       } else {
@@ -2632,10 +2747,12 @@ function toggleTask(taskId, evt){
     if(state.completedTasks[taskId]){
       delete state.completedTasks[taskId];
       state.stars = Math.max(0, state.stars - POINTS_PER_TASK);
+      addStarHistory(taskName, -POINTS_PER_TASK, 'task_cancel');
       showToast('已取消完成，-'+POINTS_PER_TASK+' 阳光','warning');
     } else {
       state.completedTasks[taskId] = true;
       state.stars += POINTS_PER_TASK;
+      addStarHistory(taskName, POINTS_PER_TASK, 'task');
       showToast('完成！+'+POINTS_PER_TASK+' 阳光 ☀️','success');
       showFloatingStar(evt);
       checkSubjectCompletion();
@@ -2690,6 +2807,7 @@ function doCheckin(){
     state.checkin.history.push(today);
   }
   state.stars += POINTS_PER_CHECKIN;
+  addStarHistory('每日打卡', POINTS_PER_CHECKIN, 'checkin');
   saveState();
   render();
   showToast(`打卡成功！+${POINTS_PER_CHECKIN} 阳光 ☀️`,'success');
@@ -2705,6 +2823,7 @@ function redeemReward(rewardId, price, name, emoji){
     {text:'再想想',cls:'cancel',action:()=>closeModal()},
     {text:'确认兑换',cls:'confirm',action:()=>{
       state.stars -= price;
+      addStarHistory('兑换：'+name, -price, 'redeem');
       state.redeemedItems[rewardId] = (state.redeemedItems[rewardId]||0)+1;
       if(!state.redemptionHistory) state.redemptionHistory = [];
       const now = new Date();
