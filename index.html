@@ -1301,7 +1301,7 @@ body{line-height:1.5}
     <div class="checkin-container">
       <div class="checkin-card">
         <div class="checkin-title">📅 每日打卡</div>
-        <div class="checkin-subtitle">每天坚持打卡，获得 20 阳光！</div>
+        <div class="checkin-subtitle">每天坚持打卡，获得 5 阳光！</div>
         <button class="checkin-btn checked" onclick="doCheckin()">
           <span class="btn-icon">✅</span>
           <span class="btn-text">已打卡</span>
@@ -1642,7 +1642,7 @@ body{line-height:1.5}
 </main>
 
 <!-- TOAST -->
-<div class="toast success" id="toast">打卡成功！+20 阳光 ☀️</div>
+<div class="toast success" id="toast">打卡成功！+5 阳光 ☀️</div>
 <!-- CONFETTI -->
 <div class="confetti-container" id="confetti"></div>
 <!-- MODAL -->
@@ -1784,7 +1784,7 @@ function refreshCurrentTimeLine(){const line=document.querySelector('#timetableV
    CONSTANTS
    =========================== */
 const POINTS_PER_TASK = 5;
-const POINTS_PER_CHECKIN = 20;
+const POINTS_PER_CHECKIN = 5;
 
 const SUBJECTS = [
   {
@@ -2314,6 +2314,9 @@ function renderCheckinView(){
 
   const firstDay = new Date(year,month,1).getDay();
   const daysInMonth = new Date(year,month+1,0).getDate();
+  // 打卡累计阳光：按真实收支记录求和，兼容历史上不同奖励规则
+  const checkinStars = (Array.isArray(state.starHistory) ? state.starHistory : [])
+    .filter(r=>r.type==='checkin').reduce((a,r)=>a+r.amount,0);
   const dayNames = ['日','一','二','三','四','五','六'];
   let calDays = dayNames.map(d=>`<div class="calendar-header">${d}</div>`).join('');
   for(let i=0;i<firstDay;i++) calDays += `<div class="calendar-day empty"></div>`;
@@ -2350,7 +2353,7 @@ function renderCheckinView(){
             <div class="streak-label">累计打卡 📆</div>
           </div>
           <div class="streak-item">
-            <div class="streak-num">${state.checkin.total * POINTS_PER_CHECKIN}</div>
+            <div class="streak-num">${checkinStars}</div>
             <div class="streak-label">打卡获得 ☀️</div>
           </div>
         </div>
