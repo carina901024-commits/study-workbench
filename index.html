@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN" style="--subject-color: #ffd93d; --subject-light: #ffd93d20;" data-theme="bauhaus"><head>
+<html lang="zh-CN" style="--subject-color: #ff6b6b; --subject-light: #ff6b6b20;" data-theme="bauhaus"><head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>我的学习记录工作台</title>
@@ -523,10 +523,10 @@ input{font:inherit;border:none;outline:none;background:none}
 .manage-empty{text-align:center;padding:24px;color:#D4C4A0;font-size:.5rem;text-shadow:1px 1px 0 rgba(0,0,0,0.5)}
 
 /* ===== MANAGE MODAL - Minecraft Style ===== */
-.manage-modal{
+.modal.manage-modal{
   background:linear-gradient(180deg, #8B7355 0%, #7B6545 100%);
   border:4px solid #3D3D3D;padding:28px;
-  max-width:500px;width:90%;
+  max-width:1000px;width:94%;
   box-shadow:var(--mc-inset), 6px 6px 0 rgba(0,0,0,0.3);
   max-height:80vh;overflow-y:auto;
 }
@@ -624,7 +624,7 @@ input{font:inherit;border:none;outline:none;background:none}
   box-shadow:var(--mc-inset), 6px 6px 0 rgba(0,0,0,0.3);text-align:center;
 }
 .modal-icon{font-size:3rem;margin-bottom:12px}
-.modal-title{font-size:.6rem;font-weight:700;margin-bottom:8px;color:#FFD700;text-shadow:2px 2px 0 #3D3D3D}
+.modal-title{font-size:16px;font-weight:700;margin-bottom:8px;color:#FFD700;text-shadow:2px 2px 0 #3D3D3D}
 .modal-text{font-size:.45rem;color:#D4C4A0;margin-bottom:20px;line-height:1.8;text-shadow:1px 1px 0 rgba(0,0,0,0.5)}
 .modal-btns{display:flex;gap:12px;justify-content:center}
 .modal-btn{padding:10px 24px;font-weight:700;font-size:.45rem;border:3px solid #3D3D3D;box-shadow:var(--mc-inset);text-shadow:1px 1px 0 #3D3D3D;color:#FFD700}
@@ -683,7 +683,7 @@ body *,body *::before,body *::after{text-shadow:none!important}
 .shop-floating-btn,.shop-btn,.data-btn,.manage-add-btn,.manage-add-unit-btn,.timetable-btn,.history-item button{font-size:.9rem!important}
 .manage-action-btn{font-size:1.4rem!important;width:46px;height:46px}
 .manage-task-delete{font-size:1.2rem!important;width:36px;height:36px}
-.modal-btn{font-size:1.64rem!important}
+.modal-btn{font-size:14px!important;padding:7px 18px!important;line-height:1.4!important;height:auto!important;min-width:0!important}
 .mini-calendar-btn{font-size:2rem!important;width:42px;height:42px}
 
 /* WCAG readability baseline: body and control copy stays at least 14px. */
@@ -1072,7 +1072,6 @@ body{line-height:1.5}
 [data-theme="bauhaus"] .data-card-title,
 [data-theme="bauhaus"] .manage-header-title,
 [data-theme="bauhaus"] .manage-section-title,
-[data-theme="bauhaus"] .manage-unit-name,
 [data-theme="bauhaus"] .stat-num,
 [data-theme="bauhaus"] .streak-num,
 [data-theme="bauhaus"] .calendar-day.current,
@@ -1082,6 +1081,7 @@ body{line-height:1.5}
 [data-theme="bauhaus"] .task-reward,
 [data-theme="bauhaus"] .shop-price,
 [data-theme="bauhaus"] .history-item-price{color:#1E6B42!important}
+[data-theme="bauhaus"] .manage-unit-name{color:#FFFFFF!important}
 [data-theme="bauhaus"] .unit-title span,
 [data-theme="bauhaus"] .checkin-subtitle,
 [data-theme="bauhaus"] .data-card p,
@@ -1146,7 +1146,7 @@ body{line-height:1.5}
       <span id="totalStars">700</span>
       <span style="font-size:.8rem">阳光</span>
     </div>
-    <div id="timeDisplay" style="font-size:.45rem;color:#FFD700;padding:6px 12px;background:#5C4D3A;border:3px solid #3D3D3D;box-shadow:inset 2px 2px 0px rgba(255,255,255,0.2),inset -2px -2px 0px rgba(0,0,0,0.2);white-space:nowrap;text-shadow:1px 1px 0 #3D3D3D;">2026-11-13 15:10:22 星期五</div>
+    <div id="timeDisplay" style="font-size:.45rem;color:#FFD700;padding:6px 12px;background:#5C4D3A;border:3px solid #3D3D3D;box-shadow:inset 2px 2px 0px rgba(255,255,255,0.2),inset -2px -2px 0px rgba(0,0,0,0.2);white-space:nowrap;text-shadow:1px 1px 0 #3D3D3D;">2026-11-13 17:23:58 星期五</div>
     <button class="header-btn" onclick="showView('checkin')" title="每日打卡">
       <span class="day-cal-img"><span class="dow" id="checkinDow">FRI</span><span class="d" id="checkinDayNum">13</span></span><span class="tooltip">每日打卡</span>
     </button>
@@ -1167,7 +1167,7 @@ body{line-height:1.5}
 
 <!-- SIDEBAR -->
 <aside class="sidebar" id="sidebar">
-  <nav class="sidebar-nav" id="sidebarNav"><div class="nav-item" data-subject="chinese" onclick="selectSubject('chinese')">
+  <nav class="sidebar-nav" id="sidebarNav"><div class="nav-item active" data-subject="chinese" onclick="selectSubject('chinese')">
       <span class="nav-icon">📖</span>
       <span class="nav-label">语文</span>
       <span class="nav-count">2/6</span>
@@ -1195,19 +1195,19 @@ body{line-height:1.5}
       <span class="nav-icon">🎨</span>
       <span class="nav-label">音美</span>
       <span class="nav-count">3/4</span>
-    </div><div class="nav-item active" data-subject="comp" onclick="selectSubject('comp')">
+    </div><div class="nav-item" data-subject="comp" onclick="selectSubject('comp')">
       <span class="nav-icon">🧩</span>
       <span class="nav-label">综合</span>
       <span class="nav-count">4/6</span>
     </div><div class="nav-item" data-subject="custom_1794402778028" onclick="selectSubject('custom_1794402778028')" style="--sc:#ff6b6b;--sl:#ff6b6b20">
       <span class="nav-icon">😈</span>
       <span class="nav-label">惩罚</span>
-      <span class="nav-count">0/1</span>
+      <span class="nav-count">0/0</span>
     </div></nav>
   <div class="sidebar-footer">
-    <div class="progress-summary" id="progressSummary">总进度：27%（17/63）</div>
+    <div class="progress-summary" id="progressSummary">总进度：27%（17/62）</div>
     <div class="progress-bar-wrap" style="position: relative;">
-      <div class="progress-bar-fill" id="progressBar" style="width: 27%; background: rgb(255, 217, 61);"></div>
+      <div class="progress-bar-fill" id="progressBar" style="width: 27%; background: rgb(255, 107, 107);"></div>
     </div>
   </div>
 </aside>
@@ -1216,96 +1216,85 @@ body{line-height:1.5}
 <main class="main" id="mainContent" style="">
   <div id="subjectView" class="view">
     <div class="subject-header">
-      <div class="subject-icon">🧩</div>
+      <div class="subject-icon">📖</div>
       <div>
-        <div class="subject-title">综合</div>
-        <div class="subject-subtitle">今日共 6 个任务，已完成 4 个</div>
+        <div class="subject-title">语文</div>
+        <div class="subject-subtitle">今日共 6 个任务，已完成 2 个</div>
       </div>
       <div class="subject-progress">
-        <div class="pct" style="color:#ffd93d">67%</div>
+        <div class="pct" style="color:#ff6b6b">33%</div>
         <div class="label">今日进度</div>
       </div>
     </div>
     
       <div class="unit-section">
-        <div class="unit-title">第一单元 · 巧手制作
-          <span style="font-size:.75rem;font-weight:400;color:var(--muted)">1/1</span>
-        </div>
-        <div class="unit-progress-wrap" style="margin-bottom:12px">
-          <div class="unit-progress-fill" style="width:100%;background:#ffd93d"></div>
-        </div>
-        <div class="task-grid">
-          <div class="task-card done" onclick="toggleTask('x1t1',event)" title="一次性任务｜点击=完成，获得积分">
-              <div class="task-check">✓</div>
-              <div class="task-info">
-                <div class="task-name">制作一张手工贺卡<span class="task-inline-icons"><span class="task-inline-icon" title="奖励项（完成得积分）">🎁</span></span></div>
-                <div class="task-meta">
-                  <span class="task-reward" style="">☀️ +5</span>
-                  <span class="task-tag">已完成</span>
-                </div>
-              </div>
-            </div>
-        </div>
-      </div>
-      <div class="unit-section">
-        <div class="unit-title">第二单元 · 我是小能手
-          <span style="font-size:.75rem;font-weight:400;color:var(--muted)">2/2</span>
-        </div>
-        <div class="unit-progress-wrap" style="margin-bottom:12px">
-          <div class="unit-progress-fill" style="width:100%;background:#ffd93d"></div>
-        </div>
-        <div class="task-grid">
-          <div class="task-card done" onclick="toggleTask('x2t2',event)" title="每天 0 点自动重置为待完成｜点击=完成，获得积分">
-              <div class="task-check">✓</div>
-              <div class="task-info">
-                <div class="task-name">学会系鞋带<span class="task-inline-icons"><span class="task-inline-icon" title="奖励项（完成得积分）">🎁</span><span class="task-inline-icon" title="每天重复（每天 0 点自动重置为待完成）">🔁</span></span></div>
-                <div class="task-meta">
-                  <span class="task-reward" style="">☀️ +5</span>
-                  <span class="task-tag">已完成</span>
-                </div>
-              </div>
-            </div><div class="task-card done" onclick="toggleTask('x2t3',event)" title="每天 0 点自动重置为待完成｜点击=完成，获得积分">
-              <div class="task-check">✓</div>
-              <div class="task-info">
-                <div class="task-name">学会打扫自己的房间<span class="task-inline-icons"><span class="task-inline-icon" title="奖励项（完成得积分）">🎁</span><span class="task-inline-icon" title="每天重复（每天 0 点自动重置为待完成）">🔁</span></span></div>
-                <div class="task-meta">
-                  <span class="task-reward" style="">☀️ +5</span>
-                  <span class="task-tag">已完成</span>
-                </div>
-              </div>
-            </div>
-        </div>
-      </div>
-      <div class="unit-section">
-        <div class="unit-title">第三单元 · 观察与发现
+        <div class="unit-title">校内任务
           <span style="font-size:.75rem;font-weight:400;color:var(--muted)">1/3</span>
         </div>
         <div class="unit-progress-wrap" style="margin-bottom:12px">
-          <div class="unit-progress-fill" style="width:33%;background:#ffd93d"></div>
+          <div class="unit-progress-fill" style="width:33%;background:#ff6b6b"></div>
         </div>
         <div class="task-grid">
-          <div class="task-card" onclick="toggleTask('x3t1',event)" title="每天 0 点自动重置为待完成｜点击=完成，获得积分">
+          <div class="task-card" onclick="toggleTask('custom_task_1792499982410_7185',event)" title="每天 0 点自动重置为待完成｜点击=完成，获得积分">
               <div class="task-check"></div>
               <div class="task-info">
-                <div class="task-name">观察并记录一天的生活<span class="task-inline-icons"><span class="task-inline-icon" title="奖励项（完成得积分）">🎁</span><span class="task-inline-icon" title="每天重复（每天 0 点自动重置为待完成）">🔁</span></span></div>
+                <div class="task-name">每日青蛙任务<span class="task-inline-icons"><span class="task-inline-icon" title="奖励项（完成得积分）">🎁</span><span class="task-inline-icon" title="每天重复（每天 0 点自动重置为待完成）">🔁</span></span></div>
                 <div class="task-meta">
                   <span class="task-reward" style="">☀️ +5</span>
                   <span class="task-tag">待完成</span>
                 </div>
               </div>
-            </div><div class="task-card" onclick="toggleTask('x3t2',event)" title="一次性任务｜点击=完成，获得积分">
+            </div><div class="task-card" onclick="toggleTask('custom_task_1792499997489_1163',event)" title="每天 0 点自动重置为待完成｜点击=完成，获得积分">
               <div class="task-check"></div>
               <div class="task-info">
-                <div class="task-name">画一张从家到学校的路线图<span class="task-inline-icons"><span class="task-inline-icon" title="奖励项（完成得积分）">🎁</span></span></div>
+                <div class="task-name">摩天轮打卡<span class="task-inline-icons"><span class="task-inline-icon" title="奖励项（完成得积分）">🎁</span><span class="task-inline-icon" title="每天重复（每天 0 点自动重置为待完成）">🔁</span></span></div>
                 <div class="task-meta">
                   <span class="task-reward" style="">☀️ +5</span>
                   <span class="task-tag">待完成</span>
                 </div>
               </div>
-            </div><div class="task-card done" onclick="toggleTask('x3t3',event)" title="一次性任务｜点击=完成，获得积分">
+            </div><div class="task-card done" onclick="toggleTask('custom_task_1792500009809_7287',event)" title="每天 0 点自动重置为待完成｜点击=完成，获得积分">
               <div class="task-check">✓</div>
               <div class="task-info">
-                <div class="task-name">采访家人：他们小时候的童年<span class="task-inline-icons"><span class="task-inline-icon" title="奖励项（完成得积分）">🎁</span></span></div>
+                <div class="task-name">一阅读测试<span class="task-inline-icons"><span class="task-inline-icon" title="奖励项（完成得积分）">🎁</span><span class="task-inline-icon" title="每天重复（每天 0 点自动重置为待完成）">🔁</span></span></div>
+                <div class="task-meta">
+                  <span class="task-reward" style="">☀️ +5</span>
+                  <span class="task-tag">已完成</span>
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>
+      <div class="unit-section">
+        <div class="unit-title">课外拓展
+          <span style="font-size:.75rem;font-weight:400;color:var(--muted)">1/3</span>
+        </div>
+        <div class="unit-progress-wrap" style="margin-bottom:12px">
+          <div class="unit-progress-fill" style="width:33%;background:#ff6b6b"></div>
+        </div>
+        <div class="task-grid">
+          <div class="task-card" onclick="toggleTask('custom_task_1792500052333_1454',event)" title="每天 0 点自动重置为待完成｜点击=完成，获得积分">
+              <div class="task-check"></div>
+              <div class="task-info">
+                <div class="task-name">完成5个汉字书写<span class="task-inline-icons"><span class="task-inline-icon" title="奖励项（完成得积分）">🎁</span><span class="task-inline-icon" title="每天重复（每天 0 点自动重置为待完成）">🔁</span></span></div>
+                <div class="task-meta">
+                  <span class="task-reward" style="">☀️ +5</span>
+                  <span class="task-tag">待完成</span>
+                </div>
+              </div>
+            </div><div class="task-card" onclick="toggleTask('custom_task_1792500081544_771',event)" title="每天 0 点自动重置为待完成｜点击=完成，获得积分">
+              <div class="task-check"></div>
+              <div class="task-info">
+                <div class="task-name">完成一本纸质书阅读<span class="task-inline-icons"><span class="task-inline-icon" title="奖励项（完成得积分）">🎁</span><span class="task-inline-icon" title="每天重复（每天 0 点自动重置为待完成）">🔁</span></span></div>
+                <div class="task-meta">
+                  <span class="task-reward" style="">☀️ +5</span>
+                  <span class="task-tag">待完成</span>
+                </div>
+              </div>
+            </div><div class="task-card done" onclick="toggleTask('custom_task_1792500097151_4182',event)" title="每天 0 点自动重置为待完成｜点击=完成，获得积分">
+              <div class="task-check">✓</div>
+              <div class="task-info">
+                <div class="task-name">认识两个新成语<span class="task-inline-icons"><span class="task-inline-icon" title="奖励项（完成得积分）">🎁</span><span class="task-inline-icon" title="每天重复（每天 0 点自动重置为待完成）">🔁</span></span></div>
                 <div class="task-meta">
                   <span class="task-reward" style="">☀️ +5</span>
                   <span class="task-tag">已完成</span>
@@ -1356,7 +1345,7 @@ body{line-height:1.5}
       </div>
     </div>
   </div>
-  <div id="shopView" class="view active">
+  <div id="shopView" class="view">
     <div class="shop-container">
       <div class="shop-header">
         <div class="shop-header-left">
@@ -3898,7 +3887,8 @@ body{line-height:1.5}
                 <div style="font-weight:700;font-size:14px;color:#0f172a;margin-bottom:4px">Switch 风格</div>
                 <div style="font-size:12px;color:#64748b;line-height:1.5">红蓝黄马里奥风 · 经典趣味</div>
               </button>
-              <button onclick="switchTheme('bauhaus')" style="text-align: left; cursor: pointer; padding: 14px; border: 3px solid rgb(45, 143, 90); border-radius: 12px; background: rgb(255, 255, 255); transition: 0.18s; box-shadow: rgba(0, 0, 0, 0.12) 0px 4px 14px; position: relative; transform: translateY(0px);" onmouseover="this.style.borderColor='#2D8F5A';this.style.transform='translateY(-2px)'" onmouseout="this.style.borderColor='#2D8F5A';this.style.transform='translateY(0)'">
+              <button onclick="switchTheme('bauhaus')" style="text-align:left;cursor:pointer;padding:14px;border:3px solid #2D8F5A;border-radius:12px;background:#fff;
+                  transition:all .18s;box-shadow:0 4px 14px rgba(0,0,0,.12);position:relative" onmouseover="this.style.borderColor='#2D8F5A';this.style.transform='translateY(-2px)'" onmouseout="this.style.borderColor='#2D8F5A';this.style.transform='translateY(0)'">
                 <span style="position:absolute;top:-10px;right:-8px;background:#2D8F5A;color:#fff;font-size:12px;padding:2px 8px;border-radius:10px;font-weight:700">使用中</span>
                 <div style="display:flex;gap:6px;margin-bottom:10px"><div style="width:22px;height:22px;background:#2D8F5A;border-radius:4px;border:1px solid rgba(0,0,0,.15)"></div><div style="width:22px;height:22px;background:#5BBF86;border-radius:4px;border:1px solid rgba(0,0,0,.15)"></div><div style="width:22px;height:22px;background:#F0D98A;border-radius:4px;border:1px solid rgba(0,0,0,.15)"></div></div>
                 <div style="font-weight:700;font-size:14px;color:#0f172a;margin-bottom:4px">太阳朋克 Solarpunk</div>
@@ -3946,7 +3936,7 @@ body{line-height:1.5}
   <!-- TIMETABLE VIEW -->
   <div id="timetableView" class="view"><div class="timetable-container"><div class="timetable-hero"><div><div class="timetable-title">🗓️ 周课程表</div><div class="timetable-subtitle">用日历和全天时间轴安排课程。</div></div><button class="timetable-btn" onclick="createTimetable()">＋ 创建课表</button></div><div class="timetable-card"><div class="timetable-card-title">🕘 历史课表（0）</div><div class="history-list"><div class="timetable-empty" style="font-size: 12px;">还没有历史课表。每次保存不同版本时，原课表会自动保存在这里。</div></div></div></div></div>
   <!-- MANAGE VIEW -->
-  <div id="manageView" class="view">
+  <div id="manageView" class="view active">
     <div class="manage-container">
       <div class="manage-header">
         <div class="manage-header-left">
@@ -4100,12 +4090,155 @@ body{line-height:1.5}
 <!-- CONFETTI -->
 <div class="confetti-container" id="confetti"></div>
 <!-- MODAL -->
-<div class="modal-overlay" id="modalOverlay">
-  <div class="modal" id="modal">
-    <div class="modal-icon" id="modalIcon" style="display: block;">🎉</div>
-    <div class="modal-title" id="modalTitle" style="text-align: center;">太棒了！</div>
-    <div class="modal-text" id="modalText">语文全部任务已完成！你是最棒的！</div>
-    <div class="modal-btns" id="modalBtns"><button class="modal-btn confirm" onclick="modalActions[0]()">继续加油</button></div>
+<div class="modal-overlay show" id="modalOverlay">
+  <div class="modal manage-modal" id="modal">
+    <div class="modal-icon" id="modalIcon" style="display: none;">🎉</div>
+    <div class="modal-title" id="modalTitle" style="text-align: left;">编辑科目：数学</div>
+    <div class="modal-text" id="modalText">
+    <div class="manage-form-group">
+      <label class="manage-form-label">科目名称</label>
+      <input type="text" class="manage-form-input" id="editSubjectName" value="数学">
+    </div>
+    <div class="manage-form-group">
+      <label class="manage-form-label">图标 (emoji)</label>
+      <input type="text" class="manage-form-input" id="editSubjectIcon" value="🔢" maxlength="2">
+    </div>
+    <div class="manage-form-group">
+      <label class="manage-form-label">主题颜色</label>
+      <input type="color" class="manage-form-input" id="editSubjectColor" value="#60a5fa" style="height:44px;padding:4px;">
+    </div>
+    <div class="manage-form-group">
+      <label class="manage-form-label">单元和任务</label>
+      <div class="manage-unit-list" id="editUnitList">
+        
+    <div class="manage-unit-item">
+      <div class="manage-unit-header">
+        <div class="manage-unit-name">校内任务</div>
+        <button class="manage-task-delete" onclick="deleteUnit(0)" title="删除单元">✕</button>
+      </div>
+      <div class="manage-task-list">
+        
+          <div class="manage-task-item" style="flex-wrap:wrap;gap:4px">
+            <div class="manage-task-name" title="每日青蛙任务" style="max-width:50%">每日青蛙任务</div>
+            <select onchange="setTaskType(0,0,this.value)" title="任务类型" style="padding:3px 5px;font-size:.7rem;background:#FFE0E0;border:2px solid #C0392B;color:#1A1A1A;min-width:80px">
+              <option value="reward" selected="">🎁 奖励项</option>
+              <option value="penalty">💔 扣分项</option>
+            </select>
+            <input type="number" min="1" max="9999" value="5" onchange="setTaskPoints(0,0,parseInt(this.value))" title="积分数" style="width:52px;padding:3px 4px;font-size:.7rem;background:#FFF8E7;border:2px solid #D4A24C;color:#1A1A1A">
+            <select onchange="setTaskRepeatType(0,0,this.value)" title="重复方式" style="padding:3px 5px;font-size:.7rem;background:#C6B28A;border:2px solid #3D3D3D;color:#1A1A1A;min-width:80px">
+              <option value="once">一次性</option>
+              <option value="daily" selected="">每天重复</option>
+            </select>
+            <button class="manage-task-delete" onclick="renameTaskInline(0,0)" title="修改名称" style="margin-left:2px">✏️</button>
+            <button class="manage-task-delete" onclick="deleteTaskByIndex(0, 0)" title="删除任务（历史记录保留）">✕</button>
+          </div>
+        <button class="manage-add-unit-btn" onclick="addTaskToUnit(0)" style="margin-top:6px;padding:6px;font-size:.8rem;">+ 添加任务</button>
+      </div>
+    </div>
+  
+    <div class="manage-unit-item">
+      <div class="manage-unit-header">
+        <div class="manage-unit-name">课外拓展</div>
+        <button class="manage-task-delete" onclick="deleteUnit(1)" title="删除单元">✕</button>
+      </div>
+      <div class="manage-task-list">
+        
+          <div class="manage-task-item" style="flex-wrap:wrap;gap:4px">
+            <div class="manage-task-name" title="完成一次小练习" style="max-width:50%">完成一次小练习</div>
+            <select onchange="setTaskType(1,0,this.value)" title="任务类型" style="padding:3px 5px;font-size:.7rem;background:#FFE0E0;border:2px solid #C0392B;color:#1A1A1A;min-width:80px">
+              <option value="reward" selected="">🎁 奖励项</option>
+              <option value="penalty">💔 扣分项</option>
+            </select>
+            <input type="number" min="1" max="9999" value="5" onchange="setTaskPoints(1,0,parseInt(this.value))" title="积分数" style="width:52px;padding:3px 4px;font-size:.7rem;background:#FFF8E7;border:2px solid #D4A24C;color:#1A1A1A">
+            <select onchange="setTaskRepeatType(1,0,this.value)" title="重复方式" style="padding:3px 5px;font-size:.7rem;background:#C6B28A;border:2px solid #3D3D3D;color:#1A1A1A;min-width:80px">
+              <option value="once">一次性</option>
+              <option value="daily" selected="">每天重复</option>
+            </select>
+            <button class="manage-task-delete" onclick="renameTaskInline(1,0)" title="修改名称" style="margin-left:2px">✏️</button>
+            <button class="manage-task-delete" onclick="deleteTaskByIndex(1, 0)" title="删除任务（历史记录保留）">✕</button>
+          </div>
+          <div class="manage-task-item" style="flex-wrap:wrap;gap:4px">
+            <div class="manage-task-name" title="完成2页算式计算" style="max-width:50%">完成2页算式计算</div>
+            <select onchange="setTaskType(1,1,this.value)" title="任务类型" style="padding:3px 5px;font-size:.7rem;background:#FFE0E0;border:2px solid #C0392B;color:#1A1A1A;min-width:80px">
+              <option value="reward" selected="">🎁 奖励项</option>
+              <option value="penalty">💔 扣分项</option>
+            </select>
+            <input type="number" min="1" max="9999" value="5" onchange="setTaskPoints(1,1,parseInt(this.value))" title="积分数" style="width:52px;padding:3px 4px;font-size:.7rem;background:#FFF8E7;border:2px solid #D4A24C;color:#1A1A1A">
+            <select onchange="setTaskRepeatType(1,1,this.value)" title="重复方式" style="padding:3px 5px;font-size:.7rem;background:#C6B28A;border:2px solid #3D3D3D;color:#1A1A1A;min-width:80px">
+              <option value="once">一次性</option>
+              <option value="daily" selected="">每天重复</option>
+            </select>
+            <button class="manage-task-delete" onclick="renameTaskInline(1,1)" title="修改名称" style="margin-left:2px">✏️</button>
+            <button class="manage-task-delete" onclick="deleteTaskByIndex(1, 1)" title="删除任务（历史记录保留）">✕</button>
+          </div>
+          <div class="manage-task-item" style="flex-wrap:wrap;gap:4px">
+            <div class="manage-task-name" title="背诵2、3乘法口诀" style="max-width:50%">背诵2、3乘法口诀</div>
+            <select onchange="setTaskType(1,2,this.value)" title="任务类型" style="padding:3px 5px;font-size:.7rem;background:#FFE0E0;border:2px solid #C0392B;color:#1A1A1A;min-width:80px">
+              <option value="reward" selected="">🎁 奖励项</option>
+              <option value="penalty">💔 扣分项</option>
+            </select>
+            <input type="number" min="1" max="9999" value="5" onchange="setTaskPoints(1,2,parseInt(this.value))" title="积分数" style="width:52px;padding:3px 4px;font-size:.7rem;background:#FFF8E7;border:2px solid #D4A24C;color:#1A1A1A">
+            <select onchange="setTaskRepeatType(1,2,this.value)" title="重复方式" style="padding:3px 5px;font-size:.7rem;background:#C6B28A;border:2px solid #3D3D3D;color:#1A1A1A;min-width:80px">
+              <option value="once">一次性</option>
+              <option value="daily" selected="">每天重复</option>
+            </select>
+            <button class="manage-task-delete" onclick="renameTaskInline(1,2)" title="修改名称" style="margin-left:2px">✏️</button>
+            <button class="manage-task-delete" onclick="deleteTaskByIndex(1, 2)" title="删除任务（历史记录保留）">✕</button>
+          </div>
+          <div class="manage-task-item" style="flex-wrap:wrap;gap:4px">
+            <div class="manage-task-name" title="背诵4、5乘法口诀" style="max-width:50%">背诵4、5乘法口诀</div>
+            <select onchange="setTaskType(1,3,this.value)" title="任务类型" style="padding:3px 5px;font-size:.7rem;background:#FFE0E0;border:2px solid #C0392B;color:#1A1A1A;min-width:80px">
+              <option value="reward" selected="">🎁 奖励项</option>
+              <option value="penalty">💔 扣分项</option>
+            </select>
+            <input type="number" min="1" max="9999" value="5" onchange="setTaskPoints(1,3,parseInt(this.value))" title="积分数" style="width:52px;padding:3px 4px;font-size:.7rem;background:#FFF8E7;border:2px solid #D4A24C;color:#1A1A1A">
+            <select onchange="setTaskRepeatType(1,3,this.value)" title="重复方式" style="padding:3px 5px;font-size:.7rem;background:#C6B28A;border:2px solid #3D3D3D;color:#1A1A1A;min-width:80px">
+              <option value="once">一次性</option>
+              <option value="daily" selected="">每天重复</option>
+            </select>
+            <button class="manage-task-delete" onclick="renameTaskInline(1,3)" title="修改名称" style="margin-left:2px">✏️</button>
+            <button class="manage-task-delete" onclick="deleteTaskByIndex(1, 3)" title="删除任务（历史记录保留）">✕</button>
+          </div>
+          <div class="manage-task-item" style="flex-wrap:wrap;gap:4px">
+            <div class="manage-task-name" title="背诵6、7乘法口诀" style="max-width:50%">背诵6、7乘法口诀</div>
+            <select onchange="setTaskType(1,4,this.value)" title="任务类型" style="padding:3px 5px;font-size:.7rem;background:#FFE0E0;border:2px solid #C0392B;color:#1A1A1A;min-width:80px">
+              <option value="reward" selected="">🎁 奖励项</option>
+              <option value="penalty">💔 扣分项</option>
+            </select>
+            <input type="number" min="1" max="9999" value="5" onchange="setTaskPoints(1,4,parseInt(this.value))" title="积分数" style="width:52px;padding:3px 4px;font-size:.7rem;background:#FFF8E7;border:2px solid #D4A24C;color:#1A1A1A">
+            <select onchange="setTaskRepeatType(1,4,this.value)" title="重复方式" style="padding:3px 5px;font-size:.7rem;background:#C6B28A;border:2px solid #3D3D3D;color:#1A1A1A;min-width:80px">
+              <option value="once">一次性</option>
+              <option value="daily" selected="">每天重复</option>
+            </select>
+            <button class="manage-task-delete" onclick="renameTaskInline(1,4)" title="修改名称" style="margin-left:2px">✏️</button>
+            <button class="manage-task-delete" onclick="deleteTaskByIndex(1, 4)" title="删除任务（历史记录保留）">✕</button>
+          </div>
+          <div class="manage-task-item" style="flex-wrap:wrap;gap:4px">
+            <div class="manage-task-name" title="背诵8、9乘法口诀" style="max-width:50%">背诵8、9乘法口诀</div>
+            <select onchange="setTaskType(1,5,this.value)" title="任务类型" style="padding:3px 5px;font-size:.7rem;background:#FFE0E0;border:2px solid #C0392B;color:#1A1A1A;min-width:80px">
+              <option value="reward" selected="">🎁 奖励项</option>
+              <option value="penalty">💔 扣分项</option>
+            </select>
+            <input type="number" min="1" max="9999" value="5" onchange="setTaskPoints(1,5,parseInt(this.value))" title="积分数" style="width:52px;padding:3px 4px;font-size:.7rem;background:#FFF8E7;border:2px solid #D4A24C;color:#1A1A1A">
+            <select onchange="setTaskRepeatType(1,5,this.value)" title="重复方式" style="padding:3px 5px;font-size:.7rem;background:#C6B28A;border:2px solid #3D3D3D;color:#1A1A1A;min-width:80px">
+              <option value="once">一次性</option>
+              <option value="daily" selected="">每天重复</option>
+            </select>
+            <button class="manage-task-delete" onclick="renameTaskInline(1,5)" title="修改名称" style="margin-left:2px">✏️</button>
+            <button class="manage-task-delete" onclick="deleteTaskByIndex(1, 5)" title="删除任务（历史记录保留）">✕</button>
+          </div>
+        <button class="manage-add-unit-btn" onclick="addTaskToUnit(1)" style="margin-top:6px;padding:6px;font-size:.8rem;">+ 添加任务</button>
+      </div>
+    </div>
+  
+      </div>
+      <button class="manage-add-unit-btn" onclick="addUnit()">+ 添加单元</button>
+    </div>
+  </div>
+    <div class="modal-btns" id="modalBtns">
+    <button class="modal-btn cancel" onclick="closeManageModal()" style="position: relative;">取消</button>
+    <button class="modal-btn confirm" onclick="saveSubjectEdit()" style="position: relative;">保存</button>
+  </div>
   </div>
 </div>
 <!-- HIDDEN FILE INPUT -->
@@ -6079,6 +6212,10 @@ updateTimeDisplay();
 
 
 <div class="star-earn" style="left: 656px; top: 572px;">☀️ +5</div>
+
+
+
+
 
 
 
