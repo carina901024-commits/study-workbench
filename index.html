@@ -910,7 +910,7 @@ body{line-height:1.5}
 [data-theme="bauhaus"] .streak-num{color:#2D8F5A!important;font-weight:800!important}
 [data-theme="bauhaus"] .streak-label{color:#6B8A76!important}
 [data-theme="bauhaus"] .star-badge .star-num{color:#3A6B4E!important}
-[data-theme="bauhaus"] .progress-summary{color:#2D8F5A!important;font-weight:700!important}
+[data-theme="bauhaus"] .progress-summary{color:#E8F3EC!important;font-weight:700!important;text-shadow:none!important}
 [data-theme="bauhaus"] .shop-item{
   background:#fff!important;border:2px solid #D4E4DA!important;border-radius:16px!important;
   transition:all .2s!important;
@@ -1081,7 +1081,6 @@ body{line-height:1.5}
 [data-theme="bauhaus"] .add-reward-title,
 [data-theme="bauhaus"] .task-reward,
 [data-theme="bauhaus"] .shop-price,
-[data-theme="bauhaus"] .progress-summary,
 [data-theme="bauhaus"] .history-item-price{color:#1E6B42!important}
 [data-theme="bauhaus"] .unit-title span,
 [data-theme="bauhaus"] .checkin-subtitle,
@@ -4350,11 +4349,13 @@ function getSubjectStats(subjectId){
   const s = allSubjects.find(x=>x.id===subjectId);
   if(!s) return {total:0,done:0,pct:0};
   const today = localDateKey();
-  const total = s.units.reduce((a,u)=>a+u.tasks.length,0);
-  const done = s.units.reduce((a,u)=>a+u.tasks.filter(t=>{
-    const rt = t && t.repeatType === 'daily';
+  // 扣分任务项（type==='penalty'）不参与进度统计
+  const realTasks = s.units.flatMap(u=>(u.tasks||[]).filter(t=>t && t.type!=='penalty'));
+  const total = realTasks.length;
+  const done = realTasks.filter(t=>{
+    const rt = t.repeatType === 'daily';
     return rt ? !!(state.taskHistory[t.id] && state.taskHistory[t.id][today]) : !!state.completedTasks[t.id];
-  }).length,0);
+  }).length;
   return {total,done,pct:total?Math.round(done/total*100):0};
 }
 
@@ -4420,9 +4421,11 @@ function renderSubjectView(){
       </div>
     </div>
     ${s.units.map(u=>{
-      const uTotal = u.tasks.length;
-      const uDone = u.tasks.filter(t=>{
-        const rt = t && t.repeatType === 'daily';
+      // 扣分任务项不参与单元进度统计
+      const uRealTasks = (u.tasks||[]).filter(t=>t && t.type!=='penalty');
+      const uTotal = uRealTasks.length;
+      const uDone = uRealTasks.filter(t=>{
+        const rt = t.repeatType === 'daily';
         return rt ? !!(state.taskHistory[t.id] && state.taskHistory[t.id][today]) : !!state.completedTasks[t.id];
       }).length;
       const uPct = uTotal?Math.round(uDone/uTotal*100):0;
@@ -4852,11 +4855,11 @@ function updateGlobalStats(){
   document.getElementById('totalStars').textContent = state.stars;
   document.getElementById('nameText').textContent = state.childName;
 
-  // 总进度：分母为当日所有任务项；分子为已完成项（每日任务看今日、单次任务看完成标记，取消即扣减）
+  // 总进度：分母=当日所有非扣分任务项；分子=已完成项（扣分任务 type==='penalty' 不参与统计）
   let totalTasks = 0, doneTasks = 0;
   const todayKey = localDateKey();
-  getAllSubjects().forEach(s=>s.units.forEach(u=>u.tasks.forEach(t=>{
-    if(!t) return;
+  getAllSubjects().forEach(s=>s.units.forEach(u=>(u.tasks||[]).forEach(t=>{
+    if(!t || t.type==='penalty') return;   // 扣分任务项不计入进度
     totalTasks++;
     const done = t.repeatType === 'daily'
       ? !!(state.taskHistory && state.taskHistory[t.id] && state.taskHistory[t.id][todayKey])
